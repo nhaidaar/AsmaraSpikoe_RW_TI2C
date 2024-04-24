@@ -24,8 +24,16 @@
     @apply p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10;
 }
 
-.title {
+.cardTitle {
     @apply text-xl md:text-2xl font-medium;
+}
+
+.title {
+    @apply text-lg md:text-xl font-medium;
+}
+
+.subtitle {
+    @apply text-base md:text-lg font-normal;
 }
 
 .buttonDark {
