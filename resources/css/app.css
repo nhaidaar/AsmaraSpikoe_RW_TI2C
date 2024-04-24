@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'SFPro';
+    src: 
+        url('../font/SF-Pro-Display-Black.otf') format('opentype'),
+        url('../font/SF-Pro-Display-Bold.otf') format('opentype'),
+        url('../font/SF-Pro-Display-Heavy.otf') format('opentype'),
+        url('../font/SF-Pro-Display-Light.otf') format('opentype'),
+        url('../font/SF-Pro-Display-Medium.otf') format('opentype'),
+        url('../font/SF-Pro-Display-Regular.otf') format('opentype'),
+        url('../font/SF-Pro-Display-Semibold.otf') format('opentype'),
+        url('../font/SF-Pro-Display-Thin.otf') format('opentype') ,
+        url('../font/SF-Pro-Display-Ultralight.otf') format('opentype');
+}
+
+.outerCard {
+    @apply p-4 flex flex-col gap-6 rounded-xl border border-Neutral-10;
+}
+
+.innerCard {
+    @apply p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10;
+}
+
+.title {
+    @apply text-xl md:text-2xl font-medium;
+}
+
+.buttonDark {
+    @apply px-4 py-2 rounded-md bg-Primary-Base text-Neutral-0;
+}
+
+input {
+    @apply px-4 py-2 w-full rounded-xl border border-Neutral-10;
+}
+
+th {
+    @apply pt-2 pb-4 md:text-lg font-normal text-Neutral-40 w-[25%];
+}
+
+td {
+    @apply py-2 md:text-lg font-medium;
+}
