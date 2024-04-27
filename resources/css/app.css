@@ -24,6 +24,14 @@
     @apply p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10;
 }
 
+.outerCheckData {
+    @apply p-20 flex flex-col gap-6 rounded-xl border border-Neutral-10 items-center;
+}
+
+.innerCheckData {
+    @apply p-4 flex flex-col gap-12 rounded-xl border border-Neutral-10;
+}
+
 .cardTitle {
     @apply text-xl md:text-2xl font-medium;
 }
@@ -44,7 +52,11 @@
     @apply px-4 py-2 border border-solid rounded-md border-Neutral-20;
 }
 
-input {
+label {
+    @apply text-base md:text-lg font-medium;
+}
+
+input, select {
     @apply px-4 py-2 w-full rounded-xl border border-Neutral-10;
 }
 
