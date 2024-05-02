@@ -58,48 +58,13 @@
                                 <label class="subtitle" for="tujuan">Tujuan Pengajuan</label>
                                 <label class="text-sm font-normal text-Neutral-40">*Opsional, Maks 3</label>
                             </div>
-                            <div class="flex flex-col gap-2">
-                                <label for="default-checkbox1" class="flex items-center">
-                                    <input id="default-checkbox1" type="checkbox"
-                                        class="appearance-none w-4 h-4 bg-white checked:bg-Primary-Base border-transparent checked:border-transparent">
-                                    <svg class="w-4 h-4 text-white absolute" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    <span class="ms-2 text-sm font-normal text-Neutral-Base">Administrasi Kependudukan</span>
-                                </label>
-                                <label for="default-checkbox2" class="flex items-center">
-                                    <input id="default-checkbox2" type="checkbox"
-                                        class="appearance-none w-4 h-4 bg-white checked:bg-Primary-Base border-transparent checked:border-transparent">
-                                    <svg class="w-4 h-4 text-white absolute" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    <span class="ms-2 text-sm font-normal text-Neutral-Base">Pengajuan Bantuan Sosial</span>
-                                </label>
-                                <label for="default-checkbox3" class="flex items-center">
-                                    <input id="default-checkbox3" type="checkbox"
-                                        class="appearance-none w-4 h-4 bg-white checked:bg-Primary-Base border-transparent checked:border-transparent">
-                                    <svg class="w-4 h-4 text-white absolute" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    <span class="ms-2 text-sm font-normal text-Neutral-Base">Permohonan Administratif RT</span>
-                                </label>
-                                <label for="default-checkbox4" class="flex items-center">
-                                    <input id="default-checkbox4" type="checkbox"
-                                        class="appearance-none w-4 h-4 bg-white checked:bg-Primary-Base border-transparent checked:border-transparent">
-                                    <svg class="w-4 h-4 text-white absolute" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    <span class="ms-2 text-sm font-normal text-Neutral-Base">Permohonan Layanan Kesehatan</span>
-                                </label>
-                            </div>
+                            <select name="tujuan" id="tujuan">
+                                <option value="" class=" text-Neutral-40">Tujuan</option>
+                                @for ($i = 1; $i <= 4; $i++)
+                                    <option value="{{ $i }}" class=" text-Neutral-40">{{ $i }}
+                                    </option>
+                                @endfor
+                            </select>
                         </div>
                     </div>
                 </div>
