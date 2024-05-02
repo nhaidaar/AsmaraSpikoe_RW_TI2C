@@ -19,3 +19,6 @@ Route::get('/', function () {
 Route::get('/bansos', function () {
     return view('bansos');
 });
+Route::get('/rukuntetangga', function () {
+    return view('rukuntetangga');
+});
