@@ -19,6 +19,11 @@ Route::get('/', function () {
 Route::get('/bansos', function () {
     return view('bansos');
 });
+
+Route::get('/persuratan', function () {
+    return view('persuratan');
+});
+
 Route::get('/rukuntetangga', function () {
     return view('rukuntetangga');
 });

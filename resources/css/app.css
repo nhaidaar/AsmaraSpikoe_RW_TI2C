@@ -49,11 +49,11 @@
 }
 
 .subtitle {
-    @apply text-base md:text-lg font-normal;
+    @apply text-base md:text-lg font-semibold;
 }
 
 .buttonDark {
-    @apply px-4 py-2 rounded-md bg-Primary-Base text-Neutral-0;
+    @apply px-4 py-2 rounded-lg bg-Primary-Base text-Neutral-0;
 }
 
 .buttonLight {
@@ -65,7 +65,7 @@ label {
 }
 
 input, select {
-    @apply px-4 py-2 w-full rounded-xl border border-Neutral-10;
+    @apply px-4 py-2 w-full rounded-lg border border-Neutral-10;
 }
 
 th {
@@ -75,3 +75,8 @@ th {
 td {
     @apply py-2 md:text-lg font-medium;
 }
+
+input[type="checkbox"] {
+    @apply rounded-[4px] border border-Neutral-20 p-0;
+}
+

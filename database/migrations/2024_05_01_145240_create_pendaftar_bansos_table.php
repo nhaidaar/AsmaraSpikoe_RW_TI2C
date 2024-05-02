@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->string('user_id', 10)->primary();
-            $table->string('username', 20)->unique();
-            $table->string('password', 20);
+        Schema::create('pendaftar_bansos', function (Blueprint $table) {
+            $table->string('pendaftar_id', 10)->primary();
+            $table->string('nik', 16)->index();
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('pendaftar_bansos');
     }
 };
