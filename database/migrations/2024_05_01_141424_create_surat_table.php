@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('surat_pengaju', 16)->unique();
             $table->enum('surat_jenis', ['Surat Pengantar', 'Surat Pernyataan Tidak Mampu']);
             $table->enum('surat_tujuan', [
-                'Administrasi Kependudukan', 'Pengajuan Bantuan Sosial', 'Permohonan Administratif RT', 'Permohonan Layanan Kesehatan'
+                'Administrasi Kependudukan', 
+                'Pengajuan Bantuan Sosial', 
+                'Permohonan Administratif RT', 
+                'Permohonan Layanan Kesehatan'
             ]);
             $table->dateTime('surat_taggal');
             $table->timestamps();
