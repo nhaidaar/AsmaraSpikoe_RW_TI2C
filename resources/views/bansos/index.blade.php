@@ -18,7 +18,7 @@
 
                         <div class="flex flex-col gap-1">
                             <label class="subtitle">Tanggal Lahir</label>
-                            <div class="flex gap-2">
+                            <div class="flex flex-col md:flex-row gap-2">
                                 <select name="tanggal" id="tanggal">
                                     <option value="" class=" text-Neutral-40" >Tanggal</option>
                                     @for ($i = 1; $i <= 31; $i++)
@@ -41,7 +41,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex gap-2 justify-end">
+                <div class="flex flex-col md:flex-row gap-2 md:justify-end">
                     <a href="#" class="buttonLight">Ajukan Data</a>
                     <button type="submit" class="buttonDark">Cek Data</button>
                 </div>

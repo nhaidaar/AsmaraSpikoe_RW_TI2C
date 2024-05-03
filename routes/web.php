@@ -14,16 +14,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
-});
-Route::get('/bansos', function () {
-    return view('bansos');
+    return view('index');
 });
 
-Route::get('/persuratan', function () {
-    return view('persuratan');
+Route::group(['prefix' => 'bansos'], function () {
+    Route::get('/', function () {
+        return view('bansos.index');
+    });
 });
 
-Route::get('/rukuntetangga', function () {
-    return view('rukuntetangga');
+Route::group(['prefix' => 'persuratan'], function () {
+    Route::get('/', function () {
+        return view('persuratan.index');
+    });
+});
+
+Route::group(['prefix' => 'rt'], function () {
+    Route::get('/', function () {
+        return view('rt.index');
+    });
 });
