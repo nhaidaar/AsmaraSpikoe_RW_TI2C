@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kriteria_bansos', function (Blueprint $table) {
-            $table->integer('kb_id')->primary();
+            $table->integer('kb_id')->autoIncrement();
             $table->integer('bansos_id')->index();
             $table->string('bansos_kriteria');
             $table->timestamps();

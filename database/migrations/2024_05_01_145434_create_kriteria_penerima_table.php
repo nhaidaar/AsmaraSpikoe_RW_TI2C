@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kriteria_penerima', function (Blueprint $table) {
-            $table->integer('kp_id')->primary();
+            $table->integer('kp_id')->autoIncrement();
             $table->integer('pendaftar_id')->index();
             $table->integer('kb_id')->index();
             $table->timestamps();
