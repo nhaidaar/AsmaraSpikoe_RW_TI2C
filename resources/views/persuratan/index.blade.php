@@ -11,12 +11,12 @@
                     </div>
 
                     <div class="flex gap-2 justify-center">
-                        <span id="sktmButton"
-                            class="bg-Primary-Base text-Neutral-0 font-base px-4 py-2 rounded-full cursor-pointer">
+                        <span id="sp"
+                            class="bg-Primary-Base text-Neutral-0 font-base px-8 py-3 rounded-full cursor-pointer text-nowrap">
                             Surat Pengantar
                         </span>
-                        <span id="sktmButton"
-                            class="bg-Neutral-0 text-Neutral-100 font-base px-4 py-2 rounded-full border border-Neutral-20 cursor-pointer">
+                        <span id="sktm"
+                            class="bg-Neutral-0 text-Neutral-100 font-base px-8 py-3 rounded-full border border-Neutral-20 cursor-pointer text-nowrap">
                             Surat Tidak Mampu
                         </span>
                     </div>
@@ -29,7 +29,7 @@
 
                         <div class="flex flex-col gap-1">
                             <label class="subtitle">Tanggal Lahir</label>
-                            <div class="flex gap-2">
+                            <div class="flex flex-col md:flex-row gap-2">
                                 <select name="tanggal" id="tanggal">
                                     <option value="" class=" text-Neutral-40">Tanggal</option>
                                     @for ($i = 1; $i <= 31; $i++)
@@ -68,7 +68,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex gap-2 justify-end">
+                <div class="flex gap-2 md:justify-end">
                     <a href="#" class="buttonDark">Ajukan Surat</a>
                     {{-- <button type="submit" class="buttonDark">Cek Data</button> --}}
                 </div>
