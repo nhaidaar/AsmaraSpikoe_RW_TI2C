@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('kartu_keluarga', function (Blueprint $table) {
             $table->string('no_kk', 16)->primary();
             $table->string('kepala_keluarga', 16)->index();
-            $table->string('rt', 3)->index();
+            $table->integer('rt')->index();
             $table->timestamps();
         });
     }

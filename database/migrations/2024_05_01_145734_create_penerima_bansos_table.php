@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('penerima_bansos', function (Blueprint $table) {
-            $table->string('pb_id', 10)->primary();
-            $table->string('penerima_bansos', 10)->index();
-            $table->string('bansos_id', 10)->index();
+            $table->integer('pb_id')->primary();
+            $table->integer('penerima_bansos')->index();
+            $table->integer('bansos_id')->index();
             $table->timestamps();
         });
     }
