@@ -12,9 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pendaftar_bansos', function (Blueprint $table) {
-            $table->integer('pendaftar_id')->autoIncrement();
-            $table->string('nik', 16)->index();
+            $table->id('pendaftar_id');
+            $table->unsignedBigInteger('warga_id')->index();
             $table->timestamps();
+
+            $table->foreign('warga_id')->references('warga_id')->on('warga');
+
         });
     }
 

@@ -12,10 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kriteria_bansos', function (Blueprint $table) {
-            $table->integer('kb_id')->autoIncrement();
-            $table->integer('bansos_id')->index();
+            $table->id('kb_id');
+            $table->unsignedBigInteger('bansos_id')->index();
             $table->string('bansos_kriteria');
             $table->timestamps();
+
+            $table->foreign('bansos_id')->references('bansos_id')->on('bansos');
+
         });
     }
 

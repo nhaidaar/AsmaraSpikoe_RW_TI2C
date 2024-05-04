@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kartu_keluarga', function (Blueprint $table) {
-            $table->string('no_kk', 16)->primary();
-            $table->string('kepala_keluarga', 16)->index();
-            $table->integer('rt')->index();
+        Schema::create('bansos', function (Blueprint $table) {
+            $table->id('bansos_id');
+            $table->string('bansos_nama', 100);
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kartu_keluarga');
+        Schema::dropIfExists('bansos');
     }
 };
