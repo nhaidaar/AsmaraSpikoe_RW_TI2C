@@ -15,7 +15,6 @@ class RTModel extends Model
     protected $primaryKey = 'rt_id';
     protected $fillable = [
         'ketua_rt',
-        'jabatan',
         'no_telepon'
     ];
 
