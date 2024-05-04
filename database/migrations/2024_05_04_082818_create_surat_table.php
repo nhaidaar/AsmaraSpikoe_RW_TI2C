@@ -23,8 +23,6 @@ return new class extends Migration
             ]);
             $table->dateTime('surat_taggal');
             $table->timestamps();
-
-            $table->foreign('surat_pengaju')->references('warga_id')->on('warga');
         });
     }
 

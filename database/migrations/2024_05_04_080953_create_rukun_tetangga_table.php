@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('rukun_tetangga', function (Blueprint $table) {
             $table->id('rt_id');
-            $table->unsignedBigInteger('pengurus_rt')->index();
-            $table->string('jabatan', 50);
+            $table->unsignedBigInteger('ketua_rt')->index();
             $table->string('no_telepon', 14);
             $table->timestamps();
-
-            $table->foreign('pengurus_rt')->references('warga_id')->on('warga');
         });
     }
 
