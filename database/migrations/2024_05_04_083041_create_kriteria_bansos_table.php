@@ -16,9 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('bansos_id')->index();
             $table->string('bansos_kriteria');
             $table->timestamps();
-
-            $table->foreign('bansos_id')->references('bansos_id')->on('bansos');
-
         });
     }
 

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('warga', function (Blueprint $table) {
             $table->id('warga_id');
             $table->string('nik', 16)->unique();
+            $table->unsignedBigInteger('kk_id')->index();
+            $table->unsignedBigInteger('status_hubungan')->index();
             $table->string('nama_warga', 100);
             $table->string('tempat_lahir', 50);
             $table->date('tanggal_lahir');
@@ -37,8 +39,6 @@ return new class extends Migration
             ]);
             $table->unsignedBigInteger('pekerjaan')->index();
             $table->timestamps();
-
-            $table->foreign('pekerjaan')->references('pekerjaan_id')->on('pekerjaan');
         });
     }
 

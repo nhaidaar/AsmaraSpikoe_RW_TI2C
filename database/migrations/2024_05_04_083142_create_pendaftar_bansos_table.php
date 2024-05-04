@@ -15,9 +15,6 @@ return new class extends Migration
             $table->id('pendaftar_id');
             $table->unsignedBigInteger('warga_id')->index();
             $table->timestamps();
-
-            $table->foreign('warga_id')->references('warga_id')->on('warga');
-
         });
     }
 

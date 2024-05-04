@@ -16,9 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('pendaftar_id')->index();
             $table->unsignedBigInteger('kb_id')->index();
             $table->timestamps();
-
-            $table->foreign('pendaftar_id')->references('pendaftar_id')->on('pendaftar_bansos');
-            $table->foreign('kb_id')->references('kb_id')->on('kriteria_bansos');
         });
     }
 
