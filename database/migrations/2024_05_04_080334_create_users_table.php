@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rukun_tetangga', function (Blueprint $table) {
-            $table->integer('rt_id')->autoIncrement();
-            $table->string('pengurus_rt', 16)->index();
-            $table->string('jabatan', 50);
-            $table->string('no_telepon', 14);
+        Schema::create('users', function (Blueprint $table) {
+            $table->id('user_id');
+            $table->string('username', 20)->unique();
+            $table->string('password');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rukun_tetangga');
+        Schema::dropIfExists('users');
     }
 };

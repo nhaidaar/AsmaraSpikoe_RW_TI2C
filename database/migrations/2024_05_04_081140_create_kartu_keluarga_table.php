@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('penerima_bansos', function (Blueprint $table) {
-            $table->integer('pb_id')->autoIncrement();
-            $table->integer('penerima_bansos')->index();
-            $table->integer('bansos_id')->index();
+        Schema::create('kartu_keluarga', function (Blueprint $table) {
+            $table->id('kk_id');
+            $table->string('no_kk', 16)->unique();
+            $table->unsignedBigInteger('rt')->index();
             $table->timestamps();
+
+            $table->foreign('rt')->references('rt_id')->on('rukun_tetangga');
         });
     }
 
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('penerima_bansos');
+        Schema::dropIfExists('kartu_keluarga');
     }
 };

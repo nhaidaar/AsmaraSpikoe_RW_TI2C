@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->integer('user_id')->autoIncrement();
-            $table->string('username', 20)->unique();
-            $table->string('password');
+        Schema::create('kriteria_bansos', function (Blueprint $table) {
+            $table->id('kb_id');
+            $table->unsignedBigInteger('bansos_id')->index();
+            $table->string('bansos_kriteria');
             $table->timestamps();
+
+            $table->foreign('bansos_id')->references('bansos_id')->on('bansos');
+
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('kriteria_bansos');
     }
 };

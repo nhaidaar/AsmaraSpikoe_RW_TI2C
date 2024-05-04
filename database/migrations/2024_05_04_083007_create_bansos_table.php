@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kriteria_bansos', function (Blueprint $table) {
-            $table->integer('kb_id')->autoIncrement();
-            $table->integer('bansos_id')->index();
-            $table->string('bansos_kriteria');
+        Schema::create('bansos', function (Blueprint $table) {
+            $table->id('bansos_id');
+            $table->string('bansos_nama', 100);
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kriteria_bansos');
+        Schema::dropIfExists('bansos');
     }
 };

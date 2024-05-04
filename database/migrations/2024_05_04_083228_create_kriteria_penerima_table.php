@@ -12,10 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kriteria_penerima', function (Blueprint $table) {
-            $table->integer('kp_id')->autoIncrement();
-            $table->integer('pendaftar_id')->index();
-            $table->integer('kb_id')->index();
+            $table->id('kp_id');
+            $table->unsignedBigInteger('pendaftar_id')->index();
+            $table->unsignedBigInteger('kb_id')->index();
             $table->timestamps();
+
+            $table->foreign('pendaftar_id')->references('pendaftar_id')->on('pendaftar_bansos');
+            $table->foreign('kb_id')->references('kb_id')->on('kriteria_bansos');
         });
     }
 

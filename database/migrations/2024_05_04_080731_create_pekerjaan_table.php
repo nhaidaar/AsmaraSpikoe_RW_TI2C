@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pendaftar_bansos', function (Blueprint $table) {
-            $table->integer('pendaftar_id')->autoIncrement();
-            $table->string('nik', 16)->index();
+        Schema::create('pekerjaan', function (Blueprint $table) {
+            $table->id('pekerjaan_id');
+            $table->string('pekerjaan_nama', 100);
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pendaftar_bansos');
+        Schema::dropIfExists('pekerjaan');
     }
 };

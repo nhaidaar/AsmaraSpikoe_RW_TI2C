@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kartu_keluarga', function (Blueprint $table) {
-            $table->string('no_kk', 16)->primary();
-            $table->string('kepala_keluarga', 16)->index();
-            $table->integer('rt')->index();
+        Schema::create('rukun_tetangga', function (Blueprint $table) {
+            $table->id('rt_id');
+            $table->unsignedBigInteger('pengurus_rt')->index();
+            $table->string('jabatan', 50);
+            $table->string('no_telepon', 14);
             $table->timestamps();
+
+            $table->foreign('pengurus_rt')->references('warga_id')->on('warga');
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kartu_keluarga');
+        Schema::dropIfExists('rukun_tetangga');
     }
 };
