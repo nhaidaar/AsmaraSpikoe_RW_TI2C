@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class KartuKeluargaSeeder extends Seeder
+class PekerjaanSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,14 +15,15 @@ class KartuKeluargaSeeder extends Seeder
     {
         $data = [
             [
-                'no_kk' => '1234567890123456',
-                'rt' => 1, 
+                'pekerjaan_nama' => 'UI/UX Designer',
             ],
             [
-                'no_kk' => '1234567890123457',
-                'rt' => 2, 
+                'pekerjaan_nama' => 'Data Analis',
+            ],
+            [
+                'pekerjaan_nama' => 'Programmer',
             ],
         ];
-        DB::table('kartu_keluarga')->insert($data);
+        DB::table('pekerjaan')->insert($data);
     }
 }

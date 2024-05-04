@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class KartuKeluargaSeeder extends Seeder
+class StatusHubSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,14 +15,15 @@ class KartuKeluargaSeeder extends Seeder
     {
         $data = [
             [
-                'no_kk' => '1234567890123456',
-                'rt' => 1, 
+                'keterangan' => 'Kepala Keluarga',
             ],
             [
-                'no_kk' => '1234567890123457',
-                'rt' => 2, 
+                'keterangan' => 'Istri',
+            ],
+            [
+                'keterangan' => 'Anak',
             ],
         ];
-        DB::table('kartu_keluarga')->insert($data);
+        DB::table('status_hubungan')->insert($data);
     }
 }

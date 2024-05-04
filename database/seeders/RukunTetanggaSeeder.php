@@ -15,48 +15,15 @@ class RukunTetanggaSeeder extends Seeder
     {
         $data = [
             [
-                'rt_id' => '001',
-                'pengurus_rt' => '1234567890123456',
+                'pengurus_rt' => 1, 
                 'jabatan' => 'Ketua RT 1',
                 'no_telepon' => '081234567890',
             ],
             [
-                'rt_id' => '002',
-                'pengurus_rt' => '1234567890123457',
+                'pengurus_rt' => 2, 
                 'jabatan' => 'Ketua RT 2',
-                'no_telepon' => '082345678901',
+                'no_telepon' => '087654321098',
             ],
-            [
-                'rt_id' => '003',
-                'pengurus_rt' => '1234567890123456',
-                'jabatan' => 'Ketua RT 3',
-                'no_telepon' => '081234567890',
-            ],
-            [
-                'rt_id' => '004',
-                'pengurus_rt' => '1234567890123457',
-                'jabatan' => 'Ketua RT 4',
-                'no_telepon' => '082345678901',
-            ],
-            [
-                'rt_id' => '005',
-                'pengurus_rt' => '1234567890123456',
-                'jabatan' => 'Ketua RT 5',
-                'no_telepon' => '081234567890',
-            ],
-            [
-                'rt_id' => '006',
-                'pengurus_rt' => '1234567890123457',
-                'jabatan' => 'Ketua RT 6',
-                'no_telepon' => '082345678901',
-            ],
-            [
-                'rt_id' => '007',
-                'pengurus_rt' => '1234567890123457',
-                'jabatan' => 'Ketua RT 7',
-                'no_telepon' => '082345678901',
-            ],
-           
         ];
         DB::table('rukun_tetangga')->insert($data);
     }

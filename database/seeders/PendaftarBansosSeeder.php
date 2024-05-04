@@ -15,13 +15,10 @@ class PendaftarBansosSeeder extends Seeder
     {
         $data = [
             [
-                'nik' => '2345678901234561', 
+                'warga_id' => '1', 
             ],
             [
-                'nik' => '3456789012345712', 
-            ],
-            [
-                'nik' => '5678901234571234', 
+                'warga_id' => '2', 
             ],
         ];
         DB::table('pendaftar_bansos')->insert($data);
