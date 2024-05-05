@@ -1,0 +1,45 @@
+name: Deployment to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Running SSH actions
+        uses: appleboy/ssh-action@master
+        env:
+          DOCROOT: ${{ secrets.DOCROOT }}
+          REPO_URL: ${{ secrets.REPO_URL }}
+          APP_NAME: ${{ secrets.APP_NAME }}
+          APP_ENV: ${{ secrets.APP_ENV }}
+          APP_KEY: ${{ secrets.APP_KEY }}
+          APP_DEBUG: ${{ secrets.APP_DEBUG }}
+          APP_URL: ${{ secrets.APP_URL }}
+          DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          envs: DOCROOT,REPO_URL,APP_NAME,APP_ENV,APP_KEY,APP_DEBUG,APP_URL,DB_CONNECTION,DB_HOST,DB_PORT,DB_DATABASE,DB_USERNAME,DB_PASSWORD
+          script: |
+            sudo apt install -y gettext git
+            git -C $DOCROOT reset --hard
+            git -C $DOCROOT pull || git clone --single-branch --branch main $REPO_URL $DOCROOT
+            envsubst > ${DOCROOT}/.env < ${DOCROOT}/.env.example
+            composer install --working-dir $DOCROOT
+            php -f ${DOCROOT}/artisan migrate --force
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
