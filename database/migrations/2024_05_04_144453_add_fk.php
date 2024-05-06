@@ -20,9 +20,11 @@ return new class extends Migration
         });
 
         Schema::table('warga', function (Blueprint $table) {
-            $table->foreign('kk_id')->references('kk_id')->on('kartu_keluarga');
-            $table->foreign('status_hubungan')->references('hubungan_id')->on('status_hubungan');
             $table->foreign('pekerjaan')->references('pekerjaan_id')->on('pekerjaan');
+        });
+
+        Schema::table('detail_warga', function (Blueprint $table) {
+            $table->foreign('warga_id')->references('warga_id')->on('warga');
         });
 
         Schema::table('rukun_tetangga', function (Blueprint $table) {
@@ -31,6 +33,11 @@ return new class extends Migration
 
         Schema::table('kartu_keluarga', function (Blueprint $table) {
             $table->foreign('rt')->references('rt_id')->on('rukun_tetangga');
+        });
+
+        Schema::table('detail_kk', function (Blueprint $table) {
+            $table->foreign('kk_id')->references('kk_id')->on('kartu_keluarga');
+            $table->foreign('hubungan_id')->references('hubungan_id')->on('status_hubungan');
         });
 
         Schema::table('surat', function (Blueprint $table) {
@@ -42,7 +49,7 @@ return new class extends Migration
         });
 
         Schema::table('pendaftar_bansos', function (Blueprint $table) {
-            $table->foreign('warga_id')->references('warga_id')->on('warga');
+            $table->foreign('detail_warga_id')->references('detail_warga_id')->on('detail_warga');
 
         });
 

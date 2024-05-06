@@ -23,7 +23,7 @@ class KriteriaBansosModel extends Model
         return $this->belongsTo(BansosModel::class, 'bansos_id', 'bansos_id');
     }
 
-    public function kriteriaBansos(): HasMany
+    public function kriteriaPenerima(): HasMany
     {
         return $this->hasMany(KriteriaPenerimaModel::class, 'kb_id', 'kb_id');
     }

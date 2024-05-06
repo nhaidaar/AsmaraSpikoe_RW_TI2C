@@ -25,6 +25,6 @@ class KKModel extends Model
 
     public function kartuKeluarga(): HasMany
     {
-        return $this->hasMany(WargaModel::class, 'kk_id', 'kk_id');
+        return $this->hasMany(DetailKKModel::class, 'kk_id', 'kk_id');
     }
 }

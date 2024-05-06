@@ -17,8 +17,6 @@ class WargaModel extends Model
 
     protected $fillable = [
         'nik',
-        'kk_id',
-        'status_hubungan',
         'nama_warga',
         'tempat_lahir',
         'tanggal_lahir',
@@ -29,16 +27,6 @@ class WargaModel extends Model
         'status_perkawinan',
         'pekerjaan',
     ];
-
-    public function kartuKeluarga(): BelongsTo
-    {
-        return $this->belongsTo(KKModel::class, 'kk_id', 'kk_id');
-    }
-
-    public function statusHubungan(): BelongsTo
-    {
-        return $this->belongsTo(StatusHubunganModel::class, 'status_hubungan', 'hubungan_id');
-    }
 
     public function pekerjaan(): BelongsTo
     {
@@ -55,8 +43,13 @@ class WargaModel extends Model
         return $this->hasMany(SuratModel::class, 'surat_pengaju', 'warga_id');
     }
 
-    public function pendaftarBansos(): HasMany
+    public function detailWarga(): HasOne
     {
-        return $this->hasMany(PendaftarBansosModel::class, 'warga_id', 'warga_id');
+        return $this->hasOne(DetailWargaModel::class, 'warga_id', 'warga_id');
+    }
+
+    public function detailKK(): HasOne
+    {
+        return $this->hasOne(DetailKKModel::class, 'warga_id', 'warga_id');
     }
 }
