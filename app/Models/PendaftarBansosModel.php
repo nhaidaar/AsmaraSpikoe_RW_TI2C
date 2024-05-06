@@ -14,12 +14,12 @@ class PendaftarBansosModel extends Model
     protected $table = 'pendaftar_bansos';
     protected $primaryKey = 'pendaftar_id';
     protected $fillable = [
-        'warga_id'
+        'detail_warga_id'
     ];
 
     public function pendaftarBansos(): BelongsTo
     {
-        return $this->belongsTo(WargaModel::class, 'warga_id', 'warga_id');
+        return $this->belongsTo(DetailWargaModel::class, 'detail_warga_id', 'detail_warga_id');
     }
 
     public function kriteriaPenerima(): HasMany

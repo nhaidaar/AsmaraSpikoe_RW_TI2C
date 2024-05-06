@@ -18,6 +18,6 @@ class StatusHubunganModel extends Model
 
     public function statushubungan(): HasMany
     {
-        return $this->hasMany(WargaModel::class, 'status_hubungan', 'hubungan_id');
+        return $this->hasMany(DetailKKModel::class, 'hubungan_id', 'hubungan_id');
     }
 }
