@@ -17,6 +17,12 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::group(['prefix' => 'informasi'], function() {
+    Route::get('/', function () {
+        return view('informasi.detail');
+    });
+});
+
 Route::group(['prefix' => 'bansos'], function () {
     Route::get('/', function () {
         return view('bansos.index');

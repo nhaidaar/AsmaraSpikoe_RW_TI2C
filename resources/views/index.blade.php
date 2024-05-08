@@ -6,13 +6,13 @@
         <p class="cardTitle">Pengumuman Terkini!</p>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 justify-between gap-3">
             @for ($i = 1; $i <= 4; $i++)
-            <div class="innerCard">
+            <a class="innerCard" href="/informasi">
                 <div class="rounded-xl h-56 bg-[url('/public/img/example1.png')] bg-cover"></div>
                 <div class="p-1 flex flex-col gap-1">
                     <p class="title">Pengumuman Gotong Royong</p>
                     <p class="subtitle text-Neutral-40">Rogonoto Timur No. 78 - 15 Maret at 10:20</p>
                 </div>
-            </div>
+            </a>
             @endfor
         </div>
     </section>
