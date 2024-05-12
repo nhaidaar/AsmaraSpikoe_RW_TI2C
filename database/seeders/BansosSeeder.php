@@ -24,6 +24,7 @@ class BansosSeeder extends Seeder
                 'bansos_nama' => 'Bantuan Sembako',
             ],
         ];
+        
         DB::table('bansos')->insert($data);
     }
 }

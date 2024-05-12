@@ -18,12 +18,11 @@ class DetailWargaModel extends Model
         'luas_rumah',
         'jumlah_tanggungan',
         'tanggungan_pendidikan',
-        'tanggungan_pendidikan',
         'pbb',
         'tagihan_listrik',
         'tagihan_air',
-        'jumlah_kendaraan',
         'bpjs',
+        'jumlah_kendaraan',
     ];
 
     public function detailWarga(): BelongsTo

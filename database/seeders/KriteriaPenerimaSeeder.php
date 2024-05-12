@@ -25,8 +25,9 @@ class KriteriaPenerimaSeeder extends Seeder
             [
                 'pendaftar_id' => 2, 
                 'kb_id' => 3, 
-            ],
+            ]
         ];
+
         DB::table('kriteria_penerima')->insert($data);
     }
 }

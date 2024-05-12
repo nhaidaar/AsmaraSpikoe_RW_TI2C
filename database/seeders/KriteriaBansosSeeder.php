@@ -27,6 +27,7 @@ class KriteriaBansosSeeder extends Seeder
                 'bansos_kriteria' => 'Memiliki Kartu Keluarga Sejahtera (KKS)',
             ],
         ];
+        
         DB::table('kriteria_bansos')->insert($data);
     }
 }

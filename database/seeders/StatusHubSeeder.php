@@ -24,6 +24,7 @@ class StatusHubSeeder extends Seeder
                 'keterangan' => 'Anak',
             ],
         ];
+        
         DB::table('status_hubungan')->insert($data);
     }
 }
