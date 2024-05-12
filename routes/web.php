@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InformasiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,14 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [InformasiController::class, 'index']);
 
-Route::group(['prefix' => 'informasi'], function() {
-    Route::get('/', function () {
-        return view('informasi.detail');
-    });
+Route::group(['prefix' => 'informasi'], function () {
+    Route::get('/{id}', [InformasiController::class, 'detail']);
 });
 
 Route::group(['prefix' => 'bansos'], function () {
