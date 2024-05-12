@@ -15,13 +15,15 @@ class RukunTetanggaSeeder extends Seeder
     {
         $data = [
             [
-                'pengurus_rt' => 1, 
-                'jabatan' => 'Ketua RT 1',
+                // 'pengurus_rt' => 1,
+                // 'jabatan' => 'Ketua RT 1',
+                'ketua_rt' => 1,
                 'no_telepon' => '081234567890',
             ],
             [
-                'pengurus_rt' => 2, 
-                'jabatan' => 'Ketua RT 2',
+                // 'pengurus_rt' => 2,
+                // 'jabatan' => 'Ketua RT 2',
+                'ketua_rt' => 2,
                 'no_telepon' => '087654321098',
             ],
         ];

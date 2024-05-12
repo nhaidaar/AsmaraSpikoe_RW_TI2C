@@ -16,12 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('surat_pengaju')->index();
             $table->enum('surat_jenis', ['Surat Pengantar', 'Surat Pernyataan Tidak Mampu']);
             $table->enum('surat_tujuan', [
-                'Administrasi Kependudukan', 
-                'Pengajuan Bantuan Sosial', 
-                'Permohonan Administratif RT', 
+                'Administrasi Kependudukan',
+                'Pengajuan Bantuan Sosial',
+                'Permohonan Administratif RT',
                 'Permohonan Layanan Kesehatan'
             ]);
-            $table->dateTime('surat_taggal');
+            $table->dateTime('surat_tanggal');
             $table->timestamps();
         });
     }
