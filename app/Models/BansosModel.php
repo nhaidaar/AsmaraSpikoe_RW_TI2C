@@ -10,7 +10,7 @@ class BansosModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'basos';
+    protected $table = 'bansos';
     protected $primaryKey = 'bansos_id';
     protected $fillable = [
         'bansos_nama'
