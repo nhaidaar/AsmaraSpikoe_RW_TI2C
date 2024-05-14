@@ -1,17 +1,16 @@
 @extends('layout.template')
 
 @section('content')
-    <main class="p-2 flex flex-col gap-2 bg-Neutral-0">
-
-        <section class="outerCard bg-Additional-Base h-[264px] justify-end">
-            <p class="py-1 text-4xl text-Neutral-0 text-center">Informasi Kegiatan</p>
+    <main class="p-2 flex flex-col gap-2 bg-Neutral-10">
+        <section class="outerCard bg-[url('/public/img/detail_informasi_cover.png')] bg-right h-[264px] justify-end">
+            <p class="py-1 font-medium text-[40px] text-Neutral-0 text-center">Informasi Kegiatan</p>
         </section>
 
         <section class="outerCard bg-Neutral-0">
-            <div class="px-40 flex flex-col gap-6">
+            <div class="px-2 sm:px-20 md:px-40 lg:px-80 flex flex-col gap-6">
                 <div class="rounded-lg h-80 bg-[url('/public/img/example1.png')] bg-cover"></div>
                 <div class="flex flex-col gap-6">
-                    <h3 class="text-2xl font-medium text-Neutral-Base">Pengumuman Gotong Royong</h3>
+                    <h3 class="text-2xl font-medium text-Neutral-Base">{{ $pengumuman->pengumuman_nama }}</h3>
                     <div class="border-b-2"></div>
                     <p class="text-lg text-Neutral-Base">
                         Assalamualaikum Wr.Wb <br>
