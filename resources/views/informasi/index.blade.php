@@ -6,7 +6,7 @@ Carbon::setLocale('id');
 @extends('layout.template')
 
 @section('content')
-<main class="p-2 flex flex-col gap-2">
+<main class="p-2 flex flex-col gap-2 bg-Neutral-10">
     <section class="outerCard">
         <p class="cardTitle">Pengumuman Terkini!</p>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 justify-between gap-3">
@@ -23,13 +23,13 @@ Carbon::setLocale('id');
     </section>
     <section class="outerCard">
         <p class="cardTitle">Informasi Kegiatan</p>
-        <table class="text-left min-w-full">
+        <table class="text-left w-full overflow-x-auto">
             <thead class="border-b">
                 <tr>
                     <th>Nama</th>
                     <th>Tanggal</th>
-                    <th class="hidden md:table-cell">Waktu</th>
-                    <th class="hidden md:table-cell">Tempat</th>
+                    <th>Waktu</th>
+                    <th>Tempat</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,8 +37,8 @@ Carbon::setLocale('id');
                 <tr>
                     <td>{{ $item->kegiatan_nama }}</td>
                     <td>{{ Carbon::parse($item->tanggal_waktu)->translatedFormat('j F Y') }}</td>
-                    <td class="hidden md:table-cell">{{ Carbon::parse($item->tanggal_waktu)->format('H:i') }} WIB</td>
-                    <td class="hidden md:table-cell">{{ $item->kegiatan_lokasi }}</td>
+                    <td>{{ Carbon::parse($item->tanggal_waktu)->format('H:i') }} WIB</td>
+                    <td>{{ $item->kegiatan_lokasi }}</td>
                 </tr>
                 @endforeach
             </tbody>
