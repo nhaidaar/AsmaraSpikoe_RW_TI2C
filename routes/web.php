@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\BansosController;
+use App\Http\Controllers\InformasiController;
+use App\Http\Controllers\PersuratanController;
+use App\Http\Controllers\RtController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,24 +17,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
+Route::get('/', [InformasiController::class, 'index']);
+
+Route::group(['prefix' => 'informasi'], function () {
+    Route::get('/{id}', [InformasiController::class, 'detail']);
 });
 
 Route::group(['prefix' => 'bansos'], function () {
-    Route::get('/', function () {
-        return view('bansos.index');
-    });
+    Route::get('/', [BansosController::class, 'index']);
 });
 
 Route::group(['prefix' => 'persuratan'], function () {
-    Route::get('/', function () {
-        return view('persuratan.index');
-    });
+    Route::get('/', [PersuratanController::class, 'index']);
 });
 
 Route::group(['prefix' => 'rt'], function () {
-    Route::get('/', function () {
-        return view('rt.index');
-    });
+    Route::get('/', [RtController::class, 'index']);
 });

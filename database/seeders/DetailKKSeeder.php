@@ -15,14 +15,16 @@ class DetailKKSeeder extends Seeder
     {
         $data = [
             [
-                'kk_id'         => 1,
-                'warga_id'      => 1,
-                'hubungan_id'   => 1,
+                'kk_id' => 1,
+                'warga_id' => 1,
+                // 'status_hubungan' => 1,
+                'hubungan_id' => 1,
             ],
             [
-                'kk_id'         => 2,
-                'warga_id'      => 2,
-                'hubungan_id'   => 2,
+                'kk_id' => 2,
+                'warga_id' => 2,
+                // 'status_hubungan' => 2,
+                'hubungan_id' => 2,
             ],
         ];
         

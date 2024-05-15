@@ -17,19 +17,11 @@
 }
 
 .outerCard {
-    @apply p-4 flex flex-col gap-6 rounded-xl border border-Neutral-10;
+    @apply p-4 flex flex-col gap-6 rounded-xl border border-Neutral-10 bg-Neutral-0;
 }
 
 .innerCard {
     @apply p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10;
-}
-
-.outerCheckData {
-    @apply p-20 flex flex-col gap-6 rounded-xl border border-Neutral-10 items-center;
-}
-
-.innerCheckData {
-    @apply p-4 flex flex-col gap-12 rounded-xl border border-Neutral-10;
 }
 
 .rwCard {
@@ -45,23 +37,23 @@
 }
 
 .title {
-    @apply text-lg md:text-xl font-medium;
+    @apply text-lg sm:text-xl font-medium;
 }
 
 .subtitle {
-    @apply text-base md:text-lg font-semibold;
+    @apply text-base sm:text-lg font-normal;
 }
 
 .buttonDark {
-    @apply px-4 py-2 rounded-lg bg-Primary-Base text-Neutral-0 text-nowrap text-center w-full md:w-min;
+    @apply font-medium px-4 py-2 rounded-lg bg-Primary-Base text-Neutral-0 text-nowrap text-center w-full md:w-min;
 }
 
 .buttonLight {
-    @apply px-4 py-2 border border-solid rounded-md border-Neutral-20 text-nowrap text-center w-full md:w-min;
+    @apply font-medium px-4 py-2 border border-solid rounded-md border-Neutral-20 text-nowrap text-center w-full md:w-min;
 }
 
 label {
-    @apply text-base md:text-lg font-medium;
+    @apply text-base sm:text-lg font-medium;
 }
 
 input, select {
@@ -69,11 +61,11 @@ input, select {
 }
 
 th {
-    @apply pt-2 pb-4 md:text-lg font-normal text-Neutral-40 w-[25%];
+    @apply w-lvw pt-2 pb-4 pr-4 sm:text-lg font-normal text-Neutral-40 ;
 }
 
 td {
-    @apply py-2 md:text-lg font-medium;
+    @apply w-lvw py-2 pr-4 sm:text-lg font-medium ;
 }
 
 input[type="checkbox"] {

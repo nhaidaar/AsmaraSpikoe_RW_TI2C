@@ -16,12 +16,12 @@ class SuratSeeder extends Seeder
     {
         $data = [
             [
-            'surat_id' => Str::uuid(),
-            'surat_pengaju' => 1,
-            'surat_jenis' => 'Surat Pengantar',
-            'surat_tujuan' => 'Administrasi Kependudukan',
-            'surat_taggal' => now(),
-        ],
+                'surat_id' => Str::uuid(),
+                'surat_pengaju' => 1,
+                'surat_jenis' => 'Surat Pengantar',
+                'surat_tujuan' => 'Administrasi Kependudukan',
+                'surat_tanggal' => now(),
+            ],
         ];
         
         DB::table('surat')->insert($data);
