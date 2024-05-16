@@ -34,11 +34,11 @@ jobs:
           envs: DOCROOT,REPO_URL,APP_NAME,APP_ENV,APP_KEY,APP_DEBUG,APP_URL,DB_CONNECTION,DB_HOST,DB_PORT,DB_DATABASE,DB_USERNAME,DB_PASSWORD
           script: |
             sudo apt install -y gettext git
-            git -C $DOCROOT reset --hard
-            git -C $DOCROOT pull || git clone --single-branch --branch main $REPO_URL $DOCROOT
+            sudo git -C $DOCROOT reset --hard
+            sudo git -C $DOCROOT pull || sudo git clone --single-branch --branch main $REPO_URL $DOCROOT
             envsubst > ${DOCROOT}/.env < ${DOCROOT}/.env.example
-            composer install --working-dir $DOCROOT
-            php -f ${DOCROOT}/artisan migrate --force
+            sudo composer install --working-dir $DOCROOT
+            sudo php -f ${DOCROOT}/artisan migrate --force
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
