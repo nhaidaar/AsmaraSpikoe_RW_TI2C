@@ -17,7 +17,7 @@ class PendaftarBansosModel extends Model
         'detail_warga_id'
     ];
 
-    public function pendaftarBansos(): BelongsTo
+    public function detailWarga(): BelongsTo
     {
         return $this->belongsTo(DetailWargaModel::class, 'detail_warga_id', 'detail_warga_id');
     }

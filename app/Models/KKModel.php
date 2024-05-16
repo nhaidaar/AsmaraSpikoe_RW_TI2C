@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class KKModel extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'kartu_keluarga';
     protected $primaryKey = 'kk_id';
     protected $fillable = [
@@ -23,7 +23,7 @@ class KKModel extends Model
         return $this->belongsTo(RTModel::class, 'rt', 'rt_id');
     }
 
-    public function kartuKeluarga(): HasMany
+    public function detailKK(): HasMany
     {
         return $this->hasMany(DetailKKModel::class, 'kk_id', 'kk_id');
     }

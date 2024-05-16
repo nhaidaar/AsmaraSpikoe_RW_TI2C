@@ -14,4 +14,9 @@ class PersuratanController extends Controller
             'active' => $this->active,
         ]);
     }
+
+    public function proses(Request $request)
+    {
+        echo $request;
+    }
 }
