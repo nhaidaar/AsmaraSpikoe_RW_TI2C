@@ -18,7 +18,6 @@ class DetailWargaModel extends Model
         'luas_rumah',
         'jumlah_tanggungan',
         'tanggungan_pendidikan',
-        'tanggungan_pendidikan',
         'pbb',
         'tagihan_listrik',
         'tagihan_air',
