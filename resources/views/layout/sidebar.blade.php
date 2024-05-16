@@ -1,7 +1,7 @@
 <div class="fixed top-0 w-full">
     <header class="p-6 bg-Primary-Base">
         <nav class="flex justify-between text-Neutral-0">
-            <a href="/" class="flex gap-1.5">
+            <a href="/" class="flex gap-1.5 items-center">
                 <img src="/img/main_logo.png" class="w-8 h-8 m-0.5" alt="Gondorejo">
                 <p class="text-2xl font-medium">Gondorejo</p>
             </a>
@@ -12,7 +12,9 @@
                 <a href="/rt" class="{{ $active == 'rt' ? 'underline pointer-events-none' : ''}} hover:underline">Rukun Tetangga</a>
             </div>
             <a onclick="toggleDropdownMenu()" class="p-2 flex items-center md:hidden gap-1 rounded-[64px] bg-Neutral-0 hover:bg-Neutral-10 text-Neutral-Base cursor-pointer select-none">
-                <img src="/icons/menu.png" alt="" class="w-5 h-5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20">
+                    <path fill="#1B1B1B" d="M2.5 15v-1.667h15V15h-15Zm0-4.167V9.167h15v1.666h-15Zm0-4.166V5h15v1.667h-15Z"/>
+                </svg>                  
                 <p class="font-medium">Menu</p>
             </a>
         </nav>
