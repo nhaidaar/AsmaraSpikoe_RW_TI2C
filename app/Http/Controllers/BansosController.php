@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\PenerimaBansosModel;
 use App\Models\RTModel;
-use App\Models\WargaModel;
 use Illuminate\Http\Request;
+use App\Traits\ValidationTrait;
 
 class BansosController extends Controller
 {
+    use ValidationTrait;
+
     protected $active = 'bansos';
 
     public function index()
@@ -33,31 +35,25 @@ class BansosController extends Controller
             'tahun.required' => 'Format Tanggal Lahir tidak sesuai',
         ]);
 
-        $findNik = WargaModel::where('nik', $request->nik)->first();
+        $validationError = $this->validateWarga($request->nik, $request->all());
 
-        if (!$findNik) {
-            return back()->withErrors('NIK yang anda masukkan salah');
-        }
-
-        $tanggalLahir = $request->tahun . '-' . str_pad($request->bulan, 2, '0', STR_PAD_LEFT) . '-' . str_pad($request->tanggal, 2, '0', STR_PAD_LEFT);
-
-        if ($findNik->tanggal_lahir != $tanggalLahir) {
-            return back()->withErrors('Tanggal lahir tidak valid');
+        if ($validationError) {
+            return back()->withErrors($validationError);
         }
 
         $bansos = PenerimaBansosModel::with([
             'bansos', 'kriteriaPenerima.pendaftarBansos.detailWarga'
         ])->whereHas(
             'kriteriaPenerima.pendaftarBansos.detailWarga',
-            function ($query) use ($findNik) {
-                $query->where('warga_id', $findNik->warga_id);
+            function ($query) use ($request) {
+                $query->where('warga_id', $request->nik);
             }
         )->get();
 
         $noTeleponRT = RTModel::whereHas(
             'kartuKeluarga.detailKK.anggotaKeluarga',
-            function ($query) use ($findNik) {
-                $query->where('warga_id', $findNik->warga_id);
+            function ($query) use ($request) {
+                $query->where('warga_id', $request->nik);
             }
         )
             ->pluck('no_telepon')
