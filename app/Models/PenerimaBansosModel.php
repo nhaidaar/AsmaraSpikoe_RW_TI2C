@@ -17,7 +17,7 @@ class PenerimaBansosModel extends Model
         'bansos_id'
     ];
 
-    public function penerimaBansos(): BelongsTo
+    public function kriteriaPenerima(): BelongsTo
     {
         return $this->belongsTo(KriteriaPenerimaModel::class, 'penerima_bansos', 'kp_id');
     }

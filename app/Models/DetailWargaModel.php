@@ -26,7 +26,7 @@ class DetailWargaModel extends Model
         'bpjs',
     ];
 
-    public function detailWarga(): BelongsTo
+    public function warga(): BelongsTo
     {
         return $this->belongsTo(WargaModel::class, 'warga_id', 'warga_id');
     }

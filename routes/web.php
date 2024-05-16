@@ -25,10 +25,12 @@ Route::group(['prefix' => 'informasi'], function () {
 
 Route::group(['prefix' => 'bansos'], function () {
     Route::get('/', [BansosController::class, 'index']);
+    Route::post('/', [BansosController::class, 'proses']);
 });
 
 Route::group(['prefix' => 'persuratan'], function () {
     Route::get('/', [PersuratanController::class, 'index']);
+    Route::post('/', [PersuratanController::class, 'proses']);
 });
 
 Route::group(['prefix' => 'rt'], function () {
