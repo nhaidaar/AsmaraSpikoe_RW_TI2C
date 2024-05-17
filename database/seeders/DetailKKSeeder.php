@@ -27,6 +27,7 @@ class DetailKKSeeder extends Seeder
                 'hubungan_id' => 2,
             ],
         ];
+        
         DB::table('detail_kk')->insert($data);
     }
 }

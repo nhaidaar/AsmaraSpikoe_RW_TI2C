@@ -36,3 +36,7 @@ Route::group(['prefix' => 'persuratan'], function () {
 Route::group(['prefix' => 'rt'], function () {
     Route::get('/', [RtController::class, 'index']);
 });
+
+Route::get('/admin', function () {
+    return view('admin.index');
+});

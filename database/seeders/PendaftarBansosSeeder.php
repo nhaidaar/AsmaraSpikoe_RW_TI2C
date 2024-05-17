@@ -23,6 +23,7 @@ class PendaftarBansosSeeder extends Seeder
                 'detail_warga_id' => '2',
             ],
         ];
+
         DB::table('pendaftar_bansos')->insert($data);
     }
 }

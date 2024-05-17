@@ -23,6 +23,7 @@ class SuratSeeder extends Seeder
                 'surat_tanggal' => now(),
             ],
         ];
+        
         DB::table('surat')->insert($data);
     }
 }

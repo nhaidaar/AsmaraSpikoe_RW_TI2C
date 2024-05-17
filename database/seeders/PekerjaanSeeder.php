@@ -24,6 +24,7 @@ class PekerjaanSeeder extends Seeder
                 'pekerjaan_nama' => 'Programmer',
             ],
         ];
+        
         DB::table('pekerjaan')->insert($data);
     }
 }

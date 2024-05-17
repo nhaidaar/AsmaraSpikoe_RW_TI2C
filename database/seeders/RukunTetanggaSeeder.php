@@ -27,6 +27,7 @@ class RukunTetanggaSeeder extends Seeder
                 'no_telepon' => '087654321098',
             ],
         ];
+        
         DB::table('rukun_tetangga')->insert($data);
     }
 }

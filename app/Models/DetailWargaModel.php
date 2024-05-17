@@ -21,8 +21,8 @@ class DetailWargaModel extends Model
         'pbb',
         'tagihan_listrik',
         'tagihan_air',
-        'jumlah_kendaraan',
         'bpjs',
+        'jumlah_kendaraan',
     ];
 
     public function warga(): BelongsTo

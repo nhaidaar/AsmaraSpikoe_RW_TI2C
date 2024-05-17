@@ -16,13 +16,14 @@ class KartuKeluargaSeeder extends Seeder
         $data = [
             [
                 'no_kk' => '1234567890123456',
-                'rt' => 1, 
+                'rt'    => 1, 
             ],
             [
                 'no_kk' => '1234567890123457',
-                'rt' => 2, 
+                'rt'    => 2, 
             ],
         ];
+        
         DB::table('kartu_keluarga')->insert($data);
     }
 }

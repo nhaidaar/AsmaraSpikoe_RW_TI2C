@@ -27,6 +27,7 @@ class PenerimaBansosSeeder extends Seeder
                 'bansos_id' => 3, 
             ],
         ];
+        
         DB::table('penerima_bansos')->insert($data);
     }
 }
