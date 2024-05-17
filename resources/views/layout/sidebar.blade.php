@@ -1,4 +1,4 @@
-<div class="fixed top-0 w-full">
+<div class="fixed top-0 w-full z-10">
     <header class="p-6 bg-Primary-Base">
         <nav class="flex justify-between text-Neutral-0">
             <a href="/" class="flex gap-1.5 items-center">

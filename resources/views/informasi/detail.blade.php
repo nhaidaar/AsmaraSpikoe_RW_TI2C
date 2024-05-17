@@ -1,9 +1,9 @@
 @extends('layout.template')
 
 @section('content')
-    <main class="p-2 flex flex-col gap-2 bg-Neutral-10">
+    <main class="px-2 py-4 md:p-2 flex flex-col gap-2 bg-Neutral-10">
         <section class="outerCard bg-[url('/public/img/detail_informasi_cover.png')] bg-right h-[264px] justify-end">
-            <p class="py-1 font-medium text-[40px] text-Neutral-0 text-center">Informasi Kegiatan</p>
+            <p class="py-2 font-medium text-3xl md:text-4xl text-Neutral-0 text-center">Pengumuman Terkini</p>
         </section>
 
         <section class="outerCard bg-Neutral-0">
@@ -12,25 +12,7 @@
                 <div class="flex flex-col gap-6">
                     <h3 class="text-2xl font-medium text-Neutral-Base">{{ $pengumuman->pengumuman_nama }}</h3>
                     <div class="border-b-2"></div>
-                    <p class="text-lg text-Neutral-Base">
-                        Assalamualaikum Wr.Wb <br>
-                        Kepada seluruh warga RT 2 RW 4 Gondorejo,
-                    </p>
-                    <p class="text-lg text-Neutral-Base">
-                        Dalam rangka menjaga kebersihan lingkungan dan memastikan kesehatan serta keamanan bersama, kami mengundang seluruh warga RT 2 RW 4 untuk berpartisipasi dalam kegiatan gotong royong membersihkan selokan. Detail kegiatan adalah sebagai berikut:
-                    </p>
-                    <p class="text-lg text-Neutral-Base">
-                        Tanggal: Sabtu, 27 Maret 2024 <br> 
-                        Waktu: Pukul 07:00 - selesai <br> 
-                        Tempat: Tepi selokan di sepanjang RT 2 RW 4 Gondorejo
-                    </p>
-                    <p class="text-lg text-Neutral-Base">
-                        Mari bergotong royong untuk membersihkan selokan guna mencegah genangan air dan penyakit yang mungkin timbul akibat kebersihan yang kurang terjaga. Harap semua warga dapat hadir dan membawa peralatan pembersih seperti sapu, sekop, dan ember. Kami mengharapkan partisipasi aktif dari seluruh warga untuk menjadikan kegiatan ini sukses dan bermanfaat bagi kita semua. Terima kasih atas perhatian dan kerjasamanya.
-                    </p>
-                    <p class="text-lg text-Neutral-Base">
-                        Hormat Kami, <br>
-                        Pengurus RT 2 RW 4 Gondorejo.
-                    </p>
+                    <p class="text-lg text-Neutral-Base whitespace-pre-line">{{ $pengumuman->pengumuman_detail ? $pengumuman->pengumuman_detail : 'Tidak ada informasi lebih lanjut.' }}</p>
                 </div>
             </div>
         </section>

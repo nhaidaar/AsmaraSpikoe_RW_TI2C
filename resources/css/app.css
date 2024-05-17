@@ -16,16 +16,35 @@
         url('../font/SF-Pro-Display-Ultralight.otf') format('opentype');
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.fadeIn {
+    animation: fadeIn 0.7s ease forwards;
+}
+
 .outerCard {
     @apply p-4 flex flex-col gap-6 rounded-xl border border-Neutral-10 bg-Neutral-0;
 }
 
 .innerCard {
-    @apply p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10;
+    @apply p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10 hover:bg-[#F6F6F6] fadeIn;
 }
 
 .rwCard {
-    @apply p-4 flex flex-col gap-4 rounded-xl border border-Neutral-20;
+    @apply p-4 flex flex-col gap-4 rounded-xl border border-Neutral-20 fadeIn;
 }
 
 .cardTitle {

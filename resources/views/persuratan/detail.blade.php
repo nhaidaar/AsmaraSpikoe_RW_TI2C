@@ -11,7 +11,7 @@
                     </div>
                     <img src="{{ asset('assets/surat_success.png') }}" alt=":)" class="h-60 w-60 flex self-center">
                 </div>
-                <div class="flex flex-col gap-2">
+                <div class="flex flex-col gap-3 md:gap-2">
                     <a href="{{ $url }}" class="font-medium px-4 py-2 rounded-lg bg-Primary-Base text-Neutral-0 text-nowrap text-center">                      
                         Download Surat
                     </a>

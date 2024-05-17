@@ -38,7 +38,11 @@ jobs:
             sudo git -C $DOCROOT pull || sudo git clone --single-branch --branch main $REPO_URL $DOCROOT
             envsubst > ${DOCROOT}/.env < ${DOCROOT}/.env.example
             sudo composer install --working-dir $DOCROOT
+            sudo php -f ${DOCROOT}/artisan route:clear
+            sudo php -f ${DOCROOT}/artisan clear-compiled
+            sudo php -f ${DOCROOT}/artisan optimize
             sudo php -f ${DOCROOT}/artisan migrate --force
+            sudo npm --prefix ${DOCROOT} run build
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:

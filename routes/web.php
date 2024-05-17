@@ -17,20 +17,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [InformasiController::class, 'index']);
+Route::get('/', [InformasiController::class, 'index'])->name('index');
 
 Route::group(['prefix' => 'informasi'], function () {
+    Route::get('/', function () {
+        return redirect(route('index'));
+    });
     Route::get('/{id}', [InformasiController::class, 'detail']);
 });
 
 Route::group(['prefix' => 'bansos'], function () {
     Route::get('/', [BansosController::class, 'index']);
-    Route::post('/', [BansosController::class, 'proses']);
+    Route::post('/', [BansosController::class, 'proses'])->name('prosesBansos');
 });
 
 Route::group(['prefix' => 'persuratan'], function () {
     Route::get('/', [PersuratanController::class, 'index']);
-    Route::post('/', [PersuratanController::class, 'proses']);
+    Route::post('/', [PersuratanController::class, 'proses'])->name('prosesPersuratan');
 });
 
 Route::group(['prefix' => 'rt'], function () {

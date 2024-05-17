@@ -1,9 +1,9 @@
 @extends('layout.template')
 
 @section('content')
-    <main class="p-2 bg-Neutral-10">
-        <section class="p-20 flex flex-col gap-6 rounded-xl border border-Neutral-10 items-center bg-Neutral-0 h-[calc(86vh)]">
-            <form action="/bansos" method="post" class="md:w-[480px] p-4 flex flex-col gap-12 rounded-xl border border-Neutral-10">
+    <main class="px-2 py-4 md:p-2 bg-Neutral-10">
+        <section class="p-20 flex flex-col gap-6 rounded-xl border border-Neutral-10 items-center bg-Neutral-0">
+            <form action="{{ route('prosesBansos') }}" method="post" class="md:w-[480px] p-4 flex flex-col gap-12 rounded-xl border border-Neutral-10 fadeIn">
                 @csrf
 
                 <div class="flex flex-col gap-8">
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col md:flex-row gap-2 md:justify-end">
+                <div class="flex flex-col md:flex-row gap-3 md:gap-2 md:justify-end">
                     <a href="/persuratan" class="buttonLight">Ajukan Bansos</a>
                     <button type="submit" class="buttonDark">Cek Data</button>
                 </div>
