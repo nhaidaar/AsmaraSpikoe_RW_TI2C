@@ -6,7 +6,7 @@ Carbon::setLocale('id');
 @extends('layout.template')
 
 @section('content')
-<main class="p-2 flex flex-col gap-2 bg-Neutral-10">
+<main class="px-2 py-4 md:p-2 flex flex-col gap-2 bg-Neutral-10">
     <section class="outerCard">
         <p class="cardTitle">Pengumuman Terkini!</p>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 justify-between gap-3">
@@ -34,7 +34,7 @@ Carbon::setLocale('id');
             </thead>
             <tbody>
                 @foreach ($kegiatan as $item)
-                <tr>
+                <tr class="fadeIn">
                     <td>{{ $item->kegiatan_nama }}</td>
                     <td>{{ Carbon::parse($item->tanggal_waktu)->translatedFormat('j F Y') }}</td>
                     <td>{{ Carbon::parse($item->tanggal_waktu)->format('H:i') }} WIB</td>
