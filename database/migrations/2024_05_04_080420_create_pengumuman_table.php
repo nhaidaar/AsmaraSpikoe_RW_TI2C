@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('pengumuman_id');
             $table->string('pengumuman_nama', 100);
             $table->string('pengumuman_lokasi');
+            $table->text('pengumuman_detail');
             $table->dateTime('tanggal_waktu');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
