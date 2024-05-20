@@ -11,7 +11,7 @@ Carbon::setLocale('id');
         <p class="cardTitle">Pengumuman Terkini!</p>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 justify-between gap-3">
             @foreach ($pengumuman as $item)
-                <a class="innerCard" href="/informasi/{{ $item->pengumuman_id }}">
+                <a class="innerCard" href="{{ route('detailInformasi', $item->pengumuman_id) }}">
                     <img src="{{ asset('img/informasi/' . $item->pengumuman_id . '.png') }}" alt="Pengumuman" class="h-56 w-full flex self-center rounded-xl object-cover">
                     <div class="p-1 flex flex-col gap-1">
                         <p class="title">{{ $item->pengumuman_nama }}</p>
