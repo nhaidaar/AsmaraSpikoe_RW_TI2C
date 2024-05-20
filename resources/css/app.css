@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'SFPro';
+    font-family: 'sf-pro';
     src: 
         url('../font/SF-Pro-Display-Black.otf') format('opentype'),
         url('../font/SF-Pro-Display-Bold.otf') format('opentype'),
@@ -16,6 +16,14 @@
         url('../font/SF-Pro-Display-Ultralight.otf') format('opentype');
 }
 
+/* @font-face {
+    font-family: 'sf-pro';
+    src: url('../font/SF-Pro-Display-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+} */
+  
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -27,7 +35,7 @@
     }
 }
 
-::-webkit-scrollbar {
+::-webkit-scrollbar-track {
     display: none;
 }
 
@@ -76,11 +84,11 @@ input, select {
 }
 
 th {
-    @apply w-lvw pt-2 pb-4 pr-4 sm:text-lg font-normal text-Neutral-40 ;
+    @apply w-lvw pt-2 pb-4 pr-16 sm:text-lg font-normal text-Neutral-40 ;
 }
 
 td {
-    @apply w-lvw py-2 pr-4 sm:text-lg font-medium ;
+    @apply w-lvw py-6 pr-16 sm:text-lg font-medium ;
 }
 
 input[type="checkbox"] {

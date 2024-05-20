@@ -1,7 +1,7 @@
 @extends('layout.template')
 
 @section('content')
-    <main class="px-2 py-4 md:p-2 bg-Neutral-10">
+    <main class="p-2 bg-Neutral-10">
         <section class="p-4 md:p-20 flex flex-col gap-6 rounded-xl border border-Neutral-10 bg-Neutral-0 h-[calc(86vh)]"> {{-- Outer Card --}}
             <div class="p-4 flex flex-col gap-4 justify-between md:justify-normal rounded-xl border border-Neutral-10 md:w-[480px] h-lvh md:h-fit self-center fadeIn"> {{-- Inner Card --}}
                 <div class="flex flex-col gap-12">

@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BansosController;
 use App\Http\Controllers\InformasiController;
+use App\Http\Controllers\PendudukController;
 use App\Http\Controllers\PersuratanController;
 use App\Http\Controllers\RtController;
 use Illuminate\Support\Facades\Route;
@@ -20,38 +22,26 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [InformasiController::class, 'index'])->name('index');
 
 Route::group(['prefix' => 'informasi'], function () {
-    Route::get('/', function () {
-        return redirect(route('index'));
-    });
-    Route::get('/{id}', [InformasiController::class, 'detail']);
+    Route::get('/', [InformasiController::class, 'index'])->name('informasi');
+    Route::get('/{id}', [InformasiController::class, 'detail'])->name('detailInformasi');
 });
 
 Route::group(['prefix' => 'bansos'], function () {
-    Route::get('/', [BansosController::class, 'index']);
+    Route::get('/', [BansosController::class, 'index'])->name('bansos');
     Route::post('/', [BansosController::class, 'proses'])->name('prosesBansos');
 });
 
 Route::group(['prefix' => 'persuratan'], function () {
-    Route::get('/', [PersuratanController::class, 'index']);
+    Route::get('/', [PersuratanController::class, 'index'])->name('persuratan');
     Route::post('/', [PersuratanController::class, 'proses'])->name('prosesPersuratan');
 });
 
 Route::group(['prefix' => 'rt'], function () {
-    Route::get('/', [RtController::class, 'index']);
+    Route::get('/', [RtController::class, 'index'])->name('rt');
 });
 
-Route::get('/admin/penduduk', function () {
-    return view('admin.penduduk.index');
-});
-
-Route::get('/admin/informasi', function () {
-    return view('admin.informasi.index');
-});
-
-Route::get('/admin/informasi/create_kegiatan', function () {
-    return view('admin.informasi.create_kegiatan');
-});
-
-Route::get('/admin/informasi/create_pengumuman', function () {
-    return view('admin.informasi.create_pengumuman');
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin');
+    Route::post('/login', [AdminController::class, 'login'])->name('login');
+    Route::get('/logout', [AdminController::class, 'logout'])->name('logout');
 });

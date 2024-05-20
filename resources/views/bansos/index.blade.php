@@ -1,8 +1,8 @@
 @extends('layout.template')
 
 @section('content')
-    <main class="px-2 py-4 md:p-2 bg-Neutral-10">
-        <section class="p-20 flex flex-col gap-6 rounded-xl border border-Neutral-10 items-center bg-Neutral-0">
+    <main class="p-2 bg-Neutral-10">
+        <section class="p-4 md:p-20 flex flex-col gap-6 rounded-xl border border-Neutral-10 items-center bg-Neutral-0 h-screen">
             <form action="{{ route('prosesBansos') }}" method="post" class="md:w-[480px] p-4 flex flex-col gap-12 rounded-xl border border-Neutral-10 fadeIn">
                 @csrf
 

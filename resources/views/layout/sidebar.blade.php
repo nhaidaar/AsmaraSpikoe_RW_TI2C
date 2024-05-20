@@ -1,15 +1,25 @@
+@php
+    $user = Auth::user();
+@endphp
 <div class="fixed top-0 w-full z-10">
-    <header class="p-6 bg-Primary-Base">
+    <header class="px-6 py-5 bg-Primary-Base">
         <nav class="flex justify-between text-Neutral-0">
             <a href="/" class="flex gap-1.5 items-center">
                 <img src="/img/main_logo.png" class="w-8 h-8 m-0.5" alt="Gondorejo">
                 <p class="text-2xl font-medium">Gondorejo</p>
             </a>
             <div class="hidden md:flex gap-8 font-normal items-center">
-                <a href="/" class="{{ $active == 'informasi' ? 'underline pointer-events-none' : ''}} hover:underline">Informasi</a>
+                @if ($user)
+                    <a href="/admin" class="{{ $active == 'penduduk' ? 'underline pointer-events-none' : ''}} hover:underline">Penduduk</a>
+                @endif
+                <a href="/informasi" class="{{ $active == 'informasi' ? 'underline pointer-events-none' : ''}} hover:underline">Informasi</a>
                 <a href="/bansos" class="{{ $active == 'bansos' ? 'underline pointer-events-none' : ''}} hover:underline">Bantuan Sosial</a>
                 <a href="/persuratan" class="{{ $active == 'persuratan' ? 'underline pointer-events-none' : ''}} hover:underline">Persuratan</a>
                 <a href="/rt" class="{{ $active == 'rt' ? 'underline pointer-events-none' : ''}} hover:underline">Rukun Tetangga</a>
+                @if ($user)
+                    <a href="/" class="{{ $active == 'keuangan' ? 'underline pointer-events-none' : ''}} hover:underline">Keuangan</a>
+                @endif
+                <a href="{{ $user ? '/admin/logout' : '/admin' }}" class="px-4 py-2 rounded-lg font-medium bg-Neutral-0 text-Primary-Base">{{ $user ? 'Logout' : 'Login'}}</a>
             </div>
             <a onclick="toggleDropdownMenu()" class="p-2 flex items-center md:hidden gap-1 rounded-[64px] bg-Neutral-0 hover:bg-Neutral-10 text-Neutral-Base cursor-pointer select-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20">
@@ -20,10 +30,17 @@
         </nav>
     </header>
     <section id="dropdownMenu" class="hidden md:hidden p-2 absolute translate-x-2 translate-y-2 rounded-lg flex-col gap-1 bg-Neutral-0 w-[98%] shadow-md">
-        <a href="/" class="{{ $active == 'informasi' ? 'bg-Neutral-10 pointer-events-none' : ''}} p-2 rounded-md hover:bg-Neutral-10">Informasi</a>
+        @if ($user)
+            <a href="/" class="{{ $active == 'penduduk' ? 'bg-Neutral-10 pointer-events-none' : ''}} p-2 rounded-md hover:bg-Neutral-10">Penduduk</a>
+        @endif
+        <a href="/informasi" class="{{ $active == 'informasi' ? 'bg-Neutral-10 pointer-events-none' : ''}} p-2 rounded-md hover:bg-Neutral-10">Informasi</a>
         <a href="/bansos" class="{{ $active == 'bansos' ? 'bg-Neutral-10 pointer-events-none' : ''}} p-2 rounded-md hover:bg-Neutral-10">Bantuan Sosial</a>
         <a href="/persuratan" class="{{ $active == 'persuratan' ? 'bg-Neutral-10 pointer-events-none' : ''}} p-2 rounded-md hover:bg-Neutral-10">Persuratan</a>
         <a href="/rt" class="{{ $active == 'rt' ? 'bg-Neutral-10 pointer-events-none' : ''}} p-2 rounded-md hover:bg-Neutral-10">Rukun Tetangga</a>
+        @if ($user)
+            <a href="/" class="{{ $active == 'keuangan' ? 'bg-Neutral-10 pointer-events-none' : ''}} p-2 rounded-md hover:bg-Neutral-10">Keuangan</a>
+        @endif
+        <a href="{{ $user ? '/admin/logout' : '/admin' }}" class="{{ $active == 'keuangan' ? 'bg-Neutral-10 pointer-events-none' : ''}} p-2 rounded-md hover:bg-Neutral-10">{{ $user ? 'Logout' : 'Login'}}</a>
     </section>
 </div>
 <div class="h-20"></div>

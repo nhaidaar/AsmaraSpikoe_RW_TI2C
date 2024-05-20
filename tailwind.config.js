@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        SFPro: ["sf-pro", "sans"]
+      },
       colors: {
         "Neutral": {
           "0": "#ffffff",
