@@ -69,28 +69,28 @@
             <p class="cardTitle">Cek Data Penduduk</p>
 
             <div class="innerCard">
-                <div class="flex flex-col md:flex-row justify-center md:justify-between text-center w-full border-b-2 py-2">
+                <div class="flex flex-col md:flex-row justify-center md:justify-between text-center w-full border-b-2 pb-3 gap-2">
                     <div class="flex text-center md:w-[250px] items-center">
                         <div class="flex w-full">
                             <input type="radio" name="cekData" value="dataKeluarga" id="dataKeluarga" class="hidden peer" checked>
-                            <label for="dataKeluarga" id="label-dataKeluarga" class="bg-Neutral-10 peer-checked:bg-Neutral-0 font-medium text-sm md:text-base px-2 md:px-3 py-2 md:py-3 rounded-l-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10">Data Keluarga</label>
+                            <label for="dataKeluarga" id="label-dataKeluarga" class="bg-Neutral-10 peer-checked:bg-Neutral-0 font-medium text-sm md:text-base p-2 rounded-l-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10">Data Keluarga</label>
                         </div>
                         <div class="flex w-full">
-                            <input type="radio" name="cekData" value="DataWarga" id="DataWarga" class="hidden peer">
-                            <label for="DataWarga" id="label-DataWarga" class="bg-Neutral-10 peer-checked:bg-Neutral-0 font-medium text-sm md:text-base px-2 md:px-3 py-2 md:py-3 rounded-r-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10">Data Warga</label>
+                            <input type="radio" name="cekData" value="dataWarga" id="dataWarga" class="hidden peer">
+                            <label for="dataWarga" id="label-dataWarga" class="bg-Neutral-10 peer-checked:bg-Neutral-0 font-medium text-sm md:text-base p-2 rounded-r-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10">Data Warga</label>
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-2">
-                        <div class="relative">
+                    <div class="flex flex-col  md:flex-row items-center gap-2">
+                        <div class="relative w-full md:w-fit">
                             <svg class="absolute left-3 top-1/2 transform -translate-y-1/2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="11.0586" cy="11.0586" r="7.06194" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M20.0033 20.0033L16.0517 16.0516" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <input type="search" name="searchData" id="searchData" placeholder="Cari data..." class="pl-12 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="search" name="searchData" id="searchData" placeholder="Cari data..." class="pl-12 pr-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-Neutral-20">
                         </div>
 
-                        <div>
+                        <div class="w-full md:w-fit">
                             <select name="rt_id" id="rt_id">
                                 <option value="1">RT 01</option>
                                 <option value="2">RT 02</option>
@@ -102,7 +102,7 @@
                             </select>
                         </div>
 
-                        <div class="">
+                        <div class="w-full md:w-fit">
                             <a href="#" class="flex flex-row bg-Primary-Base text-Neutral-0 px-4 py-2 gap-1 rounded-lg">
                                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M12 6V18M18 12H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -113,7 +113,7 @@
                     </div>
                 </div>
 
-                <table class="text-left w-full overflow-x-auto text-nowrap">
+                <table class="text-left w-full overflow-x-auto text-nowrap" id="tableDataKeluarga">
                     <thead class="border-b">
                         <tr>
                             <th>No. KK</th>
@@ -130,8 +130,32 @@
                             <td>50</td>
                             <td>Jl. Soekarno Hatta, No. 12</td>
                             <td>
-                                <a href="#" class="bg-Neutral-0 text-Neutral-Base font-normal px-4 py-2 gap-1 border rounded-lg">Edit</a>
-                                <a href="#" class="bg-Primary-Base text-Neutral-0 font-normal px-4 py-2 gap-1 rounded-lg">Detail</a>
+                                <a href="#" class="font-normal text-Neutral-Base text-nowrap px-4 py-2 text-center bg-Neutral-0 border border-solid rounded-md border-Neutral-20">Edit</a>
+                                <a href="#" class="font-normal text-Neutral-0 text-nowrap px-4 py-2 text-center bg-Primary-Base rounded-md">Detail</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="text-left w-full overflow-x-auto text-nowrap hidden" id="tableDataWarga">
+                    <thead class="border-b">
+                        <tr>
+                            <th>NIK</th>
+                            <th>Nama</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Alamat</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>3527206343440001</td>
+                            <td>Sal Priyai</td>
+                            <td>Laki-laki</td>
+                            <td>Jl. Soekarno Hatta, No. 12</td>
+                            <td>
+                                <a href="#" class="buttonLight">Edit</a>
+                                <a href="#" class="button">Detail</a>
                             </td>
                         </tr>
                     </tbody>
@@ -139,4 +163,25 @@
             </div>
         </section>
     </main>
+
+    <script>
+        const dataKeluargaRadio = document.getElementById('dataKeluarga');
+        const dataWargaRadio = document.getElementById('dataWarga');
+        const tableDataKeluarga = document.getElementById('tableDataKeluarga');
+        const tableDataWarga = document.getElementById('tableDataWarga');
+
+        dataKeluargaRadio.addEventListener('change', function () {
+            if (this.checked) {
+                tableDataWarga.classList.add('hidden');
+                tableDataKeluarga.classList.remove('hidden')
+            }
+        });
+
+        dataWargaRadio.addEventListener('change', function() {
+            if (this.checked) {
+                tableDataKeluarga.classList.add('hidden');
+                tableDataWarga.classList.remove('hidden');
+            }
+        });
+    </script>
 @endsection

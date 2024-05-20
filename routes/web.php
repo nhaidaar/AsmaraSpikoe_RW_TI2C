@@ -37,6 +37,18 @@ Route::group(['prefix' => 'rt'], function () {
     Route::get('/', [RtController::class, 'index']);
 });
 
-Route::get('/admin', function () {
-    return view('admin.index');
+Route::get('/admin/penduduk', function () {
+    return view('admin.penduduk.index');
+});
+
+Route::get('/admin/informasi', function () {
+    return view('admin.informasi.index');
+});
+
+Route::get('/admin/informasi/create_kegiatan', function () {
+    return view('admin.informasi.create_kegiatan');
+});
+
+Route::get('/admin/informasi/create_pengumuman', function () {
+    return view('admin.informasi.create_pengumuman');
 });

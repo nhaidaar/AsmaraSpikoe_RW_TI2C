@@ -13,7 +13,9 @@
                 <a href="/admin/keuangan" class="pointer-events-auto hover:underline">Keuangan</a>
             </div>
             <a onclick="toggleDropdownMenu()" class="p-2 flex items-center md:hidden gap-1 rounded-[64px] bg-Neutral-0 hover:bg-Neutral-10 text-Neutral-Base cursor-pointer select-none">
-                <img src="/icons/menu.png" alt="" class="w-5 h-5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20">
+                    <path fill="#1B1B1B" d="M2.5 15v-1.667h15V15h-15Zm0-4.167V9.167h15v1.666h-15Zm0-4.166V5h15v1.667h-15Z"/>
+                </svg>
                 <p class="font-medium">Menu</p>
             </a>
         </nav>
