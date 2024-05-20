@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BansosController;
 use App\Http\Controllers\InformasiController;
+use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\PendudukController;
 use App\Http\Controllers\PersuratanController;
 use App\Http\Controllers\RtController;
@@ -44,4 +45,12 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin');
     Route::post('/login', [AdminController::class, 'login'])->name('login');
     Route::get('/logout', [AdminController::class, 'logout'])->name('logout');
+});
+
+Route::group(['prefix' => 'penduduk'], function () {
+    Route::get('/', [PendudukController::class, 'index'])->name('penduduk');
+});
+
+Route::group(['prefix' => 'keuangan'], function () {
+    Route::get('/', [KeuanganController::class, 'index'])->name('keuangan');
 });

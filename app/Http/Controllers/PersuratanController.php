@@ -10,6 +10,7 @@ use App\Traits\ValidationTrait;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 Carbon::setLocale('id');
@@ -22,6 +23,14 @@ class PersuratanController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
+
+        if ($user) {
+            return view('layout.maintenance', [
+                'active' => $this->active,
+            ]);
+        }
+
         return view('persuratan.index', [
             'active' => $this->active,
         ]);

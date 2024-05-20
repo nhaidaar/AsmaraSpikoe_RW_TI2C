@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\KegiatanModel;
 use App\Models\PengumumanModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InformasiController extends Controller
 {
@@ -12,6 +13,14 @@ class InformasiController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
+
+        if ($user) {
+            return view('layout.maintenance', [
+                'active' => $this->active,
+            ]);
+        }
+
         $pengumumanList = PengumumanModel::orderBy('tanggal_waktu')->take(4)->get();
         $kegiatanList = KegiatanModel::where('tanggal_waktu', '>=', now())->get();
 

@@ -7,6 +7,7 @@ use App\Models\RTModel;
 use App\Models\WargaModel;
 use Illuminate\Http\Request;
 use App\Traits\ValidationTrait;
+use Illuminate\Support\Facades\Auth;
 
 class BansosController extends Controller
 {
@@ -16,6 +17,14 @@ class BansosController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
+
+        if ($user) {
+            return view('layout.maintenance', [
+                'active' => $this->active,
+            ]);
+        }
+
         return view('bansos.index', [
             'active' => $this->active,
         ]);
