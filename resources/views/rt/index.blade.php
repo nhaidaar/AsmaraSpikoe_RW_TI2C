@@ -1,7 +1,7 @@
 @extends('layout.template')
 
 @section('content')
-    <main class="px-2 py-4 md:p-2 bg-Neutral-10">
+    <main class="p-2 bg-Neutral-10">
         <section class="p-20 flex flex-col gap-12 rounded-xl border border-Neutral-10 items-center bg-Neutral-0">
             <div class="flex flex-col gap-2 text-center">
                 <p class="cardTitle">Rukun Tetangga</p>

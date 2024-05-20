@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PenerimaBansosModel;
 use App\Models\RTModel;
+use App\Models\WargaModel;
 use Illuminate\Http\Request;
 use App\Traits\ValidationTrait;
 
@@ -41,19 +42,23 @@ class BansosController extends Controller
             return back()->withErrors($validationError);
         }
 
+        $findWargaId = WargaModel::where('nik', $request->nik)
+            ->pluck('warga_id')
+            ->first();
+
         $bansos = PenerimaBansosModel::with([
             'bansos', 'kriteriaPenerima.pendaftarBansos.detailWarga'
         ])->whereHas(
             'kriteriaPenerima.pendaftarBansos.detailWarga',
-            function ($query) use ($request) {
-                $query->where('warga_id', $request->nik);
+            function ($query) use ($findWargaId) {
+                $query->where('warga_id', $findWargaId);
             }
         )->get();
 
         $noTeleponRT = RTModel::whereHas(
             'kartuKeluarga.detailKK.anggotaKeluarga',
-            function ($query) use ($request) {
-                $query->where('warga_id', $request->nik);
+            function ($query) use ($findWargaId) {
+                $query->where('warga_id', $findWargaId);
             }
         )
             ->pluck('no_telepon')
