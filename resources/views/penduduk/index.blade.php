@@ -25,7 +25,7 @@
 
                     <span>
                         <p class="subtitle text-Neutral-40">Jumlah Penduduk</p>
-                        <p class="cardTitle">2.423.768</p>
+                        <p class="cardTitle">{{ $warga->count() }}</p>
                     </span>
                 </div>
                 
@@ -45,7 +45,7 @@
                     
                     <span>
                         <p class="subtitle text-Neutral-40">Jumlah Keluarga</p>
-                        <p class="cardTitle">2.423.768</p>
+                        <p class="cardTitle">{{ $keluarga->count() }}</p>
                     </span>
                 </div>
 
@@ -64,8 +64,8 @@
                     </svg>
                     
                     <span>
-                        <p class="subtitle text-Neutral-40">Jumlah Keluarga</p>
-                        <p class="cardTitle">2.423.768</p>
+                        <p class="subtitle text-Neutral-40">Jumlah Penerima Bansos</p>
+                        <p class="cardTitle">{{ $jumlahPenerimaBansos }}</p>
                     </span>
                 </div>
             </div>
@@ -75,19 +75,25 @@
             <p class="cardTitle">Cek Data Penduduk</p>
 
             <div class="p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10"> {{-- Inner Card --}}
-                <div class="grid md:flex gap-2 md:flex-row justify-center md:justify-between text-center w-full border-b py-3">
-                    <div class="flex text-center md:w-[250px] items-center">
+                <div class="grid lg:flex gap-8 lg:flex-row justify-center lg:justify-between text-center w-full border-b pb-6 pt-3">
+                    <div class="flex text-center lg:w-60 items-center">
                         <div class="flex w-full">
                             <input type="radio" name="cekData" value="dataKeluarga" id="dataKeluarga" class="hidden peer" checked>
-                            <label for="dataKeluarga" id="label-dataKeluarga" class="bg-Neutral-10 peer-checked:bg-Neutral-0 font-medium text-sm md:text-base px-2 md:px-3 py-2 md:py-3 rounded-l-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10">Data Keluarga</label>
+                            <label for="dataKeluarga" id="label-dataKeluarga" class="bg-Neutral-10 peer-checked:bg-Neutral-0 font-medium text-sm md:text-base px-2 md:px-3 py-2 rounded-l-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10">Data Keluarga</label>
                         </div>
                         <div class="flex w-full">
-                            <input type="radio" name="cekData" value="dataWarga" id="DataWarga" class="hidden peer">
-                            <label for="DataWarga" id="label-DataWarga" class="bg-Neutral-10 peer-checked:bg-Neutral-0 font-medium text-sm md:text-base px-2 md:px-3 py-2 md:py-3 rounded-r-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10">Data Warga</label>
+                            <input type="radio" name="cekData" value="dataWarga" id="dataWarga" class="hidden peer">
+                            <label for="dataWarga" id="label-dataWarga" class="bg-Neutral-10 peer-checked:bg-Neutral-0 font-medium text-sm md:text-base px-2 md:px-3 py-2 rounded-r-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10">Data Warga</label>
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-2">
+                    <div class="grid grid-cols-subgrid md:max-w-[554px] md:flex items-center gap-2">
+                        <select name="rt_id" id="rt_id" class="font-medium md:max-w-[120px]" {{ Auth::user()->level != 'rw' ? 'disabled' : '' }} >
+                            @for ($i = 1; $i <= 7; $i++)
+                                <option value="{{$i}}" {{ $rt == $i ? 'selected' : '' }}>RT 0{{$i}}</option>
+                            @endfor
+                        </select>
+
                         <div class="relative w-full">
                             <svg class="absolute left-3 top-1/2 transform -translate-y-1/2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="11.0586" cy="11.0586" r="7.06194" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -96,17 +102,7 @@
                             <input type="search" name="searchData" id="searchData" placeholder="Cari data..." class="pl-12 pr-4 py-2 border rounded-md">
                         </div>
 
-                        <select name="rt_id" id="rt_id" class="font-medium">
-                            <option value="1">RT 01</option>
-                            <option value="2">RT 02</option>
-                            <option value="3">RT 03</option>
-                            <option value="4">RT 04</option>
-                            <option value="5">RT 05</option>
-                            <option value="6">RT 06</option>
-                            <option value="7">RT 07</option>
-                        </select>
-
-                        <a href="#" class="flex items-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap">
+                        <a href="#" class="flex items-center justify-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap">
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 6V18M18 12H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -116,7 +112,7 @@
                 </div>
 
                 <div class="w-full bg-Neutral-0 overflow-x-auto fadeIn">
-                    <table class="text-left text-nowrap">
+                    <table class="text-left text-nowrap" id="tableDataKeluarga">
                         <thead class="border-b">
                         <tr>
                             <th>No. KK</th>
@@ -127,22 +123,168 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for ($i = 0; $i < 3; $i++)
+                        @foreach ($keluarga as $item)
+                            <tr>
+                                <td class="hidden" id="rt">{{ $item->kartuKeluarga->rt }}</td>
+                                <td id="no_kk">{{ $item->kartuKeluarga->no_kk }}</td>
+                                <td id="nama_kepala">{{ $item->anggotaKeluarga->nama_warga }}</td>
+                                <td>{{ $item->where('kk_id', $item->kartukeluarga->kk_id)->count() }}</td>
+                                <td>{{ $item->anggotaKeluarga->alamat_domisili }}</td>
+                                <td>
+                                    <a href="#" class="bg-Neutral-0 text-Neutral-Base font-medium px-4 py-2.5 gap-1 border rounded-lg">Edit</a>
+                                    <a href="#" class="bg-Primary-Base text-Neutral-0 font-medium px-4 py-2.5 gap-1 rounded-lg">Detail</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <table class="text-left w-full overflow-x-auto text-nowrap hidden" id="tableDataWarga">
+                    <thead class="border-b">
                         <tr>
-                            <td>3527206343440001</td>
-                            <td>Sal Priyai</td>
-                            <td>50</td>
-                            <td>Jl. Soekarno Hatta, No. 12</td>
+                            <th>NIK</th>
+                            <th>Nama</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Alamat</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($warga as $item)    
+                        <tr>
+                            <td class="hidden" id="rt">{{ $item->detailKK->kartuKeluarga->rt }}</td>
+                            <td id="nik">{{ $item->nik }}</td>
+                            <td id="nama_warga">{{ $item->nama_warga }}</td>
+                            <td>{{ $item->jenis_kelamin }}</td>
+                            <td>{{ $item->alamat_domisili }}</td>
                             <td>
-                                <a href="#" class="bg-Neutral-0 text-Neutral-Base font-medium px-4 py-2.5 gap-1 border rounded-lg">Edit</a>
-                                <a href="#" class="bg-Primary-Base text-Neutral-0 font-medium px-4 py-2.5 gap-1 rounded-lg">Detail</a>
+                                <a href="#" class="buttonLight">Edit</a>
+                                <a href="#" class="buttonDark">Detail</a>
                             </td>
                         </tr>
-                        @endfor
+                        @endforeach
                     </tbody>
                 </table>
             </div>
             </div>
         </section>
     </main>
+    <script>
+        const dataKeluargaRadio = document.getElementById('dataKeluarga');
+        const dataWargaRadio = document.getElementById('dataWarga');
+        const tableDataKeluarga = document.getElementById('tableDataKeluarga');
+        const tableDataWarga = document.getElementById('tableDataWarga');
+
+        dataKeluargaRadio.addEventListener('change', function () {
+            if (this.checked) {
+                tableDataWarga.classList.add('hidden');
+                tableDataKeluarga.classList.remove('hidden')
+            }
+        });
+
+        dataWargaRadio.addEventListener('change', function() {
+            if (this.checked) {
+                tableDataKeluarga.classList.add('hidden');
+                tableDataWarga.classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('rt_id').addEventListener('change', function() {
+            filterAndSearchTable();
+        });
+
+        document.getElementById('searchData').addEventListener('input', function() {
+            filterAndSearchTable();
+        });
+
+        function filterAndSearchTable() {
+            var selectedRT = document.getElementById('rt_id').value;
+            var search = document.getElementById('searchData').value.toLowerCase();
+
+            var keluargaRows = document.querySelectorAll('#tableDataKeluarga tbody tr');
+            keluargaRows.forEach(function(row) {
+                var rtValue = row.querySelector('#rt').textContent.trim();
+                var noKKValue = row.querySelector('#no_kk').textContent.trim().toLowerCase();
+                var namaKepalaValue = row.querySelector('#nama_kepala').textContent.trim().toLowerCase();
+
+                if ((rtValue === selectedRT || selectedRT === "") && 
+                    (noKKValue.includes(search) || namaKepalaValue.includes(search) || search === "")) {
+                    row.classList.remove('hidden');
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+
+            var wargaRows = document.querySelectorAll('#tableDataWarga tbody tr');
+            wargaRows.forEach(function(row) {
+                var rtValue = row.querySelector('#rt').textContent.trim();
+                var nikValue = row.querySelector('#nik').textContent.trim().toLowerCase();
+                var namaWargaValue = row.querySelector('#nama_warga').textContent.trim().toLowerCase();
+
+                if ((rtValue === selectedRT || selectedRT === "") && 
+                    (nikValue.includes(search) || namaWargaValue.includes(search) || search === "")) {
+                    row.classList.remove('hidden');
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+        }
+
+        filterAndSearchTable();
+
+
+        // function filterTable() {
+        //     var selectedRT = document.getElementById('rt_id').value;
+
+        //     var keluargaRows = document.querySelectorAll('#tableDataKeluarga tbody tr');
+        //     keluargaRows.forEach(function(row) {
+        //         var rtValue = row.querySelector('#rt').textContent.trim();
+
+        //         if (rtValue === selectedRT) {
+        //             row.classList.remove('hidden')
+        //         } else {
+        //             row.classList.add('hidden');
+        //         }
+        //     });
+
+        //     var wargaRows = document.querySelectorAll('#tableDataWarga tbody tr');
+        //     wargaRows.forEach(function(row) {
+        //         var rtValue = row.querySelector('#rt').textContent.trim();
+
+        //         if (rtValue === selectedRT) {
+        //             row.classList.remove('hidden')
+        //         } else {
+        //             row.classList.add('hidden');
+        //         }
+        //     });
+        // }
+
+        // function searchTable() {
+        //     var search = document.getElementById('searchData').value;
+            
+        //     var keluargaRows = document.querySelectorAll('#tableDataKeluarga tbody tr');
+        //     keluargaRows.forEach(function(row) {
+        //         var noKKValue = row.querySelector('#no_kk').textContent.trim();
+        //         var namaKepalaValue = row.querySelector('#nama_kepala').textContent.trim();
+
+        //         if (noKKValue.includes(search) || namaKepalaValue.includes(search)) {
+        //             row.classList.remove('hidden')
+        //         } else {
+        //             row.classList.add('hidden');
+        //         }
+        //     });
+
+        //     var wargaRows = document.querySelectorAll('#tableDataWarga tbody tr');
+        //     wargaRows.forEach(function(row) {
+        //         var nikValue = row.querySelector('#nik').textContent.trim();
+        //         var namaWargaValue = row.querySelector('#nama_warga').textContent.trim();
+
+        //         if (nikValue.includes(search) || namaWargaValue.includes(search)) {
+        //             row.classList.remove('hidden')
+        //         } else {
+        //             row.classList.add('hidden');
+        //         }
+        //     });
+        // }
+
+    </script>
 @endsection

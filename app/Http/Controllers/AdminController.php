@@ -12,7 +12,7 @@ class AdminController extends Controller
         $user = Auth::user();
 
         if ($user) {
-            return view('penduduk.index', ['active' => 'penduduk']);
+            return redirect()->route('penduduk');
         }
 
         return view('login');
