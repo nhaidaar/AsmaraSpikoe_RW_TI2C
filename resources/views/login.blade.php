@@ -43,7 +43,7 @@
             <div class="flex flex-col gap-3">
                 <label for="password">Kata Sandi</label>
                 <input type="password" name="password" id="password" placeholder="Masukkan kata sandi" value="{{ old('password') }}">
-                <a href="" class="text-right md:text-lg">Lupa password?</a>
+                {{-- <a href="" class="text-right md:text-lg">Lupa password?</a> --}}
             </div>
             <div class="flex justify-end">
                 <button type="submit" class="buttonDark">Masuk</button>

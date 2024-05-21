@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BansosController;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\PendudukController;
@@ -20,11 +21,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [InformasiController::class, 'index'])->name('index');
+Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::group(['prefix' => 'informasi'], function () {
     Route::get('/', [InformasiController::class, 'index'])->name('informasi');
-    Route::get('/{id}', [InformasiController::class, 'detail'])->name('detailInformasi');
+    Route::get('/{id}', [InformasiController::class, 'detail'])->name('detailPengumuman');
+    Route::group(['prefix' => 'create'], function () {
+        Route::get('/', [InformasiController::class, 'index']);
+        Route::get('/pengumuman', [InformasiController::class, 'create_pengumuman'])->name('createPengumuman');
+        Route::post('/pengumuman', [InformasiController::class, 'store_pengumuman'])->name('storePengumuman');
+        Route::get('/kegiatan', [InformasiController::class, 'create_kegiatan'])->name('createKegiatan');
+        Route::post('/kegiatan', [InformasiController::class, 'store_kegiatan'])->name('storeKegiatan');
+    });
+    Route::get('/pengumuman/{id}', [InformasiController::class, 'edit_pengumuman'])->name('editPengumuman');
+    Route::put('/pengumuman/{id}', [InformasiController::class, 'update_pengumuman'])->name('updatePengumuman');
 });
 
 Route::group(['prefix' => 'bansos'], function () {
