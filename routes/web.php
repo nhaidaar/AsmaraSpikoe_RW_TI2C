@@ -35,6 +35,8 @@ Route::group(['prefix' => 'informasi'], function () {
     });
     Route::get('/pengumuman/{id}', [InformasiController::class, 'edit_pengumuman'])->name('editPengumuman');
     Route::put('/pengumuman/{id}', [InformasiController::class, 'update_pengumuman'])->name('updatePengumuman');
+    Route::get('/kegiatan/{id}', [InformasiController::class, 'edit_kegiatan'])->name('editKegiatan');
+    Route::put('/kegiatan/{id}', [InformasiController::class, 'update_kegiatan'])->name('updateKegiatan');
 });
 
 Route::group(['prefix' => 'bansos'], function () {

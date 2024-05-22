@@ -60,17 +60,17 @@
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label for="judul">Judul</label>
+                            <label for="judul">Judul <span class="text-Error-Base">*</span></label>
                             <input type="text" name="judul" id="judul" placeholder="Masukkan judul" value="{{ old('judul') }}">
                         </div>
 
                         <div class="flex flex-col gap-2">
                             <label for="deskripsi">Deskripsi</label>
-                            <textarea name="deskripsi" id="deskripsi" placeholder="Masukkan deskripsi" value="{{ old('deskripsi') }}"></textarea>
+                            <textarea type="text" name="deskripsi" id="deskripsi" placeholder="Masukkan deskripsi"></textarea>
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label for="tanggal">Tanggal</label>
+                            <label for="tanggal">Tanggal <span class="text-Error-Base">*</span></label>
                             <div class="flex flex-col md:flex-row gap-2">
                                 <select name="tanggal" id="tanggal">
                                     <option value="" class=" text-Neutral-40" disabled selected>Tanggal</option>
@@ -103,15 +103,15 @@
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label for="waktu">Waktu</label>
+                            <label for="waktu">Waktu <span class="text-Error-Base">*</span></label>
                             <div class="flex flex-row gap-4 items-center font-medium">
-                                <div class="flex flex-row gap-1 items-end">
+                                <div class="flex flex-row gap-1 items-center">
                                     <select name="jam" id="jam">
                                         @for ($i = 0; $i <= 23; $i++)
                                         <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}" class=" text-Neutral-40" >{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</option>
                                         @endfor
                                     </select>
-                                    .
+                                    <p>.</p>
                                     <select name="menit" id="menit">
                                         @for ($i = 0; $i <= 59; $i++)
                                         <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}" class=" text-Neutral-40" >{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</option>
@@ -123,14 +123,14 @@
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label for="tempat">Tempat</label>
+                            <label for="tempat">Tempat <span class="text-Error-Base">*</span></label>
                             <input type="text" name="tempat" id="tempat" placeholder="Masukkan tempat" value="{{ old('tempat') }}">
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row gap-2 md:justify-end">
-                    <a href="{{ route('informasi') }}" class="buttonLight">Batal</a>
-                    <button type="submit" class="buttonDark">Tambahkan</button>
+                    <a href="{{ route('informasi') }}" class="buttonLight md:w-min">Batal</a>
+                    <button type="submit" class="buttonDark md:w-min">Tambahkan</button>
                 </div>
             </form>
         </section>

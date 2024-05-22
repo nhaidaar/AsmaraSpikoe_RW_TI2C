@@ -13,9 +13,6 @@
         <section class="outerCard bg-Neutral-0">
             <div class="px-2 sm:px-20 md:px-40 lg:px-80 flex flex-col gap-6">
                 <img src="{{ asset('img/pengumuman/' . $pengumuman->pengumuman_id . '.png') }}" alt="Pengumuman" class="h-80 w-full flex self-center rounded-lg object-cover">
-                @if ($user)
-                    <a href="{{ route('editPengumuman', $pengumuman->pengumuman_id) }}" class="buttonDark">Edit</a>
-                @endif
                 <div class="flex flex-col gap-6">
                     <h3 class="text-2xl font-medium text-Neutral-Base">{{ $pengumuman->pengumuman_nama }}</h3>
                     <div class="border-b-2"></div>

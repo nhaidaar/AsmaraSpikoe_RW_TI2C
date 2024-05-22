@@ -23,13 +23,20 @@ $user = Auth::user();
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 justify-between gap-3">
             @foreach ($pengumuman as $item)
-                <a class="innerCard" href="{{ route('detailPengumuman', $item->pengumuman_id) }}">
-                    <img src="{{ asset('img/pengumuman/' . $item->pengumuman_id . '.png') }}" alt="Pengumuman" class="h-56 w-full flex self-center rounded-xl object-cover">
-                    <div class="p-1 flex flex-col gap-1">
-                        <p class="title">{{ $item->pengumuman_nama }}</p>
-                        <p class="subtitle text-Neutral-40">{{ $item->pengumuman_lokasi }} - {{ Carbon::parse($item->tanggal_waktu)->translatedFormat('j F \j\a\m H:i') }}</p>
-                    </div>
-                </a>
+                <div class="innerCard">
+                    <a href="{{ route('detailPengumuman', $item->pengumuman_id) }}" class="flex flex-col gap-3">
+                        <img src="{{ asset('img/pengumuman/' . $item->pengumuman_id . '.png') }}" alt="Pengumuman" class="h-56 w-full flex self-center rounded-xl object-cover">
+                        <div class="p-1 flex flex-col gap-1">
+                            <p class="title">{{ $item->pengumuman_nama }}</p>
+                            <p class="subtitle text-Neutral-40">{{ $item->pengumuman_lokasi }} - {{ Carbon::parse($item->tanggal_waktu)->translatedFormat('j F \j\a\m H:i') }}</p>
+                        </div>
+                    </a>
+                    @if ($user)    
+                        <div class="flex">
+                            <a href="{{ route('editPengumuman', $item->pengumuman_id) }}" class="font-medium px-4 py-2 border border-solid rounded-md bg-Neutral-0 border-Neutral-20 text-nowrap text-center w-full">Edit</a>
+                        </div>
+                    @endif
+                </div>
             @endforeach
         </div>
     </section>
@@ -69,7 +76,7 @@ $user = Auth::user();
                             <td>{{ Carbon::parse($item->tanggal_waktu)->format('H:i') }} WIB</td>
                             <td>{{ $item->kegiatan_lokasi }}</td>
                             @if ($user)
-                                <td class="max-w-20"><a href="#" class="buttonLight">Edit</a></td>
+                                <td class="max-w-20"><a href="{{ route('editKegiatan', $item->kegiatan_id) }}" class="buttonLight md:w-min">Edit</a></td>
                             @endif
                         </tr>
                         @endforeach
