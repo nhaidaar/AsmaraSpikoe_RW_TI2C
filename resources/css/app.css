@@ -68,11 +68,11 @@
 }
 
 .buttonDark {
-    @apply font-medium px-4 py-2 rounded-lg bg-Primary-Base text-Neutral-0 text-nowrap text-center w-full md:w-min;
+    @apply font-medium px-4 py-2 rounded-lg bg-Primary-Base text-Neutral-0 text-nowrap text-center w-full;
 }
 
 .buttonLight {
-    @apply font-medium px-4 py-2 border border-solid rounded-md border-Neutral-20 text-nowrap text-center w-full md:w-min;
+    @apply font-medium px-4 py-2 border border-solid rounded-md border-Neutral-20 text-nowrap text-center w-full;
 }
 
 label {

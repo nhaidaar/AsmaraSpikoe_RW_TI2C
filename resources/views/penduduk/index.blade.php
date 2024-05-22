@@ -157,8 +157,8 @@
                             <td>{{ $item->jenis_kelamin }}</td>
                             <td>{{ $item->alamat_domisili }}</td>
                             <td>
-                                <a href="#" class="buttonLight">Edit</a>
-                                <a href="#" class="buttonDark">Detail</a>
+                                <a href="#" class="buttonLight md:w-min">Edit</a>
+                                <a href="#" class="buttonDark md:w-min">Detail</a>
                             </td>
                         </tr>
                         @endforeach

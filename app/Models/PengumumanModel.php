@@ -15,6 +15,7 @@ class PengumumanModel extends Model
     protected $fillable = [
         'pengumuman_nama',
         'pengumuman_lokasi',
+        'pengumuman_detail',
         'tanggal_waktu',
         'user_id'
     ];

@@ -89,8 +89,8 @@
                     </div>
                 </div>
                 <div class="flex gap-2 md:justify-end">
-                    <button type="submit" class="buttonDark">Ajukan Surat</button>
-                    {{-- <button type="submit" class="buttonDark">Cek Data</button> --}}
+                    <button type="submit" class="buttonDark md:w-min">Ajukan Surat</button>
+                    {{-- <button type="submit" class="buttonDark md:w-min">Cek Data</button> --}}
                 </div>
             </form>
         </section>

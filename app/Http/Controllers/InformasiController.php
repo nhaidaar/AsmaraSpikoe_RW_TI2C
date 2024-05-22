@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
 class InformasiController extends Controller
 {
@@ -57,7 +56,6 @@ class InformasiController extends Controller
 
         $request->validate([
             'judul' => 'required',
-            'deskripsi' => 'required',
             'tanggal' => 'required',
             'bulan' => 'required',
             'tahun' => 'required',
@@ -66,7 +64,6 @@ class InformasiController extends Controller
             'tempat' => 'required'
         ], [
             'judul.required' => 'Format judul tidak sesuai',
-            'deskripsi.required' => 'Format deskripsi tidak sesuai',
             'tanggal.required' => 'Format tanggal tidak sesuai',
             'bulan.required' => 'Format tanggal tidak sesuai',
             'tahun.required' => 'Format tanggal tidak sesuai',
@@ -139,7 +136,6 @@ class InformasiController extends Controller
 
         $request->validate([
             'judul' => 'required',
-            'deskripsi' => 'required',
             'tanggal' => 'required',
             'bulan' => 'required',
             'tahun' => 'required',
@@ -148,7 +144,6 @@ class InformasiController extends Controller
             'tempat' => 'required'
         ], [
             'judul.required' => 'Format judul tidak sesuai',
-            'deskripsi.required' => 'Format deskripsi tidak sesuai',
             'tanggal.required' => 'Format tanggal tidak sesuai',
             'bulan.required' => 'Format tanggal tidak sesuai',
             'tahun.required' => 'Format tanggal tidak sesuai',
@@ -234,6 +229,71 @@ class InformasiController extends Controller
 
         try {
             KegiatanModel::create([
+                'kegiatan_nama' => $request->nama,
+                'kegiatan_lokasi' => $request->tempat,
+                'tanggal_waktu' => $tanggal . ' ' . $waktu,
+                'user_id' => $user->user_id
+            ]);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return back()->withErrors('Gagal membuat informasi kegiatan, coba lagi');
+        }
+
+        return redirect()->route('informasi');
+    }
+
+    public function edit_kegiatan($id)
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('informasi');
+        }
+
+        $kegiatan = KegiatanModel::find($id);
+
+        return view('informasi.edit_kegiatan', [
+            'active' => $this->active,
+            'kegiatan' => $kegiatan
+        ]);
+    }
+
+    public function update_kegiatan(Request $request, string $id)
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('index');
+        }
+
+        $request->validate([
+            'nama' => 'required',
+            'tanggal' => 'required',
+            'bulan' => 'required',
+            'tahun' => 'required',
+            'jam' => 'required',
+            'menit' => 'required',
+            'tempat' => 'required'
+        ], [
+            'nama.required' => 'Format nama tidak sesuai',
+            'tanggal.required' => 'Format tanggal tidak sesuai',
+            'bulan.required' => 'Format tanggal tidak sesuai',
+            'tahun.required' => 'Format tanggal tidak sesuai',
+            'jam.required' => 'Format waktu tidak sesuai',
+            'menit.required' => 'Format waktu tidak sesuai',
+            'tempat.required' => 'Format tempat tidak sesuai'
+        ]);
+
+        $tanggal = $request->tahun . '-' . str_pad($request->bulan, 2, '0', STR_PAD_LEFT) . '-' . str_pad($request->tanggal, 2, '0', STR_PAD_LEFT);
+        $waktu = $request->jam . ':' . $request->menit . ':00';
+
+        DB::beginTransaction();
+
+        try {
+            KegiatanModel::find($id)->update([
                 'kegiatan_nama' => $request->nama,
                 'kegiatan_lokasi' => $request->tempat,
                 'tanggal_waktu' => $tanggal . ' ' . $waktu,
