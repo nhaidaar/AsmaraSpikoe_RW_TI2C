@@ -21,17 +21,11 @@ class PendudukController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
-
-        // If user not authenticated
-        if (!$user) {
-            return redirect()->route('index');
-        }
-
         // Default rt is 1
         $rt = 1;
 
         // If user not ketua rw, choose their rt
+        $user = Auth::user();
         if ($user->level != 'rw') {
             $rt = RTModel::whereHas('kartuKeluarga.detailKK.anggotaKeluarga', function ($q) use ($user) {
                 $q->where('warga_id', $user->warga_id);
@@ -67,17 +61,11 @@ class PendudukController extends Controller
 
     public function create_keluarga()
     {
-        $user = Auth::user();
-
-        // If user not authenticated
-        if (!$user) {
-            return redirect()->route('index');
-        }
-
         // Default rt is 1
         $rt = 1;
 
         // If user not ketua rw, choose their rt
+        $user = Auth::user();
         if ($user->level != 'rw') {
             $rt = RTModel::whereHas('kartuKeluarga.detailKK.anggotaKeluarga', function ($q) use ($user) {
                 $q->where('warga_id', $user->warga_id);
@@ -98,13 +86,6 @@ class PendudukController extends Controller
 
     public function store_keluarga(Request $request)
     {
-        $user = Auth::user();
-
-        // If user not authenticated
-        if (!$user) {
-            return redirect()->route('index');
-        }
-
         // Validate KK
         if ($response = $this->validateKK($request)) {
             return $response;
