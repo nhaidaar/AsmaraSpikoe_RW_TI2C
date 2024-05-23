@@ -68,6 +68,11 @@ Route::group(['prefix' => 'penduduk', 'middleware' => 'admin'], function () {
         Route::get('/create', [PendudukController::class, 'create_keluarga'])->name('createKeluarga');
         Route::post('/create', [PendudukController::class, 'store_keluarga'])->name('storeKeluarga');
     });
+    Route::group(['prefix' => 'warga'], function () {
+        Route::get('/', [PendudukController::class, 'index']);
+        Route::get('/create', [PendudukController::class, 'create_warga'])->name('createWarga');
+        Route::post('/create', [PendudukController::class, 'store_warga'])->name('storeWarga');
+    });
 });
 
 Route::group(['prefix' => 'keuangan'], function () {

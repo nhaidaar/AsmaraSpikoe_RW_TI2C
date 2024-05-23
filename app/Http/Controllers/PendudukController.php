@@ -8,6 +8,7 @@ use App\Models\KKModel;
 use App\Models\PekerjaanModel;
 use App\Models\PenerimaBansosModel;
 use App\Models\RTModel;
+use App\Models\StatusHubunganModel;
 use App\Models\WargaModel;
 use App\Traits\ValidationTrait;
 use Illuminate\Http\Request;
@@ -77,7 +78,7 @@ class PendudukController extends Controller
         // Get all pekerjaan
         $pekerjaan = PekerjaanModel::all();
 
-        return view('penduduk.create', [
+        return view('penduduk.create_keluarga', [
             'active' => 'penduduk',
             'rt' => $rt,
             'pekerjaan' => $pekerjaan
@@ -91,7 +92,7 @@ class PendudukController extends Controller
             return $response;
         }
         // Validate Kepala Keluarga
-        if ($response = $this->validateWarga($request)) {
+        if ($response = $this->validateKepalaKeluarga($request)) {
             return $response;
         }
         // Validate Detail Tambahan
@@ -152,6 +153,92 @@ class PendudukController extends Controller
             DB::rollBack();
 
             return back()->withErrors('Gagal menambahkan KK, coba lagi')->withInput();
+        }
+
+        return redirect()->route('penduduk');
+    }
+
+    public function create_warga()
+    {
+        // Default rt is 1
+        $rt = 1;
+
+        // If user not ketua rw, choose their rt
+        $user = Auth::user();
+        if ($user->level != 'rw') {
+            $rt = RTModel::whereHas('kartuKeluarga.detailKK.anggotaKeluarga', function ($q) use ($user) {
+                $q->where('warga_id', $user->warga_id);
+            })
+                ->pluck('rt_id')
+                ->first();
+        }
+
+        // Get all pekerjaan
+        $pekerjaan = PekerjaanModel::all();
+
+        // Get all status hubungan keluarga
+        $hubungan = StatusHubunganModel::all();
+
+        return view('penduduk.create_warga', [
+            'active' => 'penduduk',
+            'rt' => $rt,
+            'pekerjaan' => $pekerjaan,
+            'hubungan' => $hubungan
+        ]);
+    }
+
+    public function store_warga(Request $request)
+    {
+        // Validate Request
+        if ($response = $this->validateWarga($request)) {
+            return $response;
+        }
+
+        $kk = KKModel::where('no_kk', $request->no_kk)->first();
+
+        if (!$kk) {
+            return back()->withErrors('Nomor KK tidak ditemukan')->withInput();
+        }
+
+        $tanggal_lahir = $request->tahun . '-' . str_pad($request->bulan, 2, '0', STR_PAD_LEFT) . '-' . str_pad($request->tanggal, 2, '0', STR_PAD_LEFT);
+
+        DB::beginTransaction();
+
+        try {
+            $warga = WargaModel::create([
+                'nik' => $request->nik,
+                'nama_warga' => $request->nama,
+                'tempat_lahir' => $request->tempat_lahir,
+                'tanggal_lahir' => $tanggal_lahir,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'alamat_ktp' => $request->alamat_ktp,
+                'alamat_domisili' => $request->alamat_domisili,
+                'agama' => $request->agama,
+                'status_perkawinan' => $request->status_perkawinan,
+                'pekerjaan' => $request->pekerjaan,
+            ]);
+
+            $namaKTP = $request->nik . '.png';
+            $request->imageKTP->move('ktp/', $namaKTP);
+
+            DetailKKModel::create([
+                'kk_id' => $kk->getKey(),
+                'warga_id' => $warga->getKey(),
+                'hubungan_id' => $request->hubungan,
+            ]);
+
+            DetailWargaModel::create([
+                'warga_id' => $warga->getKey(),
+                'pendapatan' => $request->pendapatan,
+                'bpjs' => $request->bpjs,
+                'jumlah_kendaraan' => $request->jumlah_kendaraan
+            ]);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return back()->withErrors('Gagal menambahkan Data Warga, coba lagi.' . $e)->withInput();
         }
 
         return redirect()->route('penduduk');

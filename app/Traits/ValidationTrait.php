@@ -44,7 +44,7 @@ trait ValidationTrait
         }
     }
 
-    public function validateWarga($request)
+    public function validateKepalaKeluarga($request)
     {
         $rules = [
             'imageKTP' => 'required',
@@ -112,6 +112,57 @@ trait ValidationTrait
             'tagihan_listrik.required' => 'Mohon mengisi seluruh detail tambahan',
             'tagihan_air.required' => 'Mohon mengisi seluruh detail tambahan',
             'tanggungan_pendidikan.required' => 'Mohon mengisi seluruh detail tambahan',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+    }
+
+    public function validateWarga($request)
+    {
+        $rules = [
+            'imageKTP' => 'required',
+            'nama' => 'required',
+            'nik' => 'required|min:16',
+            'hubungan' => 'required',
+            'tempat_lahir' => 'required|',
+            'tanggal' => 'required',
+            'bulan' => 'required',
+            'tahun' => 'required',
+            'jenis_kelamin' => 'required',
+            'alamat_ktp' => 'required',
+            'alamat_domisili' => 'required',
+            'agama' => 'required',
+            'status_perkawinan' => 'required',
+            'pekerjaan' => 'required',
+            'pendapatan' => 'required',
+            'jumlah_kendaraan' => 'required',
+            'bpjs' => 'required',
+        ];
+
+        $messages = [
+            'imageKTP.required' => 'Mohon melampirkan foto KTP',
+            'nama.required' => 'Mohon mengisi seluruh data kependudukan',
+            'nik.required' => 'Format NIK tidak sesuai',
+            'nik.min' => 'Format NIK tidak sesuai',
+            'hubungan.required' => 'Mohon mengisi seluruh data kependudukan',
+            'tempat_lahir.required' => 'Mohon mengisi seluruh data kependudukan',
+            'tanggal.required' => 'Format tanggal lahir tidak sesuai',
+            'bulan.required' => 'Format tanggal lahir tidak sesuai',
+            'tahun.required' => 'Format tanggal lahir tidak sesuai',
+            'jenis_kelamin.required' => 'Mohon mengisi seluruh data kependudukan',
+            'alamat_ktp.required' => 'Mohon mengisi seluruh data kependudukan',
+            'alamat_domisili.required' => 'Mohon mengisi seluruh data kependudukan',
+            'rt_id.required' => 'Mohon mengisi seluruh data kependudukan',
+            'agama.required' => 'Mohon mengisi seluruh data kependudukan',
+            'status_perkawinan.required' => 'Mohon mengisi seluruh data kependudukan',
+            'pekerjaan.required' => 'Mohon mengisi seluruh data kependudukan',
+            'pendapatan.required' => 'Mohon mengisi seluruh detail tambahan',
+            'jumlah_kendaraan.required' => 'Mohon mengisi seluruh detail tambahan',
+            'bpjs.required' => 'Mohon mengisi seluruh detail tambahan'
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
