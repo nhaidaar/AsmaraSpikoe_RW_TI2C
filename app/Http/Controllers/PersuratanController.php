@@ -59,7 +59,7 @@ class PersuratanController extends Controller
             ]);
         }
 
-        $validationError = $this->validateWarga($request->nik, $request->all());
+        $validationError = $this->matchNIKwithBirth($request->nik, $request->all());
 
         if ($validationError) {
             return back()->withErrors($validationError);

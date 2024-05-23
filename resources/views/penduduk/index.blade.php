@@ -102,7 +102,13 @@
                             <input type="search" name="searchData" id="searchData" placeholder="Cari data..." class="pl-12 pr-4 py-2 border rounded-md">
                         </div>
 
-                        <a href="#" class="flex items-center justify-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap">
+                        <a href="{{ route('createKeluarga') }}" id="tambahKeluarga" class="flex items-center justify-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 6V18M18 12H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Tambah Keluarga
+                        </a>
+                        <a href="{{ route('createWarga') }}" id="tambahPenduduk" class="hidden items-center justify-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap">
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 6V18M18 12H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -173,11 +179,18 @@
         const dataWargaRadio = document.getElementById('dataWarga');
         const tableDataKeluarga = document.getElementById('tableDataKeluarga');
         const tableDataWarga = document.getElementById('tableDataWarga');
+        const tambahKeluarga = document.getElementById('tambahKeluarga');
+        const tambahPenduduk = document.getElementById('tambahPenduduk');
 
         dataKeluargaRadio.addEventListener('change', function () {
             if (this.checked) {
                 tableDataWarga.classList.add('hidden');
-                tableDataKeluarga.classList.remove('hidden')
+                tableDataKeluarga.classList.remove('hidden');
+                
+                tambahKeluarga.classList.add('flex');
+                tambahKeluarga.classList.remove('hidden');
+                tambahPenduduk.classList.add('hidden');
+                tambahPenduduk.classList.remove('flex');
             }
         });
 
@@ -185,6 +198,11 @@
             if (this.checked) {
                 tableDataKeluarga.classList.add('hidden');
                 tableDataWarga.classList.remove('hidden');
+
+                tambahPenduduk.classList.add('flex');
+                tambahPenduduk.classList.remove('hidden');
+                tambahKeluarga.classList.add('hidden');
+                tambahKeluarga.classList.remove('flex');
             }
         });
 
@@ -230,61 +248,5 @@
         }
 
         filterAndSearchTable();
-
-
-        // function filterTable() {
-        //     var selectedRT = document.getElementById('rt_id').value;
-
-        //     var keluargaRows = document.querySelectorAll('#tableDataKeluarga tbody tr');
-        //     keluargaRows.forEach(function(row) {
-        //         var rtValue = row.querySelector('#rt').textContent.trim();
-
-        //         if (rtValue === selectedRT) {
-        //             row.classList.remove('hidden')
-        //         } else {
-        //             row.classList.add('hidden');
-        //         }
-        //     });
-
-        //     var wargaRows = document.querySelectorAll('#tableDataWarga tbody tr');
-        //     wargaRows.forEach(function(row) {
-        //         var rtValue = row.querySelector('#rt').textContent.trim();
-
-        //         if (rtValue === selectedRT) {
-        //             row.classList.remove('hidden')
-        //         } else {
-        //             row.classList.add('hidden');
-        //         }
-        //     });
-        // }
-
-        // function searchTable() {
-        //     var search = document.getElementById('searchData').value;
-            
-        //     var keluargaRows = document.querySelectorAll('#tableDataKeluarga tbody tr');
-        //     keluargaRows.forEach(function(row) {
-        //         var noKKValue = row.querySelector('#no_kk').textContent.trim();
-        //         var namaKepalaValue = row.querySelector('#nama_kepala').textContent.trim();
-
-        //         if (noKKValue.includes(search) || namaKepalaValue.includes(search)) {
-        //             row.classList.remove('hidden')
-        //         } else {
-        //             row.classList.add('hidden');
-        //         }
-        //     });
-
-        //     var wargaRows = document.querySelectorAll('#tableDataWarga tbody tr');
-        //     wargaRows.forEach(function(row) {
-        //         var nikValue = row.querySelector('#nik').textContent.trim();
-        //         var namaWargaValue = row.querySelector('#nama_warga').textContent.trim();
-
-        //         if (nikValue.includes(search) || namaWargaValue.includes(search)) {
-        //             row.classList.remove('hidden')
-        //         } else {
-        //             row.classList.add('hidden');
-        //         }
-        //     });
-        // }
-
     </script>
 @endsection

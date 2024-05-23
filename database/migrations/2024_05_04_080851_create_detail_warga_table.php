@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id('detail_warga_id');
             $table->unsignedBigInteger('warga_id')->index();
             $table->double('pendapatan');
-            $table->double('luas_rumah');
-            $table->unsignedInteger('jumlah_tanggungan');
-            $table->double('tanggungan_pendidikan');
-            $table->double('pbb');
-            $table->double('tagihan_listrik');
-            $table->double('tagihan_air');
+            $table->double('luas_rumah')->nullable();
+            $table->unsignedInteger('jumlah_tanggungan')->nullable();
+            $table->double('tanggungan_pendidikan')->nullable();
+            $table->double('pbb')->nullable();
+            $table->double('tagihan_listrik')->nullable();
+            $table->double('tagihan_air')->nullable();
             $table->unsignedInteger('jumlah_kendaraan');
             $table->enum('bpjs', [
                 'Kelas 1',

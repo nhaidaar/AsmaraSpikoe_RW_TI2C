@@ -80,7 +80,7 @@ label {
 }
 
 input, select {
-    @apply px-4 py-2 w-full rounded-lg border border-Neutral-10;
+    @apply px-4 py-2 w-full rounded-lg border bg-Neutral-0 border-Neutral-20 disabled:bg-Neutral-20;
 }
 
 textarea {

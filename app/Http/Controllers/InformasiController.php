@@ -29,6 +29,10 @@ class InformasiController extends Controller
     {
         $pengumuman = PengumumanModel::find($id);
 
+        if (!$pengumuman) {
+            return redirect()->route('informasi');
+        }
+
         return view('informasi.detail', [
             'active' => $this->active,
             'pengumuman' => $pengumuman
@@ -37,23 +41,11 @@ class InformasiController extends Controller
 
     public function create_pengumuman()
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            return redirect()->route('informasi');
-        }
-
         return view('informasi.create_pengumuman', ['active' => $this->active]);
     }
 
     public function store_pengumuman(Request $request)
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            return redirect()->route('index');
-        }
-
         $request->validate([
             'judul' => 'required',
             'tanggal' => 'required',
@@ -72,6 +64,7 @@ class InformasiController extends Controller
             'tempat.required' => 'Format tempat tidak sesuai'
         ]);
 
+        $user = Auth::user();
         $tanggal = $request->tahun . '-' . str_pad($request->bulan, 2, '0', STR_PAD_LEFT) . '-' . str_pad($request->tanggal, 2, '0', STR_PAD_LEFT);
         $waktu = $request->jam . ':' . $request->menit . ':00';
 
@@ -87,17 +80,13 @@ class InformasiController extends Controller
             ]);
 
             if ($request->image != null) {
-                // Get file extension
-                $extFile = $request->image->extension();
-                // Add to image name
-                $nama = $pengumuman->getKey() . ".$extFile";
-                // Move image to folder
+                $nama = $pengumuman->getKey() . ".png";
                 $request->image->move('img/pengumuman', $nama);
             } else {
                 // Select random image from template
-                $nama = random_int(1, 4) . ".png";
+                $randomImage = random_int(1, 4) . ".png";
                 // Copy and rename to pengumuman id
-                File::copy(public_path('img/pengumuman/' . $nama), public_path('img/pengumuman/' . $pengumuman->getKey() . '.png'));
+                File::copy(public_path('img/pengumuman/' . $randomImage), public_path('img/pengumuman/' . $pengumuman->getKey() . '.png'));
             }
 
             DB::commit();
@@ -112,12 +101,6 @@ class InformasiController extends Controller
 
     public function edit_pengumuman($id)
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            return redirect()->route('informasi');
-        }
-
         $pengumuman = PengumumanModel::find($id);
 
         return view('informasi.edit_pengumuman', [
@@ -128,12 +111,6 @@ class InformasiController extends Controller
 
     public function update_pengumuman(Request $request, string $id)
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            return redirect()->route('index');
-        }
-
         $request->validate([
             'judul' => 'required',
             'tanggal' => 'required',
@@ -152,6 +129,7 @@ class InformasiController extends Controller
             'tempat.required' => 'Format tempat tidak sesuai'
         ]);
 
+        $user = Auth::user();
         $tanggal = $request->tahun . '-' . str_pad($request->bulan, 2, '0', STR_PAD_LEFT) . '-' . str_pad($request->tanggal, 2, '0', STR_PAD_LEFT);
         $waktu = $request->jam . ':' . $request->menit . ':00';
 
@@ -167,11 +145,7 @@ class InformasiController extends Controller
             ]);
 
             if ($request->image != null) {
-                // Get file extension
-                $extFile = $request->image->extension();
-                // Add to image name
-                $nama = $id . ".$extFile";
-                // Move image to folder
+                $nama = $id . '.png';
                 $request->image->move('img/pengumuman', $nama);
             }
 
@@ -187,23 +161,11 @@ class InformasiController extends Controller
 
     public function create_kegiatan()
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            return redirect()->route('informasi');
-        }
-
         return view('informasi.create_kegiatan', ['active' => $this->active]);
     }
 
     public function store_kegiatan(Request $request)
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            return redirect()->route('index');
-        }
-
         $request->validate([
             'nama' => 'required',
             'tanggal' => 'required',
@@ -222,6 +184,7 @@ class InformasiController extends Controller
             'tempat.required' => 'Format tempat tidak sesuai'
         ]);
 
+        $user = Auth::user();
         $tanggal = $request->tahun . '-' . str_pad($request->bulan, 2, '0', STR_PAD_LEFT) . '-' . str_pad($request->tanggal, 2, '0', STR_PAD_LEFT);
         $waktu = $request->jam . ':' . $request->menit . ':00';
 
@@ -247,12 +210,6 @@ class InformasiController extends Controller
 
     public function edit_kegiatan($id)
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            return redirect()->route('informasi');
-        }
-
         $kegiatan = KegiatanModel::find($id);
 
         return view('informasi.edit_kegiatan', [
@@ -263,12 +220,6 @@ class InformasiController extends Controller
 
     public function update_kegiatan(Request $request, string $id)
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            return redirect()->route('index');
-        }
-
         $request->validate([
             'nama' => 'required',
             'tanggal' => 'required',
@@ -287,6 +238,7 @@ class InformasiController extends Controller
             'tempat.required' => 'Format tempat tidak sesuai'
         ]);
 
+        $user = Auth::user();
         $tanggal = $request->tahun . '-' . str_pad($request->bulan, 2, '0', STR_PAD_LEFT) . '-' . str_pad($request->tanggal, 2, '0', STR_PAD_LEFT);
         $waktu = $request->jam . ':' . $request->menit . ':00';
 

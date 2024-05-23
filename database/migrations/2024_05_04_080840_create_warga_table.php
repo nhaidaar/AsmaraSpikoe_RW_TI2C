@@ -23,9 +23,9 @@ return new class extends Migration
             $table->enum('agama', [
                 'Islam',
                 'Kristen',
-                'Khatolik',
+                'Katolik',
                 'Hindu',
-                'Budha',
+                'Buddha',
                 'Khonghucu',
                 'Lainnya'
             ]);
