@@ -29,7 +29,7 @@
             </a>
         </nav>
     </header>
-    <section id="dropdownMenu" class="hidden lg:hidden p-2 absolute translate-x-2 translate-y-2 rounded-lg flex-col gap-1 bg-Neutral-0 w-[98%] shadow-md">
+    <section id="dropdownMenu" class="hidden lg:hidden p-2 absolute translate-x-2 translate-y-1 rounded-lg flex-col gap-1 bg-Neutral-0 w-[96%] shadow-md">
         @if ($user)
             <a href="{{ route('penduduk') }}" class="{{ $active == 'penduduk' ? 'bg-Neutral-10 pointer-events-none' : ''}} p-2 rounded-md hover:bg-Neutral-10">Penduduk</a>
         @endif

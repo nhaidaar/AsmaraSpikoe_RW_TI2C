@@ -80,18 +80,18 @@
                                 </select>
                                 <select name="bulan" id="bulan">
                                     <option value="" class="text-Neutral-40" disabled selected>Bulan</option>
-                                    <option value="1" class="text-Neutral-40">Januari</option>
-                                    <option value="2" class="text-Neutral-40">Februari</option>
-                                    <option value="3" class="text-Neutral-40">Maret</option>
-                                    <option value="4" class="text-Neutral-40">April</option>
-                                    <option value="5" class="text-Neutral-40">Mei</option>
-                                    <option value="6" class="text-Neutral-40">Juni</option>
-                                    <option value="7" class="text-Neutral-40">Juli</option>
-                                    <option value="8" class="text-Neutral-40">Agustus</option>
-                                    <option value="9" class="text-Neutral-40">September</option>
-                                    <option value="10" class="text-Neutral-40">Oktober</option>
-                                    <option value="11" class="text-Neutral-40">November</option>
-                                    <option value="12" class="text-Neutral-40">Desember</option>
+                                    <option value="1">Januari</option>
+                                    <option value="2">Februari</option>
+                                    <option value="3">Maret</option>
+                                    <option value="4">April</option>
+                                    <option value="5">Mei</option>
+                                    <option value="6">Juni</option>
+                                    <option value="7">Juli</option>
+                                    <option value="8">Agustus</option>
+                                    <option value="9">September</option>
+                                    <option value="10">Oktober</option>
+                                    <option value="11">November</option>
+                                    <option value="12">Desember</option>
                                 </select>
                                 <select name="tahun" id="tahun">
                                     <option value="" class=" text-Neutral-40" disabled selected>Tahun</option>

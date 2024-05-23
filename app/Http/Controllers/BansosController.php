@@ -45,7 +45,7 @@ class BansosController extends Controller
             'tahun.required' => 'Format Tanggal Lahir tidak sesuai',
         ]);
 
-        $validationError = $this->validateWarga($request->nik, $request->all());
+        $validationError = $this->matchNIKwithBirth($request->nik, $request->all());
 
         if ($validationError) {
             return back()->withErrors($validationError);

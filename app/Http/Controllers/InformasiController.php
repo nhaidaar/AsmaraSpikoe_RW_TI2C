@@ -87,17 +87,13 @@ class InformasiController extends Controller
             ]);
 
             if ($request->image != null) {
-                // Get file extension
-                $extFile = $request->image->extension();
-                // Add to image name
-                $nama = $pengumuman->getKey() . ".$extFile";
-                // Move image to folder
+                $nama = $pengumuman->getKey() . ".png";
                 $request->image->move('img/pengumuman', $nama);
             } else {
                 // Select random image from template
-                $nama = random_int(1, 4) . ".png";
+                $randomImage = random_int(1, 4) . ".png";
                 // Copy and rename to pengumuman id
-                File::copy(public_path('img/pengumuman/' . $nama), public_path('img/pengumuman/' . $pengumuman->getKey() . '.png'));
+                File::copy(public_path('img/pengumuman/' . $randomImage), public_path('img/pengumuman/' . $pengumuman->getKey() . '.png'));
             }
 
             DB::commit();
@@ -167,11 +163,7 @@ class InformasiController extends Controller
             ]);
 
             if ($request->image != null) {
-                // Get file extension
-                $extFile = $request->image->extension();
-                // Add to image name
-                $nama = $id . ".$extFile";
-                // Move image to folder
+                $nama = $id . '.png';
                 $request->image->move('img/pengumuman', $nama);
             }
 
