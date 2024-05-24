@@ -145,21 +145,70 @@ trait ValidationTrait
 
         $messages = [
             'imageKTP.required' => 'Mohon melampirkan foto KTP',
-            'nama.required' => 'Mohon mengisi seluruh data kependudukan',
+            'nama.required' => 'Mohon mengisi nama warga',
             'nik.required' => 'Format NIK tidak sesuai',
             'nik.min' => 'Format NIK tidak sesuai',
-            'hubungan.required' => 'Mohon mengisi seluruh data kependudukan',
-            'tempat_lahir.required' => 'Mohon mengisi seluruh data kependudukan',
+            'hubungan.required' => 'Mohon mengisi status warga dalam keluarga',
+            'tempat_lahir.required' => 'Mohon mengisi tempat lahir warga',
             'tanggal.required' => 'Format tanggal lahir tidak sesuai',
             'bulan.required' => 'Format tanggal lahir tidak sesuai',
             'tahun.required' => 'Format tanggal lahir tidak sesuai',
-            'jenis_kelamin.required' => 'Mohon mengisi seluruh data kependudukan',
-            'alamat_ktp.required' => 'Mohon mengisi seluruh data kependudukan',
-            'alamat_domisili.required' => 'Mohon mengisi seluruh data kependudukan',
-            'rt_id.required' => 'Mohon mengisi seluruh data kependudukan',
-            'agama.required' => 'Mohon mengisi seluruh data kependudukan',
-            'status_perkawinan.required' => 'Mohon mengisi seluruh data kependudukan',
-            'pekerjaan.required' => 'Mohon mengisi seluruh data kependudukan',
+            'jenis_kelamin.required' => 'Mohon memilih jenis kelamin warga',
+            'alamat_ktp.required' => 'Mohon mengisi alamat KTP warga',
+            'alamat_domisili.required' => 'Mohon mengisi alamat domisili warga',
+            'agama.required' => 'Mohon memilih agama warga',
+            'status_perkawinan.required' => 'Mohon mengisi status perkawinan warga',
+            'pekerjaan.required' => 'Mohon mengisi pekerjaan warga',
+            'pendapatan.required' => 'Mohon mengisi seluruh detail tambahan',
+            'jumlah_kendaraan.required' => 'Mohon mengisi seluruh detail tambahan',
+            'bpjs.required' => 'Mohon mengisi seluruh detail tambahan'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+    }
+
+    public function validateUpdateWarga($request)
+    {
+        $rules = [
+            // 'imageKTP' => 'required',
+            'nama' => 'required',
+            'nik' => 'required|min:16',
+            'hubungan' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal' => 'required',
+            'bulan' => 'required',
+            'tahun' => 'required',
+            'jenis_kelamin' => 'required',
+            'alamat_ktp' => 'required',
+            'alamat_domisili' => 'required',
+            'agama' => 'required',
+            'status_perkawinan' => 'required',
+            'pekerjaan' => 'required',
+            'pendapatan' => 'required',
+            'jumlah_kendaraan' => 'required',
+            'bpjs' => 'required',
+        ];
+
+        $messages = [
+            // 'imageKTP.required' => 'Mohon melampirkan foto KTP',
+            'nama.required' => 'Mohon mengisi nama warga',
+            'nik.required' => 'Format NIK tidak sesuai',
+            'nik.min' => 'Format NIK tidak sesuai',
+            'hubungan.required' => 'Mohon mengisi status warga dalam keluarga',
+            'tempat_lahir.required' => 'Mohon mengisi tempat lahir warga',
+            'tanggal.required' => 'Format tanggal lahir tidak sesuai',
+            'bulan.required' => 'Format tanggal lahir tidak sesuai',
+            'tahun.required' => 'Format tanggal lahir tidak sesuai',
+            'jenis_kelamin.required' => 'Mohon memilih jenis kelamin warga',
+            'alamat_ktp.required' => 'Mohon mengisi alamat KTP warga',
+            'alamat_domisili.required' => 'Mohon mengisi alamat domisili warga',
+            'agama.required' => 'Mohon memilih agama warga',
+            'status_perkawinan.required' => 'Mohon mengisi status perkawinan warga',
+            'pekerjaan.required' => 'Mohon mengisi pekerjaan warga',
             'pendapatan.required' => 'Mohon mengisi seluruh detail tambahan',
             'jumlah_kendaraan.required' => 'Mohon mengisi seluruh detail tambahan',
             'bpjs.required' => 'Mohon mengisi seluruh detail tambahan'
