@@ -26,7 +26,7 @@ class PersuratanController extends Controller
         $user = Auth::user();
 
         if ($user) {
-            return view('layout.maintenance', [
+            return view('persuratan.persuratan_index', [ // diubah falah
                 'active' => $this->active,
             ]);
         }
