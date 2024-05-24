@@ -51,23 +51,22 @@ class BansosController extends Controller
             return back()->withErrors($validationError);
         }
 
-        $findWargaId = WargaModel::where('nik', $request->nik)
-            ->pluck('warga_id')
+        $warga = WargaModel::where('nik', $request->nik)
             ->first();
 
         $bansos = PenerimaBansosModel::with([
             'bansos', 'kriteriaPenerima.pendaftarBansos.detailWarga'
         ])->whereHas(
             'kriteriaPenerima.pendaftarBansos.detailWarga',
-            function ($query) use ($findWargaId) {
-                $query->where('warga_id', $findWargaId);
+            function ($query) use ($warga) {
+                $query->where('warga_id', $warga->warga_id);
             }
         )->get();
 
         $noTeleponRT = RTModel::whereHas(
             'kartuKeluarga.detailKK.anggotaKeluarga',
-            function ($query) use ($findWargaId) {
-                $query->where('warga_id', $findWargaId);
+            function ($query) use ($warga) {
+                $query->where('warga_id', $warga->warga_id);
             }
         )
             ->pluck('no_telepon')
@@ -75,6 +74,7 @@ class BansosController extends Controller
 
         return view('bansos.detail', [
             'active' => $this->active,
+            'warga' => $warga,
             'bansos' => $bansos,
             'admin' => $noTeleponRT,
         ]);

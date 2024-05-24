@@ -1,10 +1,14 @@
+@php
+    $userIsRT = Auth::user()->level == 'rt';
+@endphp
+
 @extends('layout.template')
 
 @section('content')
     <main class="p-2 bg-Neutral-10">
         <section class="p-4 flex flex-col gap-6 rounded-xl border border-Neutral-10 items-center bg-Neutral-0">
             <form action="{{ route('storeWarga') }}" method="post" class="lg:w-[664px] p-4 flex flex-col gap-12 rounded-xl border border-Neutral-20 fadeIn" enctype="multipart/form-data">
-                
+
                 @csrf
                 <div class="flex flex-col gap-8">
                     <div class="flex flex-col gap-2 text-center">

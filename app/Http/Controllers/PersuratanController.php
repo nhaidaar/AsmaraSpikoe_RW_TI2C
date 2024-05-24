@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KKModel;
 use App\Models\PekerjaanModel;
 use App\Models\RTModel;
 use App\Models\SuratModel;
@@ -62,15 +63,24 @@ class PersuratanController extends Controller
         $validationError = $this->matchNIKwithBirth($request->nik, $request->all());
 
         if ($validationError) {
-            return back()->withErrors($validationError);
+            return back()->withErrors($validationError)->withInput();
         }
 
         $warga = WargaModel::where('nik', $request->nik)->first();
+
+        $no_kk = KKModel::whereHas(
+            'detailKK.anggotaKeluarga',
+            function ($q) use ($warga) {
+                $q->where('warga_id', $warga->warga_id);
+            }
+        )->pluck('no_kk')
+            ->first();
+
         $pekerjaan = PekerjaanModel::find($warga->pekerjaan);
         $rt = RTModel::whereHas(
             'kartuKeluarga.detailKK.anggotaKeluarga',
-            function ($query) use ($warga) {
-                $query->where('warga_id', $warga->warga_id);
+            function ($q) use ($warga) {
+                $q->where('warga_id', $warga->warga_id);
             }
         )->first();
         $tanggal = now();
@@ -83,8 +93,8 @@ class PersuratanController extends Controller
             $countSurat = SuratModel::count();
             $surat = SuratModel::create([
                 'surat_pengaju' => $warga->warga_id,
-                'surat_jenis' => $request->jenis == 'sp' ? 'Surat Pengantar' : 'Surat Keterangan Tidak Mampu',
-                'surat_tujuan' => $request->tujuan,
+                'surat_jenis' => $request->jenis == 'sp' ? 'Surat Pengantar' : 'Surat Pernyataan Tidak Mampu',
+                'surat_tujuan' => $request->jenis == 'sp' ? $request->tujuan : 'Pengajuan Bantuan Sosial',
                 'surat_tanggal' => $tanggal
             ]);
 
@@ -104,6 +114,9 @@ class PersuratanController extends Controller
                 'created_at' => Carbon::parse($warga->created_at)->translatedFormat('j F Y'),
                 'surat_tujuan' => $request->tujuan,
                 'tanggal' => Carbon::parse($tanggal)->translatedFormat('j F Y'),
+
+                'no_kk' => $no_kk,
+                'nik' => $request->nik
             ));
 
             $namaSurat = $surat->getKey() . '.docx';
@@ -113,7 +126,7 @@ class PersuratanController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return back()->withErrors('Gagal membuat surat, coba lagi');
+            return back()->withErrors('Gagal membuat surat, coba lagi')->withInput();
         }
 
         return view('persuratan.detail', [
