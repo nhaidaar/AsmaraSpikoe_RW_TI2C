@@ -103,7 +103,6 @@ class PendudukController extends Controller
         $tanggal_lahir = $request->tahun . '-' . str_pad($request->bulan, 2, '0', STR_PAD_LEFT) . '-' . str_pad($request->tanggal, 2, '0', STR_PAD_LEFT);
 
         DB::beginTransaction();
-
         try {
             $kk = KKModel::create([
                 'no_kk' => $request->no_kk,
@@ -160,19 +159,6 @@ class PendudukController extends Controller
 
     public function create_warga()
     {
-        // Default rt is 1
-        $rt = 1;
-
-        // If user not ketua rw, choose their rt
-        $user = Auth::user();
-        if ($user->level != 'rw') {
-            $rt = RTModel::whereHas('kartuKeluarga.detailKK.anggotaKeluarga', function ($q) use ($user) {
-                $q->where('warga_id', $user->warga_id);
-            })
-                ->pluck('rt_id')
-                ->first();
-        }
-
         // Get all pekerjaan
         $pekerjaan = PekerjaanModel::all();
 
@@ -181,7 +167,6 @@ class PendudukController extends Controller
 
         return view('penduduk.create_warga', [
             'active' => 'penduduk',
-            'rt' => $rt,
             'pekerjaan' => $pekerjaan,
             'hubungan' => $hubungan
         ]);
@@ -209,7 +194,6 @@ class PendudukController extends Controller
         $tanggal_lahir = $request->tahun . '-' . str_pad($request->bulan, 2, '0', STR_PAD_LEFT) . '-' . str_pad($request->tanggal, 2, '0', STR_PAD_LEFT);
 
         DB::beginTransaction();
-
         try {
             $warga = WargaModel::create([
                 'nik' => $request->nik,
@@ -244,7 +228,98 @@ class PendudukController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return back()->withErrors('Gagal menambahkan Data Warga, coba lagi.')->withInput();
+            return back()->withErrors('Gagal menambahkan data warga, coba lagi')->withInput();
+        }
+
+        return redirect()->route('penduduk');
+    }
+
+    public function edit_warga($id)
+    {
+        // Get KK data
+        $kk = KKModel::with('detailKK')
+            ->whereHas('detailKK', function ($q) use ($id) {
+                $q->where('warga_id', $id);
+            })
+            ->first();
+
+        // Get warga data
+        $warga = WargaModel::find($id);
+
+        // Get detail warga data
+        $detailWarga = DetailWargaModel::where('warga_id', $id)->first();
+
+        // Get all pekerjaan
+        $pekerjaan = PekerjaanModel::all();
+
+        // Get all status hubungan keluarga
+        $hubungan = StatusHubunganModel::all();
+
+        return view('penduduk.edit_warga', [
+            'active' => 'penduduk',
+            'kk' => $kk,
+            'warga' => $warga,
+            'detailWarga' => $detailWarga,
+            'pekerjaan' => $pekerjaan,
+            'hubungan' => $hubungan
+        ]);
+    }
+
+    public function update_warga(Request $request, string $id)
+    {
+        // Validate Request
+        if ($response = $this->validateUpdateWarga($request)) {
+            return $response;
+        }
+
+        // Check is KK already exist
+        $kk = KKModel::where('no_kk', $request->no_kk)->first();
+        if (!$kk) {
+            return back()->withErrors('Nomor KK tidak ditemukan')->withInput();
+        }
+
+        $tanggal_lahir = $request->tahun . '-' . str_pad($request->bulan, 2, '0', STR_PAD_LEFT) . '-' . str_pad($request->tanggal, 2, '0', STR_PAD_LEFT);
+
+        DB::beginTransaction();
+        try {
+            if ($request->imageKTP != null) {
+                $namaKTP = $request->nik . '.png';
+                $request->imageKTP->move('ktp/', $namaKTP);
+            }
+
+            WargaModel::find($id)
+                ->update([
+                    'nik' => $request->nik,
+                    'nama_warga' => $request->nama,
+                    'tempat_lahir' => $request->tempat_lahir,
+                    'tanggal_lahir' => $tanggal_lahir,
+                    'jenis_kelamin' => $request->jenis_kelamin,
+                    'alamat_ktp' => $request->alamat_ktp,
+                    'alamat_domisili' => $request->alamat_domisili,
+                    'agama' => $request->agama,
+                    'status_perkawinan' => $request->status_perkawinan,
+                    'pekerjaan' => $request->pekerjaan,
+                ]);
+
+            DetailKKModel::where('warga_id', $id)
+                ->first()
+                ->update([
+                    'hubungan_id' => $request->hubungan,
+                ]);
+
+            DetailWargaModel::where('warga_id', $id)
+                ->first()
+                ->update([
+                    'pendapatan' => $request->pendapatan,
+                    'bpjs' => $request->bpjs,
+                    'jumlah_kendaraan' => $request->jumlah_kendaraan
+                ]);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return back()->withErrors('Gagal mengupdate data warga, coba lagi')->withInput();
         }
 
         return redirect()->route('penduduk');

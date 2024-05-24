@@ -137,8 +137,8 @@
                                 <td>{{ $item->where('kk_id', $item->kartukeluarga->kk_id)->count() }}</td>
                                 <td>{{ $item->anggotaKeluarga->alamat_domisili }}</td>
                                 <td>
-                                    <a href="#" class="bg-Neutral-0 text-Neutral-Base font-medium px-4 py-2.5 gap-1 border rounded-lg">Edit</a>
-                                    <a href="#" class="bg-Primary-Base text-Neutral-0 font-medium px-4 py-2.5 gap-1 rounded-lg">Detail</a>
+                                    <a href="#" class="buttonLight md:w-min">Edit</a>
+                                    <a href="#" class="buttonDark md:w-min">Detail</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -163,7 +163,7 @@
                             <td>{{ $item->jenis_kelamin }}</td>
                             <td>{{ $item->alamat_domisili }}</td>
                             <td>
-                                <a href="#" class="buttonLight md:w-min">Edit</a>
+                                <a href="{{ route('editWarga', $item->warga_id) }}" class="buttonLight md:w-min">Edit</a>
                                 <a href="#" class="buttonDark md:w-min">Detail</a>
                             </td>
                         </tr>
