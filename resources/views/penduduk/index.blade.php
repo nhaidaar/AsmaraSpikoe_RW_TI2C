@@ -106,13 +106,13 @@
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 6V18M18 12H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            Tambah Keluarga
+                            Tambah Kartu Keluarga
                         </a>
                         <a href="{{ route('createWarga') }}" id="tambahPenduduk" class="hidden items-center justify-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap">
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 6V18M18 12H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            Tambah Penduduk
+                            Tambah Data Warga
                         </a>
                     </div>
                 </div>
