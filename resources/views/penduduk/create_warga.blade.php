@@ -3,8 +3,8 @@
 @section('content')
     <main class="p-2 bg-Neutral-10">
         <section class="p-4 flex flex-col gap-6 rounded-xl border border-Neutral-10 items-center bg-Neutral-0">
-            {{-- <form action="{{ route('storeWarga') }}" method="post" class="lg:w-[664px] p-4 flex flex-col gap-12 rounded-xl border border-Neutral-20 fadeIn" enctype="multipart/form-data"> --}}
-            <form action="#" method="post" class="lg:w-[664px] p-4 flex flex-col gap-12 rounded-xl border border-Neutral-20 fadeIn" enctype="multipart/form-data">
+            <form action="{{ route('storeWarga') }}" method="post" class="lg:w-[664px] p-4 flex flex-col gap-12 rounded-xl border border-Neutral-20 fadeIn" enctype="multipart/form-data">
+                
                 @csrf
                 <div class="flex flex-col gap-8">
                     <div class="flex flex-col gap-2 text-center">
@@ -168,9 +168,9 @@
                                 <div class="grid lg:flex gap-3">
                                     <input type="text" name="alamat_domisili" id="alamat_domisili" placeholder="Masukkan alamat domisili" value="{{ old('alamat_domisili') }}">
                                     <div class="flex gap-3 lg:w-96 font-medium">
-                                        <select name="rt_id" id="rt_id" {{ Auth::user()->level != 'rw' ? 'disabled' : '' }} >
+                                        <select name="rt_id" id="rt_id">
                                             @for ($i = 1; $i <= 7; $i++)
-                                            <option value="{{$i}}" {{ $rt == $i ? 'selected' : '' }}>RT 0{{$i}}</option>
+                                            <option value="{{$i}}" {{ $rt == $i ? 'selected' : '' }} {{ $userIsRT && $rt != $i ? 'disabled' : '' }} >RT 0{{$i}}</option>
                                             @endfor
                                         </select>
                                         <select name="rw_id" id="rw_id" disabled>

@@ -194,10 +194,16 @@ class PendudukController extends Controller
             return $response;
         }
 
+        // Check is KK already exist
         $kk = KKModel::where('no_kk', $request->no_kk)->first();
-
         if (!$kk) {
             return back()->withErrors('Nomor KK tidak ditemukan')->withInput();
+        }
+
+        // Check is NIK already exist
+        $findNik = WargaModel::where('nik', $request->nik)->first();
+        if ($findNik) {
+            return back()->withErrors('NIK telah terdaftar sebelumnya')->withInput();
         }
 
         $tanggal_lahir = $request->tahun . '-' . str_pad($request->bulan, 2, '0', STR_PAD_LEFT) . '-' . str_pad($request->tanggal, 2, '0', STR_PAD_LEFT);
@@ -238,7 +244,7 @@ class PendudukController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return back()->withErrors('Gagal menambahkan Data Warga, coba lagi.' . $e)->withInput();
+            return back()->withErrors('Gagal menambahkan Data Warga, coba lagi.')->withInput();
         }
 
         return redirect()->route('penduduk');
