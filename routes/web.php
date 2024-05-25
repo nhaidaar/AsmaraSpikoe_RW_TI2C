@@ -25,19 +25,21 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::group(['prefix' => 'informasi'], function () {
     Route::get('/', [InformasiController::class, 'index'])->name('informasi');
-    Route::get('/{id}', [InformasiController::class, 'detail'])->name('detailPengumuman');
 
     Route::group(['prefix' => 'pengumuman', 'middleware' => 'admin'], function () {
         Route::get('/create', [InformasiController::class, 'create_pengumuman'])->name('createPengumuman');
         Route::post('/create', [InformasiController::class, 'store_pengumuman'])->name('storePengumuman');
-        Route::get('/{id}', [InformasiController::class, 'edit_pengumuman'])->name('editPengumuman');
-        Route::put('/{id}', [InformasiController::class, 'update_pengumuman'])->name('updatePengumuman');
+        Route::get('/detail/{id}', [InformasiController::class, 'detail'])->name('detailPengumuman');
+        Route::get('/edit/{id}', [InformasiController::class, 'edit_pengumuman'])->name('editPengumuman');
+        Route::put('/edit/{id}', [InformasiController::class, 'update_pengumuman'])->name('updatePengumuman');
+        Route::get('/delete/{id}', [InformasiController::class, 'delete_pengumuman'])->name('deletePengumuman');
     });
     Route::group(['prefix' => 'kegiatan', 'middleware' => 'admin'], function () {
         Route::get('/create', [InformasiController::class, 'create_kegiatan'])->name('createKegiatan');
         Route::post('/create', [InformasiController::class, 'store_kegiatan'])->name('storeKegiatan');
-        Route::get('/{id}', [InformasiController::class, 'edit_kegiatan'])->name('editKegiatan');
-        Route::put('/{id}', [InformasiController::class, 'update_kegiatan'])->name('updateKegiatan');
+        Route::get('/edit/{id}', [InformasiController::class, 'edit_kegiatan'])->name('editKegiatan');
+        Route::put('/edit/{id}', [InformasiController::class, 'update_kegiatan'])->name('updateKegiatan');
+        Route::get('/delete/{id}', [InformasiController::class, 'delete_kegiatan'])->name('deleteKegiatan');
     });
 });
 

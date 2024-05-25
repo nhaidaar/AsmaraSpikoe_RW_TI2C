@@ -34,7 +34,7 @@ $user = Auth::user();
                     @if ($user)    
                         <div class="flex gap-2">
                             <a href="{{ route('editPengumuman', $item->pengumuman_id) }}" class="buttonLight w-full">Edit</a>
-                            <a href="#" class="buttonLight w-fit">
+                            <a href="{{ route('deletePengumuman', $item->pengumuman_id) }}" class="buttonLight w-fit">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="#C04949" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6.176h16M10 16.765v-6.353m4 6.353v-6.353M16 21H8c-1.105 0-2-.948-2-2.118V7.235c0-.584.448-1.059 1-1.059h10c.552 0 1 .475 1 1.06v11.646c0 1.17-.895 2.118-2 2.118ZM10 6.176h4c.552 0 1-.474 1-1.058v-1.06C15 3.475 14.552 3 14 3h-4c-.552 0-1 .474-1 1.059v1.059c0 .584.448 1.058 1 1.058Z"/>
                                 </svg>                                  
@@ -83,7 +83,7 @@ $user = Auth::user();
                             @if ($user)
                                 <td class="flex gap-2 max-w-40">
                                     <a href="{{ route('editKegiatan', $item->kegiatan_id) }}" class="buttonLight w-full md:w-min">Edit</a>
-                                    <a href="#" class="buttonLight flex items-center w-fit">
+                                    <a href="{{ route('deleteKegiatan', $item->kegiatan_id) }}" class="buttonLight flex items-center w-fit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" fill="none" viewBox="0 0 18 20">
                                             <path stroke="#C04949" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M1 4.176h16M7 14.765V8.412m4 6.353V8.412M13 19H5c-1.105 0-2-.948-2-2.118V5.235c0-.584.448-1.059 1-1.059h10c.552 0 1 .475 1 1.06v11.646c0 1.17-.895 2.118-2 2.118ZM7 4.176h4c.552 0 1-.474 1-1.058v-1.06C12 1.475 11.552 1 11 1H7c-.552 0-1 .474-1 1.059v1.059c0 .584.448 1.058 1 1.058Z"/>
                                         </svg>                                                                          
