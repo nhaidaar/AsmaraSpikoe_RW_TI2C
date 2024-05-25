@@ -196,7 +196,7 @@
                                     </label>
                                     <select name="pekerjaan" id="pekerjaan">
                                         @foreach ($pekerjaan as $item)
-                                        <option value="{{ $item->pekerjaan_id }}" {{ $warga->pekerjaan == $item->pekerjaan_id ? 'selected' : '' }} >{{ $item->pekerjaan_nama }}</option>
+                                            <option value="{{ $item->pekerjaan_id }}" {{ $warga->pekerjaan == $item->pekerjaan_id ? 'selected' : '' }} >{{ $item->pekerjaan_nama }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -326,6 +326,7 @@
             ktpPreview.src = '';
 
             ktpLabel.classList.remove('hidden');
+            ktpLabel.classList.add('flex');
             ktpContainer.classList.add('hidden');
         });
     </script>

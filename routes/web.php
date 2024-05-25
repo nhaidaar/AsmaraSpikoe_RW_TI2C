@@ -69,6 +69,7 @@ Route::group(['prefix' => 'penduduk', 'middleware' => 'admin'], function () {
         Route::post('/create', [PendudukController::class, 'store_keluarga'])->name('storeKeluarga');
         Route::get('/edit/{id}', [PendudukController::class, 'edit_keluarga'])->name('editKeluarga');
         Route::put('/edit/{id}', [PendudukController::class, 'update_keluarga'])->name('updateKeluarga');
+        Route::get('/detail/{id}', [PendudukController::class, 'show_keluarga'])->name('detailKeluarga');
     });
     Route::group(['prefix' => 'warga'], function () {
         Route::get('/', [PendudukController::class, 'index']);
@@ -76,6 +77,7 @@ Route::group(['prefix' => 'penduduk', 'middleware' => 'admin'], function () {
         Route::post('/create', [PendudukController::class, 'store_warga'])->name('storeWarga');
         Route::get('/edit/{id}', [PendudukController::class, 'edit_warga'])->name('editWarga');
         Route::put('/edit/{id}', [PendudukController::class, 'update_warga'])->name('updateWarga');
+        Route::get('/detail/{id}', [PendudukController::class, 'show_warga'])->name('detailWarga');
     });
 });
 

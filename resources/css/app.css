@@ -79,6 +79,10 @@ label {
     @apply text-base sm:text-lg font-medium;
 }
 
+label.detail {
+    @apply text-Neutral-40 font-normal text-sm lg:text-base;
+}
+
 input, select {
     @apply px-4 py-2 w-full rounded-lg border bg-Neutral-0 border-Neutral-20 disabled:bg-Neutral-20;
 }

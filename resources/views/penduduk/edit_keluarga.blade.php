@@ -80,15 +80,17 @@
                         @foreach ($anggota as $item)
                             <section class="flex flex-col gap-2">
                                 <label>{{ $item->statusHubungan->keterangan }}</label>
-                                <div class="p-4 flex flex-col gap-4 rounded-lg border border-Neutral-20">
-                                    <div class="flex flex-col gap-3">
-                                        <label for="nama">Nama</label>
-                                        <input type="text" name="nama" id="nama" placeholder="Masukkan nama" value="{{ $item->anggotaKeluarga->nama_warga }}" disabled>
-                                    </div>
-
-                                    <div class="flex flex-col gap-3">
-                                        <label for="nik">NIK</label>
-                                        <input type="text" name="nik" id="nik" placeholder="Masukkan nik" value="{{ $item->anggotaKeluarga->nik }}" disabled>
+                                <div class="p-4 flex flex-col gap-6 rounded-lg border border-Neutral-20">
+                                    <div class="flex flex-col gap-4">
+                                        <div class="flex flex-col gap-3">
+                                            <label class="detail">Nama</label>
+                                            <input type="text" class="font-medium" value="{{ $item->anggotaKeluarga->nama_warga }}" readonly>
+                                        </div>
+                                        
+                                        <div class="flex flex-col gap-3">
+                                            <label class="detail">NIK</label>
+                                            <input type="text" class="font-medium" value="{{ $item->anggotaKeluarga->nik }}" readonly>
+                                        </div>
                                     </div>
 
                                     <a href="{{ route('editWarga', $item->anggotaKeluarga->warga_id) }}" class="buttonLight">Edit</a>
@@ -147,6 +149,7 @@
             kkPreview.src = '';
 
             kkLabel.classList.remove('hidden');
+            kkLabel.classList.add('flex');
             kkContainer.classList.add('hidden');
         });
     </script>

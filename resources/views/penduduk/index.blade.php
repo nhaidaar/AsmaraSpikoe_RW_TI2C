@@ -163,7 +163,7 @@
                             <td>{{ $item->jenis_kelamin }}</td>
                             <td>{{ $item->alamat_domisili }}</td>
                             <td>
-                                <a href="#" class="buttonDark md:w-min">Detail</a>
+                                <a href="{{ route('detailWarga', $item->warga_id) }}" class="buttonDark md:w-min">Detail</a>
                                 <a href="{{ route('editWarga', $item->warga_id) }}" class="buttonLight md:w-min">Edit</a>
                             </td>
                         </tr>

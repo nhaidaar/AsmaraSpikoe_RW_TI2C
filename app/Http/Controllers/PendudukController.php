@@ -60,6 +60,10 @@ class PendudukController extends Controller
         ]);
     }
 
+    public function show_keluarga($id)
+    {
+    }
+
     public function create_keluarga()
     {
         // Default rt is 1
@@ -212,6 +216,25 @@ class PendudukController extends Controller
         return redirect()->route('penduduk');
     }
 
+    public function show_warga($id)
+    {
+        $warga = WargaModel::with('jenisPekerjaan')->find($id);
+
+        $detailWarga = DetailWargaModel::where('warga_id', $id)->first();
+        $kk = KKModel::with('detailKK.statusHubungan')
+            ->whereHas('detailKK', function ($q) use ($id) {
+                $q->where('warga_id', $id);
+            })
+            ->first();
+
+        return view('penduduk.show_warga', [
+            'active' => 'penduduk',
+            'warga' => $warga,
+            'detailWarga' => $detailWarga,
+            'kk' => $kk,
+        ]);
+    }
+
     public function create_warga()
     {
         // Get all pekerjaan
@@ -291,18 +314,18 @@ class PendudukController extends Controller
 
     public function edit_warga($id)
     {
+        // Get warga data
+        $warga = WargaModel::find($id);
+
+        // Get detail warga data
+        $detailWarga = DetailWargaModel::where('warga_id', $id)->first();
+
         // Get KK data
         $kk = KKModel::with('detailKK')
             ->whereHas('detailKK', function ($q) use ($id) {
                 $q->where('warga_id', $id);
             })
             ->first();
-
-        // Get warga data
-        $warga = WargaModel::find($id);
-
-        // Get detail warga data
-        $detailWarga = DetailWargaModel::where('warga_id', $id)->first();
 
         // Get all pekerjaan
         $pekerjaan = PekerjaanModel::all();
@@ -312,9 +335,9 @@ class PendudukController extends Controller
 
         return view('penduduk.edit_warga', [
             'active' => 'penduduk',
-            'kk' => $kk,
             'warga' => $warga,
             'detailWarga' => $detailWarga,
+            'kk' => $kk,
             'pekerjaan' => $pekerjaan,
             'hubungan' => $hubungan
         ]);
