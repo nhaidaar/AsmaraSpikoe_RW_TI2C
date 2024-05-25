@@ -78,6 +78,7 @@ Route::group(['prefix' => 'penduduk', 'middleware' => 'admin'], function () {
         Route::get('/edit/{id}', [PendudukController::class, 'edit_warga'])->name('editWarga');
         Route::put('/edit/{id}', [PendudukController::class, 'update_warga'])->name('updateWarga');
         Route::get('/detail/{id}', [PendudukController::class, 'show_warga'])->name('detailWarga');
+        Route::post('/delete', [PendudukController::class, 'delete_warga'])->name('deleteWarga');
     });
 });
 

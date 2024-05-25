@@ -46,7 +46,7 @@ Carbon::setLocale('id');
                                     <td id="nama">{{ $item->pengajuSurat->nama_warga }}</td>
                                     <td>{{ $item->surat_jenis }}</td>
                                     <td>{{ $item->surat_tujuan }}</td>
-                                    <td class="max-w-20">
+                                    <td class="flex gap-2 max-w-20">
                                         <a href="{{ url('surat/' . $item->surat_id . '.docx') }}" class="bg-Primary-Base text-Neutral-0 font-medium px-4 py-2.5 gap-1 rounded-lg">Unduh</a>
                                     </td>
                                 </tr>

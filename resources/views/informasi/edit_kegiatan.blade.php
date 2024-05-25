@@ -10,7 +10,7 @@
                 <div class="flex flex-col gap-8">
                     <div class="flex flex-col gap-2 text-center">
                         <p class="cardTitle">Edit Kegiatan</p>
-                        <p class="font-normal text-sm md:text-base text-Neutral-40 text-nowrap">Ubah informasi kegiatan sesuai yang diinginkan.</p>
+                        <p class="subsubtitle text-Neutral-40 text-nowrap">Ubah informasi kegiatan sesuai yang diinginkan.</p>
                     </div>
 
                     @if ($errors->any())

@@ -9,7 +9,7 @@
                 <div class="flex flex-col gap-8">
                     <div class="flex flex-col gap-2 text-center">
                         <p class="cardTitle">Cek Data Anda</p>
-                        <p class="font-normal text-sm md:text-base text-Neutral-40 text-nowrap">Cek data penerima bansos di Dusun Gondorejo.</p>
+                        <p class="subsubtitle text-Neutral-40 text-nowrap">Cek data penerima bansos di Dusun Gondorejo.</p>
                     </div>
                     @if ($errors->any())
                         <div class="p-3 md:p-4 flex gap-1.5 md:gap-2.5 bg-Error-10 border border-Error-20 rounded-lg items-center">

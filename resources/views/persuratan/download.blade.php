@@ -7,7 +7,7 @@
                 <div class="flex flex-col gap-12">
                     <div class="flex flex-col gap-2 text-center">
                         <p class="cardTitle">Surat anda berhasil dibuat</p>
-                        <p class="font-normal text-sm md:text-base text-Neutral-40 text-nowrap">Untuk informasi lebih lanjut bisa hubungi admin.</p>
+                        <p class="subsubtitle text-Neutral-40 text-nowrap">Untuk informasi lebih lanjut bisa hubungi admin.</p>
                     </div>
                     <img src="{{ asset('assets/surat_success.png') }}" alt=":)" class="h-60 w-60 flex self-center">
                 </div>

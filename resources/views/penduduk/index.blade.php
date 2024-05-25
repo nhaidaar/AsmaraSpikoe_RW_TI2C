@@ -136,9 +136,14 @@
                                 <td id="nama_kepala">{{ $item->anggotaKeluarga->nama_warga }}</td>
                                 <td>{{ $item->where('kk_id', $item->kartukeluarga->kk_id)->count() }}</td>
                                 <td>{{ $item->anggotaKeluarga->alamat_domisili }}</td>
-                                <td>
+                                <td class="flex gap-2 max-w-60">
                                     <a href="#" class="buttonDark w-full md:w-min">Detail</a>
                                     <a href="{{ route('editKeluarga', $item->kartuKeluarga->kk_id) }}" class="buttonLight w-full md:w-min">Edit</a>
+                                    {{-- <a href="#" class="buttonLight flex items-center w-fit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" fill="none" viewBox="0 0 18 20">
+                                            <path stroke="#C04949" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M1 4.176h16M7 14.765V8.412m4 6.353V8.412M13 19H5c-1.105 0-2-.948-2-2.118V5.235c0-.584.448-1.059 1-1.059h10c.552 0 1 .475 1 1.06v11.646c0 1.17-.895 2.118-2 2.118ZM7 4.176h4c.552 0 1-.474 1-1.058v-1.06C12 1.475 11.552 1 11 1H7c-.552 0-1 .474-1 1.059v1.059c0 .584.448 1.058 1 1.058Z"/>
+                                        </svg>                                                                          
+                                    </a> --}}
                                 </td>
                             </tr>
                         @endforeach
@@ -162,9 +167,14 @@
                             <td id="nama_warga">{{ $item->nama_warga }}</td>
                             <td>{{ $item->jenis_kelamin }}</td>
                             <td>{{ $item->alamat_domisili }}</td>
-                            <td>
-                                <a href="{{ route('detailWarga', $item->warga_id) }}" class="buttonDark w-full md:w-min">Detail</a>
-                                <a href="{{ route('editWarga', $item->warga_id) }}" class="buttonLight w-full md:w-min">Edit</a>
+                            <td class="flex gap-2 max-w-60">
+                                <a href="{{ route('detailWarga', $item->warga_id) }}" class="buttonDark md:w-min">Detail</a>
+                                <a href="{{ route('editWarga', $item->warga_id) }}" class="buttonLight md:w-min">Edit</a>
+                                <button type="button" class="delete-btn buttonLight flex items-center w-fit" data-id="{{ $item->warga_id }}" data-name="{{ $item->nama_warga }}" data-nik="{{ $item->nik }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" fill="none" viewBox="0 0 18 20">
+                                        <path stroke="#C04949" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M1 4.176h16M7 14.765V8.412m4 6.353V8.412M13 19H5c-1.105 0-2-.948-2-2.118V5.235c0-.584.448-1.059 1-1.059h10c.552 0 1 .475 1 1.06v11.646c0 1.17-.895 2.118-2 2.118ZM7 4.176h4c.552 0 1-.474 1-1.058v-1.06C12 1.475 11.552 1 11 1H7c-.552 0-1 .474-1 1.059v1.059c0 .584.448 1.058 1 1.058Z"/>
+                                    </svg>                                                                          
+                                </button>
                             </td>
                         </tr>
                         @endforeach
@@ -173,8 +183,94 @@
             </div>
             </div>
         </section>
+
+        <!-- Modal -->
+        <div id="deleteModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div id="modalOverlay" class="fixed inset-0 bg-Neutral-100 bg-opacity-30 transition-opacity" aria-hidden="true"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true"></span>
+                <div class="inline-block align-bottom bg-white rounded-lg text-center overflow-hidden shadow-xl transform transition-all sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="p-4 flex flex-col gap-2 border border-b-2 border-Neutral-20">
+                        <p class="cardTitle">Apakah Anda ingin hapus data ini?</p>
+                        <p class="subtitle text-Neutral-40">Pilih alasan Anda menghapus data ini.</p>
+                    </div>
+                    <div class="p-4 flex flex-col gap-6">
+                        <div class="flex flex-col gap-2">
+                            <p class="title" id="modalName"></p>
+                            <p class="subsubtitle text-Neutral-40">NIK : <span id="modalNik"></span></p>
+                        </div>
+                        <div class="flex flex-col gap-3 text-left">
+                            <label for="reason">Alasan</label>
+                            <select name="reason" id="reason" required>
+                                <option value="Meninggal">Meninggal</option>
+                                <option value="Pindah Rumah">Pindah Rumah</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="p-4 flex justify-end gap-2 border border-t-2 border-Neutral-20">
+                        <button type="button" id="cancelDelete" class="buttonLight md:w-min">Batal</button>
+                        <form id="deleteForm" method="POST" action="{{ route('deleteWarga') }}">
+                            @csrf
+                            
+                            <input type="hidden" name="modalId" id="modalId">
+                            <input type="hidden" name="modalReason" id="modalReason">
+                            <button type="submit" class="buttonDark md:w-min">Hapus</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+
+            const deleteModal = document.getElementById('deleteModal');
+            const modalName = document.getElementById('modalName');
+            const modalNik = document.getElementById('modalNik');
+            const modalOverlay = document.getElementById('modalOverlay');
+
+            const confirmDelete = document.getElementById('confirmDelete');
+            const cancelDelete = document.getElementById('cancelDelete');
+            
+            const deleteForm = document.getElementById('deleteForm');
+
+            const reasonSelect = document.getElementById('reason');
+            const modalReason = document.getElementById('modalReason');
+            
+            let currentUserId;
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    currentUserId = this.getAttribute('data-id');
+                    const name = this.getAttribute('data-name');
+                    const nik = this.getAttribute('data-nik');
+
+                    modalName.textContent = name;
+                    modalNik.textContent = nik;
+                    deleteModal.classList.remove('hidden');
+                });
+            });
+
+            cancelDelete.addEventListener('click', function() {
+                event.preventDefault();
+                deleteModal.classList.add('hidden');
+            });
+
+            modalOverlay.addEventListener('click', function() {
+                event.preventDefault();
+                deleteModal.classList.add('hidden');
+            });
+
+            deleteForm.addEventListener('submit', function(event) {
+                modalId.value = currentUserId;
+                modalReason.value = reasonSelect.value;
+            });
+        });
+        
+        // Script for Toggle Keluarga-Warga Table
         const dataKeluargaRadio = document.getElementById('dataKeluarga');
         const dataWargaRadio = document.getElementById('dataWarga');
         const tableDataKeluarga = document.getElementById('tableDataKeluarga');

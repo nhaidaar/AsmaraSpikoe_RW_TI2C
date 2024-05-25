@@ -8,7 +8,7 @@
                 <div class="flex flex-col gap-8">
                     <div class="flex flex-col gap-2 text-center">
                         <p class="cardTitle">Tambahkan Pengumuman</p>
-                        <p class="font-normal text-sm md:text-base text-Neutral-40 text-nowrap">Tambah pengumuman sesuai yang diinginkan.</p>
+                        <p class="subsubtitle text-Neutral-40 text-nowrap">Tambah pengumuman sesuai yang diinginkan.</p>
                     </div>
 
                     @if ($errors->any())
@@ -46,7 +46,7 @@
 
                                 <div class="flex flex-col gap-1 text-center">
                                     <p class="title">Unggah file Anda</p>
-                                    <p class="font-normal text-sm md:text-base text-Neutral-40 text-nowrap">
+                                    <p class="subsubtitle text-Neutral-40 text-nowrap">
                                         Seret dan letakkan file Anda di sini atau 
                                         <span class="cursor-pointer text-Success-Base underline">pilih file</span>
                                     </p>

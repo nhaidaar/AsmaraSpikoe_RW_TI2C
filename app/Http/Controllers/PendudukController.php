@@ -402,4 +402,9 @@ class PendudukController extends Controller
 
         return redirect()->route('penduduk');
     }
+
+    public function delete_warga(Request $request)
+    {
+        dd($request);
+    }
 }

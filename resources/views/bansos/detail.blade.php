@@ -13,7 +13,7 @@
                                 Anda penerima bansos!
                             @endif
                         </p>
-                        <p class="font-normal text-sm md:text-base text-Neutral-40 text-nowrap">Untuk informasi lebih lanjut bisa hubungi admin.</p>
+                        <p class="subsubtitle text-Neutral-40 text-nowrap">Untuk informasi lebih lanjut bisa hubungi admin.</p>
                     </div>
                     <div class="flex flex-col gap-4">
                         @if ($bansos->isEmpty())

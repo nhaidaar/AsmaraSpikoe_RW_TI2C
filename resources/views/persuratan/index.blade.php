@@ -8,7 +8,7 @@
                 <div class="flex flex-col gap-6 md:gap-8">
                     <div class="flex flex-col gap-2 text-center">
                         <p class="cardTitle">Persuratan</p>
-                        <p class="font-normal text-sm md:text-base text-Neutral-40 text-nowrap">Pilih surat sesuai kebutuhan Anda.</p>
+                        <p class="subsubtitle text-Neutral-40 text-nowrap">Pilih surat sesuai kebutuhan Anda.</p>
                     </div>
 
                     @if ($errors->any())
