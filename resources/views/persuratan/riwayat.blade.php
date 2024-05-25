@@ -28,7 +28,7 @@ Carbon::setLocale('id');
                 </div>
 
                 <div class="w-full bg-Neutral-0 overflow-x-auto">
-                    <table class="text-left text-nowrap" id="tableDataKeluarga">
+                    <table class="text-left text-nowrap" id="tableSurat">
                         <thead class="border-b">
                             <tr>
                                 <th>Tanggal</th>
@@ -41,12 +41,13 @@ Carbon::setLocale('id');
                         <tbody>
                             @foreach ($surat as $item)  
                                 <tr>
+                                    <td class="hidden" id="rt">{{ $item->pengajuSurat->detailKK->kartuKeluarga->rt }}</td>
                                     <td>{{ Carbon::parse($item->surat_tanggal)->translatedFormat('j F Y') }}</td>
-                                    <td>{{ $item->pengajuSurat->nama_warga }}</td>
+                                    <td id="nama">{{ $item->pengajuSurat->nama_warga }}</td>
                                     <td>{{ $item->surat_jenis }}</td>
                                     <td>{{ $item->surat_tujuan }}</td>
-                                    <td>
-                                        <a href="#" class="bg-Primary-Base text-Neutral-0 font-medium px-4 py-2.5 gap-1 rounded-lg">Detail</a>
+                                    <td class="max-w-20">
+                                        <a href="{{ url('surat/' . $item->surat_id . '.docx') }}" class="bg-Primary-Base text-Neutral-0 font-medium px-4 py-2.5 gap-1 rounded-lg">Unduh</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -55,4 +56,32 @@ Carbon::setLocale('id');
             </div>
         </section>
     </main>
+    <script>
+        document.getElementById('rt_id').addEventListener('change', function() {
+            filterAndSearchTable();
+        });
+
+        document.getElementById('searchData').addEventListener('input', function() {
+            filterAndSearchTable();
+        });
+
+        function filterAndSearchTable() {
+            var selectedRT = document.getElementById('rt_id').value;
+            var search = document.getElementById('searchData').value.toLowerCase();
+
+            var suratRows = document.querySelectorAll('#tableSurat tbody tr');
+            suratRows.forEach(function(row) {
+                var rtValue = row.querySelector('#rt').textContent.trim();
+                var namaValue = row.querySelector('#nama').textContent.trim().toLowerCase();
+
+                if ((rtValue === selectedRT || selectedRT === "") && (namaValue.includes(search) || search === "")) {
+                    row.classList.remove('hidden');
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+        }
+
+        filterAndSearchTable();
+    </script>
 @endsection
