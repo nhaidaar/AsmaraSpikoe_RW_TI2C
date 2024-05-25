@@ -92,11 +92,11 @@ textarea {
 }
 
 th {
-    @apply w-lvw pt-2 pb-4 pr-16 sm:text-lg font-normal text-Neutral-40 ;
+    @apply w-lvw pt-2 pb-4 pr-16 lg:text-lg font-normal text-Neutral-40 ;
 }
 
 td {
-    @apply w-lvw py-6 pr-16 sm:text-lg font-medium ;
+    @apply w-lvw py-6 pr-16 lg:text-lg font-medium ;
 }
 
 input[type="checkbox"] {

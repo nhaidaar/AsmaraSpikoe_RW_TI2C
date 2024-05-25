@@ -1,3 +1,8 @@
+@php
+use Carbon\Carbon;
+Carbon::setLocale('id');
+@endphp
+
 @extends('layout.template')
 
 @section('content')
@@ -9,11 +14,11 @@
                 <div class="grid grid-cols-subgrid md:flex items-center gap-2 border-b pb-3">
                     <select name="rt_id" id="rt_id" class="font-medium md:max-w-[120px]" {{ Auth::user()->level != 'rw' ? 'disabled' : '' }} >
                         @for ($i = 1; $i <= 7; $i++)
-                            <option value="{{$i}}">RT 0{{$i}}</option>
+                            <option value="{{ $i }}" {{ $rt == $i ? 'selected' : '' }}>RT 0{{$i}}</option>
                         @endfor
                     </select>
 
-                    <div class="relative w-[240px]">
+                    <div class="relative w-full lg:w-[240px]">
                         <svg class="absolute left-3 top-1/2 transform -translate-y-1/2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="11.0586" cy="11.0586" r="7.06194" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M20.0033 20.0033L16.0517 16.0516" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -34,15 +39,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>21 Mei 2024</td>
-                                <td>Rafi Sampang</td>
-                                <td>Surat Pengantar</td>
-                                <td>Administrasi Kependudukan</td>
-                                <td>
-                                    <a href="#" class="bg-Primary-Base text-Neutral-0 font-medium px-4 py-2.5 gap-1 rounded-lg">Detail</a>
-                                </td>
-                            </tr>
+                            @foreach ($surat as $item)  
+                                <tr>
+                                    <td>{{ Carbon::parse($item->surat_tanggal)->translatedFormat('j F Y') }}</td>
+                                    <td>{{ $item->pengajuSurat->nama_warga }}</td>
+                                    <td>{{ $item->surat_jenis }}</td>
+                                    <td>{{ $item->surat_tujuan }}</td>
+                                    <td>
+                                        <a href="#" class="bg-Primary-Base text-Neutral-0 font-medium px-4 py-2.5 gap-1 rounded-lg">Detail</a>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
             </div>

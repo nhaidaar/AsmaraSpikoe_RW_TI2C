@@ -24,16 +24,33 @@ class PersuratanController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
-
-        if ($user) {
-            return view('persuratan.persuratan_index', [ // diubah falah
+        if (!Auth::check()) {
+            return view('persuratan.index', [
                 'active' => $this->active,
             ]);
         }
 
-        return view('persuratan.index', [
+        // Default rt is 1
+        $rt = 1;
+
+        // If user not ketua rw, choose their rt
+        $user = Auth::user();
+        if ($user->level != 'rw') {
+            $rt = RTModel::whereHas('kartuKeluarga.detailKK.anggotaKeluarga', function ($q) use ($user) {
+                $q->where('warga_id', $user->warga_id);
+            })
+                ->pluck('rt_id')
+                ->first();
+        }
+
+        $surat = SuratModel::with(['pengajuSurat.detailKK.kartuKeluarga'])
+            ->orderBy('surat_tanggal', 'DESC')
+            ->get();
+
+        return view('persuratan.riwayat', [
             'active' => $this->active,
+            'rt' => $rt,
+            'surat' => $surat
         ]);
     }
 
@@ -129,7 +146,7 @@ class PersuratanController extends Controller
             return back()->withErrors('Gagal membuat surat, coba lagi')->withInput();
         }
 
-        return view('persuratan.detail', [
+        return view('persuratan.download', [
             'active' => $this->active,
             'url' => 'surat/' . $namaSurat,
             'admin' => $rt->no_telepon,
