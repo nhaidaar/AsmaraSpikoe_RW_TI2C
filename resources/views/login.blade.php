@@ -46,7 +46,7 @@
                 {{-- <a href="" class="text-right md:text-lg">Lupa password?</a> --}}
             </div>
             <div class="flex justify-end">
-                <button type="submit" class="buttonDark md:w-min">Masuk</button>
+                <button type="submit" class="buttonDark w-full md:w-min">Masuk</button>
             </div>
         </form>
         <span class="subtitle text-Neutral-40">Gondorejo 2024. All rights reserved</span>

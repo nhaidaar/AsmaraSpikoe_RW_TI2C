@@ -25,19 +25,21 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::group(['prefix' => 'informasi'], function () {
     Route::get('/', [InformasiController::class, 'index'])->name('informasi');
-    Route::get('/{id}', [InformasiController::class, 'detail'])->name('detailPengumuman');
 
     Route::group(['prefix' => 'pengumuman', 'middleware' => 'admin'], function () {
         Route::get('/create', [InformasiController::class, 'create_pengumuman'])->name('createPengumuman');
         Route::post('/create', [InformasiController::class, 'store_pengumuman'])->name('storePengumuman');
-        Route::get('/{id}', [InformasiController::class, 'edit_pengumuman'])->name('editPengumuman');
-        Route::put('/{id}', [InformasiController::class, 'update_pengumuman'])->name('updatePengumuman');
+        Route::get('/detail/{id}', [InformasiController::class, 'detail'])->name('detailPengumuman');
+        Route::get('/edit/{id}', [InformasiController::class, 'edit_pengumuman'])->name('editPengumuman');
+        Route::put('/edit/{id}', [InformasiController::class, 'update_pengumuman'])->name('updatePengumuman');
+        Route::get('/delete/{id}', [InformasiController::class, 'delete_pengumuman'])->name('deletePengumuman');
     });
     Route::group(['prefix' => 'kegiatan', 'middleware' => 'admin'], function () {
         Route::get('/create', [InformasiController::class, 'create_kegiatan'])->name('createKegiatan');
         Route::post('/create', [InformasiController::class, 'store_kegiatan'])->name('storeKegiatan');
-        Route::get('/{id}', [InformasiController::class, 'edit_kegiatan'])->name('editKegiatan');
-        Route::put('/{id}', [InformasiController::class, 'update_kegiatan'])->name('updateKegiatan');
+        Route::get('/edit/{id}', [InformasiController::class, 'edit_kegiatan'])->name('editKegiatan');
+        Route::put('/edit/{id}', [InformasiController::class, 'update_kegiatan'])->name('updateKegiatan');
+        Route::get('/delete/{id}', [InformasiController::class, 'delete_kegiatan'])->name('deleteKegiatan');
     });
 });
 
@@ -67,6 +69,9 @@ Route::group(['prefix' => 'penduduk', 'middleware' => 'admin'], function () {
         Route::get('/', [PendudukController::class, 'index']);
         Route::get('/create', [PendudukController::class, 'create_keluarga'])->name('createKeluarga');
         Route::post('/create', [PendudukController::class, 'store_keluarga'])->name('storeKeluarga');
+        Route::get('/edit/{id}', [PendudukController::class, 'edit_keluarga'])->name('editKeluarga');
+        Route::put('/edit/{id}', [PendudukController::class, 'update_keluarga'])->name('updateKeluarga');
+        Route::get('/detail/{id}', [PendudukController::class, 'show_keluarga'])->name('detailKeluarga');
     });
     Route::group(['prefix' => 'warga'], function () {
         Route::get('/', [PendudukController::class, 'index']);
@@ -74,6 +79,8 @@ Route::group(['prefix' => 'penduduk', 'middleware' => 'admin'], function () {
         Route::post('/create', [PendudukController::class, 'store_warga'])->name('storeWarga');
         Route::get('/edit/{id}', [PendudukController::class, 'edit_warga'])->name('editWarga');
         Route::put('/edit/{id}', [PendudukController::class, 'update_warga'])->name('updateWarga');
+        Route::get('/detail/{id}', [PendudukController::class, 'show_warga'])->name('detailWarga');
+        Route::post('/delete', [PendudukController::class, 'delete_warga'])->name('deleteWarga');
     });
 });
 

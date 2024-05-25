@@ -60,6 +60,10 @@ class PendudukController extends Controller
         ]);
     }
 
+    public function show_keluarga($id)
+    {
+    }
+
     public function create_keluarga()
     {
         // Default rt is 1
@@ -157,6 +161,80 @@ class PendudukController extends Controller
         return redirect()->route('penduduk');
     }
 
+    public function edit_keluarga($id)
+    {
+        $kk = KKModel::find($id);
+
+        // If user is ketua rt and their rt is not same with kk, redirect to home
+        $user = Auth::user();
+        if ($user->level != 'rw') {
+            $rt = RTModel::whereHas('kartuKeluarga.detailKK.anggotaKeluarga', function ($q) use ($user) {
+                $q->where('warga_id', $user->warga_id);
+            })
+                ->pluck('rt_id')
+                ->first();
+
+            if ($rt != $kk->rt) {
+                return redirect()->route('penduduk');
+            }
+        }
+
+        $anggota = DetailKKModel::with(['anggotaKeluarga', 'statusHubungan'])
+            ->where('kk_id', $id)->get();
+
+        return view('penduduk.edit_keluarga', [
+            'active' => 'penduduk',
+            'kk' => $kk,
+            'anggota' => $anggota
+        ]);
+    }
+
+    public function update_keluarga(Request $request, string $id)
+    {
+        if ($response = $this->validateUpdateKK($request)) {
+            return $response;
+        }
+
+        DB::beginTransaction();
+        try {
+            KKModel::find($id)->update([
+                'no_kk' => $request->no_kk,
+            ]);
+
+            if ($request->imageKK != null) {
+                $namaKK = $request->no_kk . '.png';
+                $request->imageKK->move('kk/', $namaKK);
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return back()->withErrors('Gagal mengupdate data keluarga, coba lagi')->withInput();
+        }
+
+        return redirect()->route('penduduk');
+    }
+
+    public function show_warga($id)
+    {
+        $warga = WargaModel::with('jenisPekerjaan')->find($id);
+
+        $detailWarga = DetailWargaModel::where('warga_id', $id)->first();
+        $kk = KKModel::with('detailKK.statusHubungan')
+            ->whereHas('detailKK', function ($q) use ($id) {
+                $q->where('warga_id', $id);
+            })
+            ->first();
+
+        return view('penduduk.show_warga', [
+            'active' => 'penduduk',
+            'warga' => $warga,
+            'detailWarga' => $detailWarga,
+            'kk' => $kk,
+        ]);
+    }
+
     public function create_warga()
     {
         // Get all pekerjaan
@@ -236,18 +314,18 @@ class PendudukController extends Controller
 
     public function edit_warga($id)
     {
+        // Get warga data
+        $warga = WargaModel::find($id);
+
+        // Get detail warga data
+        $detailWarga = DetailWargaModel::where('warga_id', $id)->first();
+
         // Get KK data
         $kk = KKModel::with('detailKK')
             ->whereHas('detailKK', function ($q) use ($id) {
                 $q->where('warga_id', $id);
             })
             ->first();
-
-        // Get warga data
-        $warga = WargaModel::find($id);
-
-        // Get detail warga data
-        $detailWarga = DetailWargaModel::where('warga_id', $id)->first();
 
         // Get all pekerjaan
         $pekerjaan = PekerjaanModel::all();
@@ -257,9 +335,9 @@ class PendudukController extends Controller
 
         return view('penduduk.edit_warga', [
             'active' => 'penduduk',
-            'kk' => $kk,
             'warga' => $warga,
             'detailWarga' => $detailWarga,
+            'kk' => $kk,
             'pekerjaan' => $pekerjaan,
             'hubungan' => $hubungan
         ]);
@@ -323,5 +401,10 @@ class PendudukController extends Controller
         }
 
         return redirect()->route('penduduk');
+    }
+
+    public function delete_warga(Request $request)
+    {
+        dd($request);
     }
 }

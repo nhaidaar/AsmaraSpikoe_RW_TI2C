@@ -13,7 +13,7 @@
                 <div class="flex flex-col gap-8">
                     <div class="flex flex-col gap-2 text-center">
                         <p class="cardTitle">Tambah Kartu Keluarga</p>
-                        <p class="font-normal text-sm md:text-base text-Neutral-40 text-nowrap">Tambahkan kartu keluarga yang sesuai disini.</p>
+                        <p class="subsubtitle text-Neutral-40 text-nowrap">Tambahkan kartu keluarga yang sesuai disini.</p>
                     </div>
 
                     @if ($errors->any())
@@ -58,7 +58,7 @@
         
                                         <div class="flex flex-col gap-1 text-center">
                                             <p class="title">Unggah file Anda</p>
-                                            <p class="font-normal text-sm md:text-base text-Neutral-40 text-nowrap">
+                                            <p class="subsubtitle text-Neutral-40 text-nowrap">
                                                 Seret dan letakkan file Anda di sini atau 
                                                 <span class="cursor-pointer text-Success-Base underline">pilih file</span>
                                             </p>
@@ -107,7 +107,7 @@
         
                                         <div class="flex flex-col gap-1 text-center">
                                             <p class="title">Unggah file Anda</p>
-                                            <p class="font-normal text-sm md:text-base text-Neutral-40 text-nowrap">
+                                            <p class="subsubtitle text-Neutral-40 text-nowrap">
                                                 Seret dan letakkan file Anda di sini atau 
                                                 <span class="cursor-pointer text-Success-Base underline">pilih file</span>
                                             </p>
@@ -317,8 +317,8 @@
                 </div>
                         
                 <div class="flex gap-2 md:justify-end">
-                    <a href="{{ route('penduduk') }}" class="buttonLight md:w-min">Batal</a>
-                    <button type="submit" class="buttonDark md:w-min">Simpan Data</button>
+                    <a href="{{ route('penduduk') }}" class="buttonLight w-full md:w-min">Batal</a>
+                    <button type="submit" class="buttonDark w-full md:w-min">Simpan Data</button>
                 </div>
             </form>
         </section>

@@ -7,7 +7,7 @@
                 <div class="flex flex-col gap-12">
                     <div class="flex flex-col gap-2 text-center">
                         <p class="cardTitle">Halaman dalam perbaikan</p>
-                        <p class="font-normal text-sm md:text-base text-Neutral-40 text-nowrap">Sabar yaa...</p>
+                        <p class="subsubtitle text-Neutral-40 text-nowrap">Sabar yaa...</p>
                     </div>
                     <img src="{{ asset('assets/maintenance.png') }}" alt=":)" class="h-60 w-60 flex self-center">
                 </div>

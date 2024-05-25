@@ -159,6 +159,24 @@ class InformasiController extends Controller
         return redirect()->route('informasi');
     }
 
+    public function delete_pengumuman($id)
+    {
+        DB::beginTransaction();
+        try {
+            PengumumanModel::destroy($id);
+
+            File::delete('img/pengumuman/' . $id . '.png');
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return back()->withErrors('Gagal menghapus pengumuman, coba lagi');
+        }
+
+        return redirect()->route('informasi');
+    }
+
     public function create_kegiatan()
     {
         return view('informasi.create_kegiatan', ['active' => $this->active]);
@@ -257,6 +275,22 @@ class InformasiController extends Controller
             DB::rollBack();
 
             return back()->withErrors('Gagal membuat informasi kegiatan, coba lagi');
+        }
+
+        return redirect()->route('informasi');
+    }
+
+    public function delete_kegiatan($id)
+    {
+        DB::beginTransaction();
+        try {
+            KegiatanModel::destroy($id);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return back()->withErrors('Gagal menghapus kegiatan, coba lagi');
         }
 
         return redirect()->route('informasi');

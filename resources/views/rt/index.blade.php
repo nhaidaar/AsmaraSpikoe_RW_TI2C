@@ -5,7 +5,7 @@
         <section class="p-20 flex flex-col gap-12 rounded-xl border border-Neutral-10 items-center bg-Neutral-0">
             <div class="flex flex-col gap-2 text-center">
                 <p class="cardTitle">Rukun Tetangga</p>
-                <p class="font-normal text-sm md:text-base text-Neutral-40 text-nowrap">Informasi kepengurusan di dusun Gondorejo.</p>
+                <p class="subsubtitle text-Neutral-40 text-nowrap">Informasi kepengurusan di dusun Gondorejo.</p>
             </div>
             
             <div class="rwCard">

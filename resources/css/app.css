@@ -48,7 +48,7 @@
 }
 
 .innerCard {
-    @apply p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10 hover:bg-[#F6F6F6] fadeIn;
+    @apply p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10 fadeIn;
 }
 
 .rwCard {
@@ -60,23 +60,31 @@
 }
 
 .title {
-    @apply text-lg sm:text-xl font-medium;
+    @apply text-lg md:text-xl font-medium;
 }
 
 .subtitle {
-    @apply text-base sm:text-lg font-normal;
+    @apply text-base md:text-lg font-normal;
+}
+
+.subsubtitle {
+    @apply text-sm md:text-base font-normal;
 }
 
 .buttonDark {
-    @apply font-medium px-4 py-2 rounded-lg bg-Primary-Base text-Neutral-0 text-nowrap text-center w-full;
+    @apply font-medium px-4 py-2 rounded-md bg-Primary-Base text-Neutral-0 text-nowrap text-center hover:bg-Primary-60;
 }
 
 .buttonLight {
-    @apply font-medium px-4 py-2 border border-solid rounded-md border-Neutral-20 text-nowrap text-center w-full;
+    @apply font-medium px-4 py-2 rounded-md bg-Neutral-0 border border-Neutral-20 text-nowrap text-center hover:bg-Neutral-10;
 }
 
 label {
     @apply text-base sm:text-lg font-medium;
+}
+
+label.detail {
+    @apply text-Neutral-40 font-normal text-sm lg:text-base;
 }
 
 input, select {
@@ -88,11 +96,11 @@ textarea {
 }
 
 th {
-    @apply w-lvw pt-2 pb-4 pr-16 sm:text-lg font-normal text-Neutral-40 ;
+    @apply w-lvw pt-2 pb-4 pr-16 lg:text-lg font-normal text-Neutral-40 ;
 }
 
 td {
-    @apply w-lvw py-6 pr-16 sm:text-lg font-medium ;
+    @apply w-lvw py-3 pr-16 lg:text-lg font-medium ;
 }
 
 input[type="checkbox"] {

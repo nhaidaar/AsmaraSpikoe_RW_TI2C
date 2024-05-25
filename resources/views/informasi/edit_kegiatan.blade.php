@@ -10,7 +10,7 @@
                 <div class="flex flex-col gap-8">
                     <div class="flex flex-col gap-2 text-center">
                         <p class="cardTitle">Edit Kegiatan</p>
-                        <p class="font-normal text-sm md:text-base text-Neutral-40 text-nowrap">Ubah informasi kegiatan sesuai yang diinginkan.</p>
+                        <p class="subsubtitle text-Neutral-40 text-nowrap">Ubah informasi kegiatan sesuai yang diinginkan.</p>
                     </div>
 
                     @if ($errors->any())
@@ -91,8 +91,8 @@
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row gap-2 md:justify-end">
-                    <a href="{{ route('informasi') }}" class="buttonLight md:w-min">Batal</a>
-                    <button type="submit" class="buttonDark md:w-min">Ubah</button>
+                    <a href="{{ route('informasi') }}" class="buttonLight w-full md:w-min">Batal</a>
+                    <button type="submit" class="buttonDark w-full md:w-min">Ubah</button>
                 </div>
             </form>
         </section>

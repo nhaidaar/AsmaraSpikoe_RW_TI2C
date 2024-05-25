@@ -33,7 +33,7 @@ class WargaModel extends Model
         return $this->hasMany(UserModel::class, 'warga_id', 'warga_id');
     }
 
-    public function pekerjaan(): BelongsTo
+    public function jenisPekerjaan(): BelongsTo
     {
         return $this->belongsTo(PekerjaanModel::class, 'pekerjaan', 'pekerjaan_id');
     }
