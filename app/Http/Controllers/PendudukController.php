@@ -157,6 +157,61 @@ class PendudukController extends Controller
         return redirect()->route('penduduk');
     }
 
+    public function edit_keluarga($id)
+    {
+        $kk = KKModel::find($id);
+
+        // If user is ketua rt and their rt is not same with kk, redirect to home
+        $user = Auth::user();
+        if ($user->level != 'rw') {
+            $rt = RTModel::whereHas('kartuKeluarga.detailKK.anggotaKeluarga', function ($q) use ($user) {
+                $q->where('warga_id', $user->warga_id);
+            })
+                ->pluck('rt_id')
+                ->first();
+
+            if ($rt != $kk->rt) {
+                return redirect()->route('penduduk');
+            }
+        }
+
+        $anggota = DetailKKModel::with(['anggotaKeluarga', 'statusHubungan'])
+            ->where('kk_id', $id)->get();
+
+        return view('penduduk.edit_keluarga', [
+            'active' => 'penduduk',
+            'kk' => $kk,
+            'anggota' => $anggota
+        ]);
+    }
+
+    public function update_keluarga(Request $request, string $id)
+    {
+        if ($response = $this->validateUpdateKK($request)) {
+            return $response;
+        }
+
+        DB::beginTransaction();
+        try {
+            KKModel::find($id)->update([
+                'no_kk' => $request->no_kk,
+            ]);
+
+            if ($request->imageKK != null) {
+                $namaKK = $request->no_kk . '.png';
+                $request->imageKK->move('kk/', $namaKK);
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return back()->withErrors('Gagal mengupdate data keluarga, coba lagi')->withInput();
+        }
+
+        return redirect()->route('penduduk');
+    }
+
     public function create_warga()
     {
         // Get all pekerjaan

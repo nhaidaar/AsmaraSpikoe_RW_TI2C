@@ -67,6 +67,8 @@ Route::group(['prefix' => 'penduduk', 'middleware' => 'admin'], function () {
         Route::get('/', [PendudukController::class, 'index']);
         Route::get('/create', [PendudukController::class, 'create_keluarga'])->name('createKeluarga');
         Route::post('/create', [PendudukController::class, 'store_keluarga'])->name('storeKeluarga');
+        Route::get('/edit/{id}', [PendudukController::class, 'edit_keluarga'])->name('editKeluarga');
+        Route::put('/edit/{id}', [PendudukController::class, 'update_keluarga'])->name('updateKeluarga');
     });
     Route::group(['prefix' => 'warga'], function () {
         Route::get('/', [PendudukController::class, 'index']);

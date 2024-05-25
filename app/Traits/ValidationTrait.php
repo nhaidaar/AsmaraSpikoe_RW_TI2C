@@ -44,6 +44,24 @@ trait ValidationTrait
         }
     }
 
+    public function validateUpdateKK($request)
+    {
+        $rules = [
+            'no_kk' => 'required|min:16',
+        ];
+
+        $messages = [
+            'no_kk.required' => 'Format nomor KK tidak valid',
+            'no_kk.min' => 'Format nomor KK tidak valid',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+    }
+
     public function validateKepalaKeluarga($request)
     {
         $rules = [
@@ -213,6 +231,26 @@ trait ValidationTrait
             'jumlah_kendaraan.required' => 'Mohon mengisi seluruh detail tambahan',
             'bpjs.required' => 'Mohon mengisi seluruh detail tambahan'
         ];
+
+        if ($request->hubungan == 1) {
+            $rules += [
+                'luas_bangunan' => 'required',
+                'jumlah_tanggungan' => 'required',
+                'pbb' => 'required',
+                'tagihan_listrik' => 'required',
+                'tagihan_air' => 'required',
+                'tanggungan_pendidikan' => 'required',
+            ];
+
+            $messages += [
+                'luas_bangunan.required' => 'Mohon mengisi seluruh detail tambahan',
+                'jumlah_tanggungan.required' => 'Mohon mengisi seluruh detail tambahan',
+                'pbb.required' => 'Mohon mengisi seluruh detail tambahan',
+                'tagihan_listrik.required' => 'Mohon mengisi seluruh detail tambahan',
+                'tagihan_air.required' => 'Mohon mengisi seluruh detail tambahan',
+                'tanggungan_pendidikan.required' => 'Mohon mengisi seluruh detail tambahan',
+            ];
+        }
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
