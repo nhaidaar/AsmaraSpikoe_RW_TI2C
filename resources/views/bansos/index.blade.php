@@ -67,8 +67,8 @@
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row gap-3 md:gap-2 md:justify-end">
-                    <a href="/persuratan" class="buttonLight md:w-min">Ajukan Bansos</a>
-                    <button type="submit" class="buttonDark md:w-min">Cek Data</button>
+                    <a href="/persuratan" class="buttonLight w-full md:w-min">Ajukan Bansos</a>
+                    <button type="submit" class="buttonDark w-full md:w-min">Cek Data</button>
                 </div>
             </form>
         </section>

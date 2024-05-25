@@ -93,7 +93,7 @@
                                         </div>
                                     </div>
 
-                                    <a href="{{ route('editWarga', $item->anggotaKeluarga->warga_id) }}" class="buttonLight">Edit</a>
+                                    <a href="{{ route('editWarga', $item->anggotaKeluarga->warga_id) }}" class="buttonLight w-full">Edit</a>
                                 </div>
                             </section>
                         @endforeach
@@ -101,8 +101,8 @@
                 </div>
                         
                 <div class="flex gap-2 md:justify-end">
-                    <a href="{{ route('penduduk') }}" class="buttonLight md:w-min">Batal</a>
-                    <button type="submit" class="buttonDark md:w-min">Simpan Data</button>
+                    <a href="{{ route('penduduk') }}" class="buttonLight w-full md:w-min">Batal</a>
+                    <button type="submit" class="buttonDark w-full md:w-min">Simpan Data</button>
                 </div>
             </form>
         </section>

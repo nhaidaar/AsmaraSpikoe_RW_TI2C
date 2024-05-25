@@ -48,7 +48,7 @@
 }
 
 .innerCard {
-    @apply p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10 hover:bg-[#F6F6F6] fadeIn;
+    @apply p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10 fadeIn;
 }
 
 .rwCard {
@@ -68,11 +68,11 @@
 }
 
 .buttonDark {
-    @apply font-medium px-4 py-2 rounded-lg bg-Primary-Base text-Neutral-0 text-nowrap text-center w-full;
+    @apply font-medium px-4 py-2 rounded-md bg-Primary-Base text-Neutral-0 text-nowrap text-center hover:bg-Primary-60;
 }
 
 .buttonLight {
-    @apply font-medium px-4 py-2 border border-solid rounded-md border-Neutral-20 text-nowrap text-center w-full;
+    @apply font-medium px-4 py-2 rounded-md bg-Neutral-0 border border-Neutral-20 text-nowrap text-center hover:bg-Neutral-10;
 }
 
 label {

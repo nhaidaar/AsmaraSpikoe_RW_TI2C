@@ -102,13 +102,13 @@
                             <input type="search" name="searchData" id="searchData" placeholder="Cari data..." class="pl-12 pr-4 py-2 border rounded-md">
                         </div>
 
-                        <a href="{{ route('createKeluarga') }}" id="tambahKeluarga" class="flex items-center justify-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap">
+                        <a href="{{ route('createKeluarga') }}" id="tambahKeluarga" class="flex items-center justify-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap hover:bg-Primary-60">
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 6V18M18 12H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                             Tambah Kartu Keluarga
                         </a>
-                        <a href="{{ route('createWarga') }}" id="tambahPenduduk" class="hidden items-center justify-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap">
+                        <a href="{{ route('createWarga') }}" id="tambahPenduduk" class="hidden items-center justify-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap hover:bg-Primary-60">
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 6V18M18 12H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -137,8 +137,8 @@
                                 <td>{{ $item->where('kk_id', $item->kartukeluarga->kk_id)->count() }}</td>
                                 <td>{{ $item->anggotaKeluarga->alamat_domisili }}</td>
                                 <td>
-                                    <a href="#" class="buttonDark md:w-min">Detail</a>
-                                    <a href="{{ route('editKeluarga', $item->kartuKeluarga->kk_id) }}" class="buttonLight md:w-min">Edit</a>
+                                    <a href="#" class="buttonDark w-full md:w-min">Detail</a>
+                                    <a href="{{ route('editKeluarga', $item->kartuKeluarga->kk_id) }}" class="buttonLight w-full md:w-min">Edit</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -163,8 +163,8 @@
                             <td>{{ $item->jenis_kelamin }}</td>
                             <td>{{ $item->alamat_domisili }}</td>
                             <td>
-                                <a href="{{ route('detailWarga', $item->warga_id) }}" class="buttonDark md:w-min">Detail</a>
-                                <a href="{{ route('editWarga', $item->warga_id) }}" class="buttonLight md:w-min">Edit</a>
+                                <a href="{{ route('detailWarga', $item->warga_id) }}" class="buttonDark w-full md:w-min">Detail</a>
+                                <a href="{{ route('editWarga', $item->warga_id) }}" class="buttonLight w-full md:w-min">Edit</a>
                             </td>
                         </tr>
                         @endforeach

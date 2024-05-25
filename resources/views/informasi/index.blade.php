@@ -32,8 +32,13 @@ $user = Auth::user();
                         </div>
                     </a>
                     @if ($user)    
-                        <div class="flex">
-                            <a href="{{ route('editPengumuman', $item->pengumuman_id) }}" class="font-medium px-4 py-2 border border-solid rounded-md bg-Neutral-0 border-Neutral-20 text-nowrap text-center w-full">Edit</a>
+                        <div class="flex gap-2">
+                            <a href="{{ route('editPengumuman', $item->pengumuman_id) }}" class="buttonLight w-full">Edit</a>
+                            <a href="#" class="buttonLight w-fit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="#C04949" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6.176h16M10 16.765v-6.353m4 6.353v-6.353M16 21H8c-1.105 0-2-.948-2-2.118V7.235c0-.584.448-1.059 1-1.059h10c.552 0 1 .475 1 1.06v11.646c0 1.17-.895 2.118-2 2.118ZM10 6.176h4c.552 0 1-.474 1-1.058v-1.06C15 3.475 14.552 3 14 3h-4c-.552 0-1 .474-1 1.059v1.059c0 .584.448 1.058 1 1.058Z"/>
+                                </svg>                                  
+                            </a>
                         </div>
                     @endif
                 </div>
@@ -76,7 +81,14 @@ $user = Auth::user();
                             <td>{{ Carbon::parse($item->tanggal_waktu)->format('H:i') }} WIB</td>
                             <td>{{ $item->kegiatan_lokasi }}</td>
                             @if ($user)
-                                <td class="max-w-20"><a href="{{ route('editKegiatan', $item->kegiatan_id) }}" class="buttonLight md:w-min">Edit</a></td>
+                                <td class="flex gap-2 max-w-40">
+                                    <a href="{{ route('editKegiatan', $item->kegiatan_id) }}" class="buttonLight w-full md:w-min">Edit</a>
+                                    <a href="#" class="buttonLight flex items-center w-fit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" fill="none" viewBox="0 0 18 20">
+                                            <path stroke="#C04949" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M1 4.176h16M7 14.765V8.412m4 6.353V8.412M13 19H5c-1.105 0-2-.948-2-2.118V5.235c0-.584.448-1.059 1-1.059h10c.552 0 1 .475 1 1.06v11.646c0 1.17-.895 2.118-2 2.118ZM7 4.176h4c.552 0 1-.474 1-1.058v-1.06C12 1.475 11.552 1 11 1H7c-.552 0-1 .474-1 1.059v1.059c0 .584.448 1.058 1 1.058Z"/>
+                                        </svg>                                                                          
+                                    </a>
+                                </td>
                             @endif
                         </tr>
                         @endforeach
