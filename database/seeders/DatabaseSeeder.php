@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             PendaftarBansosSeeder::class,
             KriteriaPenerimaSeeder::class,
             PenerimaBansosSeeder::class,
+            KeuanganSeeder::class
         ]);
     }
 }
