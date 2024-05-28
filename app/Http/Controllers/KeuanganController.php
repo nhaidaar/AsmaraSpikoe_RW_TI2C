@@ -19,4 +19,10 @@ class KeuanganController extends Controller
             ]);
         }
     }
+
+    public function create_keuangan(){
+        return view ('keuangan.create_transaksi', [
+            'active' => $this->active
+        ]);
+    }
 }
