@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\RTModel;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,18 +13,12 @@ class RtController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
-
-        if ($user) {
-            return view('layout.maintenance', [
-                'active' => $this->active,
-            ]);
-        }
-
+        $rw = UserModel::with('warga')->where('level', 'rt')->first();
         $rt = RTModel::with('ketuaRT')->get();
 
         return view('rt.index', [
             'active' => $this->active,
+            'rw' => $rw,
             'rt' => $rt
         ]);
     }

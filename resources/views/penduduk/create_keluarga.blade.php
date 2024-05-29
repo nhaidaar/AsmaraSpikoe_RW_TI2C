@@ -1,7 +1,3 @@
-@php
-    $userIsRT = Auth::user()->level == 'rt';
-@endphp
-
 @extends('layout.template')
 
 @section('content')
@@ -197,7 +193,7 @@
                                     <div class="flex gap-3 lg:w-96 font-medium">
                                         <select name="rt_id" id="rt_id">
                                             @for ($i = 1; $i <= 7; $i++)
-                                            <option value="{{$i}}" {{ $rt == $i ? 'selected' : '' }} {{ $userIsRT && $rt != $i ? 'disabled' : '' }}>RT 0{{$i}}</option>
+                                            <option value="{{$i}}" {{ $rt == $i ? 'selected' : '' }} {{ Auth::user()->level == 'rt' && $rt != $i ? 'disabled' : '' }}>RT 0{{$i}}</option>
                                             @endfor
                                         </select>
                                         <select name="rw_id" id="rw_id" disabled>

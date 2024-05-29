@@ -48,11 +48,13 @@ trait ValidationTrait
     {
         $rules = [
             'no_kk' => 'required|min:16',
+            'rt_id' => 'required'
         ];
 
         $messages = [
             'no_kk.required' => 'Format nomor KK tidak valid',
             'no_kk.min' => 'Format nomor KK tidak valid',
+            'rt_id' => 'Mohon mengisi rt yang sesuai'
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);

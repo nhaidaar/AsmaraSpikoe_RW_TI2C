@@ -51,10 +51,6 @@
     @apply p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10 fadeIn;
 }
 
-.rwCard {
-    @apply p-4 flex flex-col gap-4 rounded-xl border border-Neutral-20 fadeIn;
-}
-
 .cardTitle {
     @apply text-xl md:text-2xl font-medium;
 }
@@ -72,11 +68,11 @@
 }
 
 .buttonDark {
-    @apply font-medium px-4 py-2 rounded-md bg-Primary-Base text-Neutral-0 text-nowrap text-center hover:bg-Primary-60;
+    @apply font-medium px-4 py-2 rounded-md bg-Primary-Base border border-Primary-Base text-Neutral-0 text-nowrap text-center hover:bg-Primary-60;
 }
 
 .buttonLight {
-    @apply font-medium px-4 py-2 rounded-md bg-Neutral-0 border border-Neutral-20 text-nowrap text-center hover:bg-Neutral-10;
+    @apply font-medium px-4 py-2 rounded-md bg-Neutral-0 border border-Neutral-20 text-Neutral-100 text-nowrap text-center hover:bg-Neutral-10;
 }
 
 label {

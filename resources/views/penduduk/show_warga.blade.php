@@ -28,7 +28,7 @@ Carbon::setLocale('id');
                             </div>
                             <div class="flex flex-col gap-2 w-80 lg:w-full">
                                 <label class="detail">Status dalam Keluarga</label>
-                                <input type="text" class="w-full lg:w-[450px] font-medium" value="{{ $kk->detailKK->first()->statusHubungan->keterangan }}" readonly>
+                                <input type="text" class="w-full lg:w-[450px] font-medium" value="{{ $warga->detailKK->statusHubungan->keterangan }}" readonly>
                             </div>
                             <div class="flex flex-col gap-2 w-80 lg:w-full">
                                 <label class="detail">Tempat Lahir</label>
@@ -76,34 +76,36 @@ Carbon::setLocale('id');
                                 <label class="detail">BPJS</label>
                                 <input type="text" class="w-full lg:w-[450px] font-medium" value="{{ $detailWarga->bpjs }}" readonly>
                             </div>
-                            <div class="flex flex-col gap-2 w-80 lg:w-full">
-                                <label class="detail">Luas Bangunan</label>
-                                <input type="text" class="w-full lg:w-[450px] font-medium" value="{{ $detailWarga->luas_rumah }} m2" readonly>
-                            </div>
-                            <div class="flex flex-col gap-2 w-80 lg:w-full">
-                                <label class="detail">Jumlah Tanggungan</label>
-                                <input type="text" class="w-full lg:w-[450px] font-medium" value="{{ $detailWarga->jumlah_tanggungan }}" readonly>
-                            </div>
-                            <div class="flex flex-col gap-2 w-80 lg:w-full">
-                                <label class="detail">Pajak Bumi dan Bangunan</label>
-                                <input type="text" class="w-full lg:w-[450px] font-medium" value="Rp {{ $detailWarga->pbb }}" readonly>
-                            </div>
-                            <div class="flex flex-col gap-2 w-80 lg:w-full">
-                                <label class="detail">Tagihan Listrik</label>
-                                <input type="text" class="w-full lg:w-[450px] font-medium" value="Rp {{ $detailWarga->tagihan_listrik }}" readonly>
-                            </div>
-                            <div class="flex flex-col gap-2 w-80 lg:w-full">
-                                <label class="detail">Tagihan Air</label>
-                                <input type="text" class="w-full lg:w-[450px] font-medium" value="Rp {{ $detailWarga->tagihan_air }}" readonly>
-                            </div>
-                            <div class="flex flex-col gap-2 w-80 lg:w-full">
-                                <label class="detail">Tanggungan Pendidikan</label>
-                                <input type="text" class="w-full lg:w-[450px] font-medium" value="{{ $detailWarga->tanggungan_pendidikan }}" readonly>
-                            </div>
+                            @if ($warga->detailKK->hubungan_id == 1)
+                                <div class="flex flex-col gap-2 w-80 lg:w-full">
+                                    <label class="detail">Luas Bangunan</label>
+                                    <input type="text" class="w-full lg:w-[450px] font-medium" value="{{ $detailWarga->luas_rumah }} m2" readonly>
+                                </div>
+                                <div class="flex flex-col gap-2 w-80 lg:w-full">
+                                    <label class="detail">Jumlah Tanggungan</label>
+                                    <input type="text" class="w-full lg:w-[450px] font-medium" value="{{ $detailWarga->jumlah_tanggungan }}" readonly>
+                                </div>
+                                <div class="flex flex-col gap-2 w-80 lg:w-full">
+                                    <label class="detail">Pajak Bumi dan Bangunan</label>
+                                    <input type="text" class="w-full lg:w-[450px] font-medium" value="Rp {{ $detailWarga->pbb }}" readonly>
+                                </div>
+                                <div class="flex flex-col gap-2 w-80 lg:w-full">
+                                    <label class="detail">Tagihan Listrik</label>
+                                    <input type="text" class="w-full lg:w-[450px] font-medium" value="Rp {{ $detailWarga->tagihan_listrik }}" readonly>
+                                </div>
+                                <div class="flex flex-col gap-2 w-80 lg:w-full">
+                                    <label class="detail">Tagihan Air</label>
+                                    <input type="text" class="w-full lg:w-[450px] font-medium" value="Rp {{ $detailWarga->tagihan_air }}" readonly>
+                                </div>
+                                <div class="flex flex-col gap-2 w-80 lg:w-full">
+                                    <label class="detail">Tanggungan Pendidikan</label>
+                                    <input type="text" class="w-full lg:w-[450px] font-medium" value="{{ $detailWarga->tanggungan_pendidikan }}" readonly>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
-@endsection
+    @endsection

@@ -3,7 +3,7 @@
 @section('content')
     <main class="p-2 bg-Neutral-10">
         <section class="p-4 flex flex-col gap-6 rounded-xl border border-Neutral-10 items-center bg-Neutral-0">
-            <form action="{{ route('updateKeluarga', $kk->kk_id) }}" method="post" class="lg:w-[664px] p-4 flex flex-col gap-12 rounded-xl border border-Neutral-20 fadeIn" enctype="multipart/form-data">
+            <form action="{{ route('updateKeluarga', $kk->kk_id) }}" method="post" class="lg:w-[664px] sm:w-[442px] p-4 flex flex-col gap-12 rounded-xl border border-Neutral-20 fadeIn" enctype="multipart/form-data">
                 @csrf
                 {!! method_field('PUT') !!}
 
@@ -73,6 +73,21 @@
                                     </label>
                                     <input type="text" name="no_kk" id="no_kk" placeholder="352xxxxxxxxxxxxx" value="{{ $kk->no_kk }}">
                                 </div>
+                                <div class="flex flex-col gap-3">
+                                    <label for="rt_id">
+                                        Domisili<span class="text-Error-Base">*</span>
+                                    </label>
+                                    <div class="flex gap-3 font-medium">
+                                        <select name="rt_id" id="rt_id">
+                                            @for ($i = 1; $i <= 7; $i++)
+                                                <option value="{{ $i }}" {{ $kk->rt == $i ? 'selected' : '' }} {{ Auth::user()->level == 'rt' && $rt != $i ? 'disabled' : '' }}>RT 0{{$i}}</option>
+                                            @endfor
+                                        </select>
+                                        <select name="rw_id" id="rw_id" disabled>
+                                            <option value="" selected>RW 04</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </section>
 
@@ -93,7 +108,7 @@
                                         </div>
                                     </div>
 
-                                    <a href="{{ route('editWarga', $item->anggotaKeluarga->warga_id) }}" class="buttonLight w-full">Edit</a>
+                                    <a href="{{ route('editWarga', $item->anggotaKeluarga->warga_id) }}" class="buttonDark sm:w-min">Edit</a>
                                 </div>
                             </section>
                         @endforeach

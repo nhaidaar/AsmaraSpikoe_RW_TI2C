@@ -9,6 +9,7 @@ use App\Models\PekerjaanModel;
 use App\Models\PenerimaBansosModel;
 use App\Models\RTModel;
 use App\Models\StatusHubunganModel;
+use App\Models\UserModel;
 use App\Models\WargaModel;
 use App\Traits\ValidationTrait;
 use Illuminate\Http\Request;
@@ -26,27 +27,26 @@ class PendudukController extends Controller
         $rt = 1;
 
         // If user not ketua rw, choose their rt
-        $user = Auth::user();
-        if ($user->level != 'rw') {
-            $rt = RTModel::whereHas('kartuKeluarga.detailKK.anggotaKeluarga', function ($q) use ($user) {
-                $q->where('warga_id', $user->warga_id);
-            })
-                ->pluck('rt_id')
-                ->first();
+        if (Auth::user()->level != 'rw') {
+            $user = WargaModel::with('detailKK.kartuKeluarga')->find(Auth::user()->warga_id);
+            $rt = $user->detailKK->kartuKeluarga->rt;
         }
 
         // Get all warga with join another table
-        $warga = WargaModel::with(['detailKK.kartuKeluarga'])->orderBy('nama_warga')->get();
+        $warga = WargaModel::with(['detailKK.kartuKeluarga'])
+            ->where('status_warga', 'Hidup')
+            ->orderBy('nama_warga')
+            ->get();
 
         // Get all kk with join another table (based on Kepala Keluarga)
-        $keluarga = DetailKKModel::with([
-            'anggotaKeluarga', 'kartuKeluarga'
-        ])->whereHas('statusHubungan', function ($q) {
-            $q->where('hubungan_id', 1);
-        })->get()
-            ->sortBy(function ($keluarga) {
-                return $keluarga->anggotaKeluarga->nama_warga;
-            });
+        $keluarga = KKModel::with(['detailKK.anggotaKeluarga'])
+            ->whereHas('detailKK', function ($q) {
+                $q->where('hubungan_id', '1');
+            })
+            ->whereHas('detailKK.anggotaKeluarga', function ($q) {
+                $q->where('status_warga', 'Hidup');
+            })
+            ->get();
 
         // Count jumlah penerima bansos
         $jumlahPenerimaBansos = PenerimaBansosModel::groupBy('penerima_bansos')->count();
@@ -62,6 +62,19 @@ class PendudukController extends Controller
 
     public function show_keluarga($id)
     {
+        $kk = KKModel::find($id);
+        $anggota = WargaModel::with(['jenisPekerjaan', 'detailKK.statusHubungan'])
+            ->whereHas('detailKK', function ($q) use ($id) {
+                $q->where('kk_id', $id);
+            })
+            ->where('status_warga', 'Hidup')
+            ->get();
+
+        return view('penduduk.show_keluarga', [
+            'active' => 'penduduk',
+            'kk' => $kk,
+            'anggota' => $anggota,
+        ]);
     }
 
     public function create_keluarga()
@@ -70,13 +83,9 @@ class PendudukController extends Controller
         $rt = 1;
 
         // If user not ketua rw, choose their rt
-        $user = Auth::user();
-        if ($user->level != 'rw') {
-            $rt = RTModel::whereHas('kartuKeluarga.detailKK.anggotaKeluarga', function ($q) use ($user) {
-                $q->where('warga_id', $user->warga_id);
-            })
-                ->pluck('rt_id')
-                ->first();
+        if (Auth::user()->level != 'rw') {
+            $user = WargaModel::with('detailKK.kartuKeluarga')->find(Auth::user()->warga_id);
+            $rt = $user->detailKK->kartuKeluarga->rt;
         }
 
         // Get all pekerjaan
@@ -165,25 +174,29 @@ class PendudukController extends Controller
     {
         $kk = KKModel::find($id);
 
+        // Default rt is 1
+        $rt = 1;
+
         // If user is ketua rt and their rt is not same with kk, redirect to home
-        $user = Auth::user();
-        if ($user->level != 'rw') {
-            $rt = RTModel::whereHas('kartuKeluarga.detailKK.anggotaKeluarga', function ($q) use ($user) {
-                $q->where('warga_id', $user->warga_id);
-            })
-                ->pluck('rt_id')
-                ->first();
+        if (Auth::user()->level != 'rw') {
+            $user = WargaModel::with('detailKK.kartuKeluarga')->find(Auth::user()->warga_id);
+            $rt = $user->detailKK->kartuKeluarga->rt;
 
             if ($rt != $kk->rt) {
-                return redirect()->route('penduduk');
+                return back();
             }
         }
 
         $anggota = DetailKKModel::with(['anggotaKeluarga', 'statusHubungan'])
-            ->where('kk_id', $id)->get();
+            ->where('kk_id', $id)
+            ->whereHas('anggotaKeluarga', function ($q) {
+                $q->where('status_warga', 'Hidup');
+            })
+            ->get();
 
         return view('penduduk.edit_keluarga', [
             'active' => 'penduduk',
+            'rt' => $rt,
             'kk' => $kk,
             'anggota' => $anggota
         ]);
@@ -199,6 +212,7 @@ class PendudukController extends Controller
         try {
             KKModel::find($id)->update([
                 'no_kk' => $request->no_kk,
+                'rt' => $request->rt_id
             ]);
 
             if ($request->imageKK != null) {
@@ -216,22 +230,47 @@ class PendudukController extends Controller
         return redirect()->route('penduduk');
     }
 
+    public function delete_keluarga(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'keluargaId' => 'required',
+            'keluargaReason' => 'required'
+        ]);
+
+        if ($validate->fails()) {
+            return back()->withErrors('Permintaan hapus keluarga tidak valid')->withInput();
+        }
+
+        DB::beginTransaction();
+        try {
+            $anggota = DetailKKModel::where('kk_id', $request->keluargaId)->get();
+
+            foreach ($anggota as $a) {
+                WargaModel::find($a->warga_id)->update([
+                    'status_warga' => $request->keluargaReason
+                ]);
+            }
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return back()->withErrors('Gagal menghapus keluarga, coba lagi')->withInput();
+        }
+
+        return redirect()->route('penduduk');
+    }
+
     public function show_warga($id)
     {
-        $warga = WargaModel::with('jenisPekerjaan')->find($id);
+        $warga = WargaModel::with(['jenisPekerjaan', 'detailKK.statusHubungan'])->find($id);
 
         $detailWarga = DetailWargaModel::where('warga_id', $id)->first();
-        $kk = KKModel::with('detailKK.statusHubungan')
-            ->whereHas('detailKK', function ($q) use ($id) {
-                $q->where('warga_id', $id);
-            })
-            ->first();
 
         return view('penduduk.show_warga', [
             'active' => 'penduduk',
             'warga' => $warga,
-            'detailWarga' => $detailWarga,
-            'kk' => $kk,
+            'detailWarga' => $detailWarga
         ]);
     }
 
@@ -405,6 +444,28 @@ class PendudukController extends Controller
 
     public function delete_warga(Request $request)
     {
-        dd($request);
+        $validate = Validator::make($request->all(), [
+            'wargaId' => 'required',
+            'wargaReason' => 'required'
+        ]);
+
+        if ($validate->fails()) {
+            return back()->withErrors('Permintaan hapus warga tidak valid')->withInput();
+        }
+
+        DB::beginTransaction();
+        try {
+            WargaModel::find($request->wargaId)->update([
+                'status_warga' => $request->wargaReason
+            ]);
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return back()->withErrors('Gagal menghapus warga, coba lagi')->withInput();
+        }
+
+        return redirect()->route('penduduk');
     }
 }
