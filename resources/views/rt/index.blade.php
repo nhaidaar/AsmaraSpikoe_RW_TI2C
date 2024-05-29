@@ -2,19 +2,16 @@
 
 @section('content')
     <main class="p-2 bg-Neutral-10">
-        <section class="p-20 flex flex-col gap-12 rounded-xl border border-Neutral-10 items-center bg-Neutral-0">
+        <section class="p-4 md:p-20 flex flex-col gap-12 rounded-xl border border-Neutral-10 items-center bg-Neutral-0">
             <div class="flex flex-col gap-2 text-center">
                 <p class="cardTitle">Rukun Tetangga</p>
                 <p class="subsubtitle text-Neutral-40 text-nowrap">Informasi kepengurusan di dusun Gondorejo.</p>
             </div>
             
-            <div class="rwCard">
-                <div class="flex items-center justify-center">
-                    <div class="h-8 w-8 rounded-full bg-[url('/public/img/RT1.png')] bg-cover bg-center"></div>
-                </div>
+            <div class="p-4 w-56 md:w-64 flex flex-col gap-4 rounded-xl border border-Neutral-20 fadeIn">
                 <div class="flex flex-col gap-1 text-center">
-                    <p class="title">Chyntia Santi</p>
-                    <p class="text-Neutral-40">Ketua RW 04</p>
+                    <p class="text-base lg:text-lg font-medium">{{ $rw->warga->nama_warga }}</p>
+                    <p class="text-sm lg:text-base text-Neutral-40">Ketua RW 04</p>
                 </div>
                 <a href="https://wa.me/62085872388203" class="flex gap-2 font-medium px-4 py-2 border border-solid rounded-md border-Neutral-20 text-nowrap text-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -22,17 +19,17 @@
                     </svg>
                     <p>0858-7238-8203</p>
                 </a>
+                @if (Auth::check() && Auth::user()->level == 'rw')
+                    <a href="#" class="buttonLight">Edit</a>
+                @endif
             </div>
 
-            <div class="flex md:grid flex-col md:grid-cols-2 justify-between gap-12">
+            <div class="flex md:grid flex-col md:grid-cols-2 gap-12">
                 @foreach ($rt as $item)
-                    <div class="rwCard">
-                        <div class="flex items-center justify-center">
-                            <div class="h-8 w-8 rounded-full bg-[url('/public/img/RT1.png')] bg-cover bg-center"></div>
-                        </div>
+                    <div class="p-4 w-56 md:w-64 flex flex-col gap-4 rounded-xl border border-Neutral-20 fadeIn">
                         <div class="flex flex-col gap-1 text-center">
-                            <p class="title">{{$item->ketuaRT->nama_warga}}</p>
-                            <p class="text-Neutral-40">Ketua RT {{ str_pad($item->rt_id, 2, '0', STR_PAD_LEFT) }}</p>
+                            <p class="text-base lg:text-lg font-medium">{{$item->ketuaRT->nama_warga}}</p>
+                            <p class="text-sm lg:text-base text-Neutral-40">Ketua RT {{ str_pad($item->rt_id, 2, '0', STR_PAD_LEFT) }}</p>
                         </div>
                         <a href="https://wa.me/62{{$item->no_telepon}}" class="flex gap-2 font-medium px-4 py-2 border border-solid rounded-md border-Neutral-20 text-nowrap text-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -40,6 +37,9 @@
                             </svg>
                             <p>{{ implode('-', str_split($item->no_telepon, 4)) }}</p>
                         </a>
+                        @if (Auth::check() && Auth::user()->level == 'rw')
+                            <a href="" class="buttonLight">Edit</a>
+                        @endif
                     </div>
                 @endforeach
             </div>

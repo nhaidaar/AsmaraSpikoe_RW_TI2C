@@ -26,6 +26,7 @@ class WargaModel extends Model
         'agama',
         'status_perkawinan',
         'pekerjaan',
+        'status_warga'
     ];
 
     public function user(): HasMany

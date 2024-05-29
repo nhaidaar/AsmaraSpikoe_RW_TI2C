@@ -131,15 +131,33 @@
                     <tbody>
                         @foreach ($keluarga as $item)
                             <tr>
-                                <td class="hidden" id="rt">{{ $item->kartuKeluarga->rt }}</td>
-                                <td id="no_kk">{{ $item->kartuKeluarga->no_kk }}</td>
-                                <td id="nama_kepala">{{ $item->anggotaKeluarga->nama_warga }}</td>
-                                <td>{{ $item->where('kk_id', $item->kartukeluarga->kk_id)->count() }}</td>
-                                <td>{{ $item->anggotaKeluarga->alamat_domisili }}</td>
+                                <td class="hidden" id="rt">
+                                    {{ $item->rt }}
+                                </td>
+                                <td id="no_kk">
+                                    {{ $item->no_kk }}
+                                </td>
+                                <td id="nama_kepala">
+                                    {{ $item->detailKK->first()->anggotaKeluarga->nama_warga }}
+                                </td>
+                                <td>
+                                    @php
+                                        $anggotaCount = 0;
+                                        foreach ($item->detailKK as $anggota) {
+                                            if ($anggota->anggotaKeluarga->status_warga == 'Hidup') {
+                                                $anggotaCount++;
+                                            }
+                                        }
+                                    @endphp
+                                    {{ $anggotaCount }}
+                                </td>
+                                <td>
+                                    {{ $item->detailKK->first()->anggotaKeluarga->alamat_domisili }}
+                                </td>
                                 <td class="flex gap-2 max-w-60">
-                                    <a href="#" class="buttonDark w-full md:w-min">Detail</a>
-                                    <a href="{{ route('editKeluarga', $item->kartuKeluarga->kk_id) }}" class="buttonLight w-full md:w-min">Edit</a>
-                                    <button type="button" class="buttonLight flex items-center w-fit">
+                                    <a href="{{ route('detailKeluarga', $item->kk_id) }}" class="buttonDark w-full md:w-min">Detail</a>
+                                    <a href="{{ route('editKeluarga', $item->kk_id) }}" class="buttonLight w-full md:w-min">Edit</a>
+                                    <button type="button" class="keluarga-delete-btn buttonLight flex items-center w-fit" data-id="{{ $item->kk_id }}" data-name="{{ $item->detailKK->first()->anggotaKeluarga->nama_warga }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" fill="none" viewBox="0 0 18 20">
                                             <path stroke="#C04949" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M1 4.176h16M7 14.765V8.412m4 6.353V8.412M13 19H5c-1.105 0-2-.948-2-2.118V5.235c0-.584.448-1.059 1-1.059h10c.552 0 1 .475 1 1.06v11.646c0 1.17-.895 2.118-2 2.118ZM7 4.176h4c.552 0 1-.474 1-1.058v-1.06C12 1.475 11.552 1 11 1H7c-.552 0-1 .474-1 1.059v1.059c0 .584.448 1.058 1 1.058Z"/>
                                         </svg>                                                                          
@@ -170,7 +188,7 @@
                             <td class="flex gap-2 max-w-60">
                                 <a href="{{ route('detailWarga', $item->warga_id) }}" class="buttonDark md:w-min">Detail</a>
                                 <a href="{{ route('editWarga', $item->warga_id) }}" class="buttonLight md:w-min">Edit</a>
-                                <button type="button" class="delete-btn buttonLight flex items-center w-fit" data-id="{{ $item->warga_id }}" data-name="{{ $item->nama_warga }}" data-nik="{{ $item->nik }}">
+                                <button type="button" class="warga-delete-btn buttonLight flex items-center w-fit" data-id="{{ $item->warga_id }}" data-name="{{ $item->nama_warga }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" fill="none" viewBox="0 0 18 20">
                                         <path stroke="#C04949" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M1 4.176h16M7 14.765V8.412m4 6.353V8.412M13 19H5c-1.105 0-2-.948-2-2.118V5.235c0-.584.448-1.059 1-1.059h10c.552 0 1 .475 1 1.06v11.646c0 1.17-.895 2.118-2 2.118ZM7 4.176h4c.552 0 1-.474 1-1.058v-1.06C12 1.475 11.552 1 11 1H7c-.552 0-1 .474-1 1.059v1.059c0 .584.448 1.058 1 1.058Z"/>
                                     </svg>                                                                          
@@ -184,10 +202,10 @@
             </div>
         </section>
 
-        <!-- Modal -->
-        <div id="deleteModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Warga Delete Modal -->
+        <div id="wargaDeleteModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div id="modalOverlay" class="fixed inset-0 bg-Neutral-100 bg-opacity-30 transition-opacity" aria-hidden="true"></div>
+                <div id="wargaModalOverlay" class="fixed inset-0 bg-Neutral-100 bg-opacity-30 transition-opacity" aria-hidden="true"></div>
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true"></span>
                 <div class="inline-block align-bottom bg-white rounded-lg text-center overflow-hidden shadow-xl transform transition-all sm:align-middle sm:max-w-lg sm:w-full">
                     <div class="p-4 flex flex-col gap-2 border border-b-2 border-Neutral-20">
@@ -196,25 +214,61 @@
                     </div>
                     <div class="p-4 flex flex-col gap-6">
                         <div class="flex flex-col gap-2">
-                            <p class="title" id="modalName"></p>
-                            <p class="subsubtitle text-Neutral-40">NIK : <span id="modalNik"></span></p>
+                            <p class="title" id="wargaName"></p>
                         </div>
                         <div class="flex flex-col gap-3 text-left">
-                            <label for="reason">Alasan</label>
-                            <select name="reason" id="reason" required>
+                            <label for="wargaChoice">Alasan</label>
+                            <select name="wargaChoice" id="wargaChoice" required>
                                 <option value="Meninggal">Meninggal</option>
-                                <option value="Pindah Rumah">Pindah Rumah</option>
+                                <option value="Pindah">Pindah Rumah</option>
                                 <option value="Lainnya">Lainnya</option>
                             </select>
                         </div>
                     </div>
                     <div class="p-4 flex justify-end gap-2 border border-t-2 border-Neutral-20">
-                        <button type="button" id="cancelDelete" class="buttonLight md:w-min">Batal</button>
-                        <form id="deleteForm" method="POST" action="{{ route('deleteWarga') }}">
+                        <button type="button" id="wargaCancelDelete" class="buttonLight md:w-min">Batal</button>
+                        <form id="wargaDeleteForm" method="POST" action="{{ route('deleteWarga') }}">
                             @csrf
                             
-                            <input type="hidden" name="modalId" id="modalId">
-                            <input type="hidden" name="modalReason" id="modalReason">
+                            <input type="hidden" name="wargaId" id="wargaId">
+                            <input type="hidden" name="wargaReason" id="wargaReason">
+                            <button type="submit" class="buttonDark md:w-min">Hapus</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Keluarga Delete Modal -->
+        <div id="keluargaDeleteModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div id="keluargaModalOverlay" class="fixed inset-0 bg-Neutral-100 bg-opacity-30 transition-opacity" aria-hidden="true"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true"></span>
+                <div class="inline-block align-bottom bg-white rounded-lg text-center overflow-hidden shadow-xl transform transition-all sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="p-4 flex flex-col gap-2 border border-b-2 border-Neutral-20">
+                        <p class="cardTitle">Apakah Anda ingin hapus data ini?</p>
+                        <p class="subtitle text-Neutral-40">Data seluruh anggota keluarga akan dihapus.</p>
+                    </div>
+                    <div class="p-4 flex flex-col gap-6">
+                        <div class="flex flex-col gap-2">
+                            <p class="title" id="keluargaName"></p>
+                        </div>
+                        <div class="flex flex-col gap-3 text-left">
+                            <label for="keluargaChoice">Alasan</label>
+                            <select name="keluargaChoice" id="keluargaChoice" required>
+                                <option value="Meninggal">Meninggal</option>
+                                <option value="Pindah">Pindah Rumah</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="p-4 flex justify-end gap-2 border border-t-2 border-Neutral-20">
+                        <button type="button" id="keluargaCancelDelete" class="buttonLight md:w-min">Batal</button>
+                        <form id="keluargaDeleteForm" method="POST" action="{{ route('deleteKeluarga') }}">
+                            @csrf
+                            
+                            <input type="hidden" name="keluargaId" id="keluargaId">
+                            <input type="hidden" name="keluargaReason" id="keluargaReason">
                             <button type="submit" class="buttonDark md:w-min">Hapus</button>
                         </form>
                     </div>
@@ -225,48 +279,79 @@
     </main>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const deleteButtons = document.querySelectorAll('.delete-btn');
+            const keluargaDeleteBtn = document.querySelectorAll('.keluarga-delete-btn');
+            const wargaDeleteBtn = document.querySelectorAll('.warga-delete-btn');
 
-            const deleteModal = document.getElementById('deleteModal');
-            const modalName = document.getElementById('modalName');
-            const modalNik = document.getElementById('modalNik');
-            const modalOverlay = document.getElementById('modalOverlay');
+            const keluargaDeleteModal = document.getElementById('keluargaDeleteModal');
+            const wargaDeleteModal = document.getElementById('wargaDeleteModal');
 
-            const confirmDelete = document.getElementById('confirmDelete');
-            const cancelDelete = document.getElementById('cancelDelete');
+            const keluargaDeleteForm = document.getElementById('keluargaDeleteForm');
+            const wargaDeleteForm = document.getElementById('wargaDeleteForm');
+
+            const keluargaName = document.getElementById('keluargaName');
+            const wargaName = document.getElementById('wargaName');
             
-            const deleteForm = document.getElementById('deleteForm');
+            const keluargaModalOverlay = document.getElementById('keluargaModalOverlay');
+            const wargaModalOverlay = document.getElementById('wargaModalOverlay');
 
-            const reasonSelect = document.getElementById('reason');
-            const modalReason = document.getElementById('modalReason');
+            const keluargaCancelDelete = document.getElementById('keluargaCancelDelete');
+            const wargaCancelDelete = document.getElementById('wargaCancelDelete');
+
+            const keluargaChoice = document.getElementById('keluargaChoice');
+            const wargaChoice = document.getElementById('wargaChoice');
             
-            let currentUserId;
+            // const wargaId = document.getElementById('wargaId');
+            // const wargaReason = document.getElementById('wargaReason');
+            // const keluargaId = document.getElementById('keluargaId');
+            // const keluargaReason = document.getElementById('keluargaReason');
+            let currentKeluargaId;
+            let currentWargaId;
 
-            deleteButtons.forEach(button => {
+            wargaDeleteBtn.forEach(button => {
                 button.addEventListener('click', function() {
-                    currentUserId = this.getAttribute('data-id');
+                    currentWargaId = this.getAttribute('data-id');
                     const name = this.getAttribute('data-name');
-                    const nik = this.getAttribute('data-nik');
 
-                    modalName.textContent = name;
-                    modalNik.textContent = nik;
-                    deleteModal.classList.remove('hidden');
+                    wargaName.textContent = name;
+                    wargaDeleteModal.classList.remove('hidden');
+                });
+            });
+            keluargaDeleteBtn.forEach(button => {
+                button.addEventListener('click', function() {
+                    currentKeluargaId = this.getAttribute('data-id');
+                    const name = this.getAttribute('data-name');
+
+                    keluargaName.textContent = 'Keluarga ' + name;
+                    keluargaDeleteModal.classList.remove('hidden');
                 });
             });
 
-            cancelDelete.addEventListener('click', function() {
+            keluargaCancelDelete.addEventListener('click', function() {
                 event.preventDefault();
-                deleteModal.classList.add('hidden');
+                keluargaDeleteModal.classList.add('hidden');
+            });
+            wargaCancelDelete.addEventListener('click', function() {
+                event.preventDefault();
+                wargaDeleteModal.classList.add('hidden');
             });
 
-            modalOverlay.addEventListener('click', function() {
+            keluargaModalOverlay.addEventListener('click', function() {
                 event.preventDefault();
-                deleteModal.classList.add('hidden');
+                keluargaDeleteModal.classList.add('hidden');
+            });
+            wargaModalOverlay.addEventListener('click', function() {
+                event.preventDefault();
+                wargaDeleteModal.classList.add('hidden');
             });
 
-            deleteForm.addEventListener('submit', function(event) {
-                modalId.value = currentUserId;
-                modalReason.value = reasonSelect.value;
+            wargaDeleteForm.addEventListener('submit', function(event) {
+                wargaId.value = currentWargaId;
+                wargaReason.value = wargaChoice.value;
+            });
+
+            keluargaDeleteForm.addEventListener('submit', function(event) {
+                keluargaId.value = currentKeluargaId;
+                keluargaReason.value = keluargaChoice.value;
             });
         });
         
@@ -302,14 +387,13 @@
             }
         });
 
+        // Script for Filtering
         document.getElementById('rt_id').addEventListener('change', function() {
             filterAndSearchTable();
         });
-
         document.getElementById('searchData').addEventListener('input', function() {
             filterAndSearchTable();
         });
-
         function filterAndSearchTable() {
             var selectedRT = document.getElementById('rt_id').value;
             var search = document.getElementById('searchData').value.toLowerCase();
@@ -342,7 +426,6 @@
                 }
             });
         }
-
         filterAndSearchTable();
     </script>
 @endsection

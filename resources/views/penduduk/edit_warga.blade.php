@@ -127,7 +127,7 @@
                                         </select>
                                         <select name="tahun" id="tahun">
                                             @for ($i = now()->year; $i >= 1900; $i--)
-                                            <option value="{{ $i }}" {{ date('m', strtotime($warga->tanggal_lahir)) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                                <option value="{{ $i }}" {{ date('Y', strtotime($warga->tanggal_lahir)) == $i ? 'selected' : '' }}>{{ $i }}</option>
                                             @endfor
                                         </select>
                                     </div>
