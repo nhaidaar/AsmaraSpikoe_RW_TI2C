@@ -6,7 +6,7 @@
         <nav class="flex justify-between text-Neutral-0">
             <a href="/" class="flex gap-1.5 items-center">
                 <img src="/img/main_logo.png" class="w-8 h-8 m-0.5" alt="Gondorejo">
-                <p class="text-2xl font-medium">Gondorejo</p>
+                <p class="text-2xl font-normal">Gondorejo</p>
             </a>
             <div class="hidden lg:flex gap-8 font-normal items-center">
                 @if ($user)

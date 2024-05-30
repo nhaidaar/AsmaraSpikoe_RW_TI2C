@@ -15,6 +15,8 @@ class IndexController extends Controller
             return redirect()->route('penduduk');
         }
 
-        return redirect()->route('informasi');
+        return view('index', [
+            'active' => 'Informasi'
+        ]);
     }
 }
