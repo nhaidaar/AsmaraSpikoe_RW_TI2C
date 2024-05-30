@@ -87,5 +87,5 @@ Route::group(['prefix' => 'penduduk', 'middleware' => 'admin'], function () {
 
 Route::group(['prefix' => 'keuangan'], function () {
     Route::get('/', [KeuanganController::class, 'index'])->name('keuangan');
-    Route::get('/create', [KeuanganController::class, 'create_keuangan'])->name('createkeuangan');
+    Route::get('/create', [KeuanganController::class, 'create'])->name('createKeuangan');
 });
