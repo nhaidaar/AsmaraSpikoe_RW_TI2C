@@ -17,8 +17,7 @@
 
                     <span>
                         <p class="subtitle text-Neutral-40">Total Kas</p>
-                        {{-- <p class="cardTitle">{{ $warga->count() }}</p> --}}
-                        <p class="cardTitle text-Success-Base">Rp 12.000.000</p>
+                        <p class="cardTitle text-Success-Base">Rp {{ $totalKas }}</p>
                     </span>
                 </div>
 
@@ -35,8 +34,7 @@
 
                     <span>
                         <p class="subtitle text-Neutral-40">Total Pengeluaran</p>
-                        {{-- <p class="cardTitle">{{ $keluarga->count() }}</p> --}}
-                        <p class="cardTitle text-Error-Base">Rp 6.000.000</p>
+                        <p class="cardTitle text-Error-Base">Rp {{ $totalPengeluaran }}</p>
                     </span>
                 </div>
         </section>
@@ -47,7 +45,7 @@
             <div class="p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10"> {{-- Inner Card --}}
                 <div class="grid lg:flex gap-8 lg:flex-row justify-center lg:justify-between text-center w-full border-b pb-6 pt-3">
                     <div class="grid grid-cols-subgrid md:max-w-[554px] md:flex items-center gap-2">
-                        <select name="rt_id" id="rt_id" class="font-medium md:max-w-[120px]" {{ Auth::user()->level != 'rw' ? 'disabled' : '' }} >
+                        <select name="rt_id" id="rt_id" class="font-medium md:max-w-[120px]" {{ (Auth::check() && Auth::user()->level != 'rw') ? 'disabled' : '' }} >
                             @for ($i = 1; $i <= 7; $i++)
                                 <option value="{{$i}}" {{ $rt == $i ? 'selected' : '' }}>RT 0{{$i}}</option>
                             @endfor
@@ -62,12 +60,14 @@
                         </div>
                     </div>
                     
-                    <a href="{{ route('createKeuangan') }}" id="tambahKeluarga" class="flex items-center justify-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap hover:bg-Primary-60">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 6V18M18 12H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        Tambah Transaksi
-                    </a>
+                    @if (Auth::check())    
+                        <a href="{{ route('createKeuangan') }}" class="flex items-center justify-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap hover:bg-Primary-60">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 6V18M18 12H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Tambah Transaksi
+                        </a>
+                    @endif
                 </div>
 
                 <div class="w-full bg-Neutral-0 overflow-x-auto fadeIn">
@@ -81,7 +81,14 @@
                             </tr>
                         </thead>
                         <tbody>
-
+                            @foreach ($keuangan as $item)
+                                <tr>
+                                    <td>{{ $item->tanggal }}</td>
+                                    <td>{{ $item->jenis_keuangan }}</td>
+                                    <td>{{ $item->nominal }}</td>
+                                    <td>{{ $item->keterangan_keuangan }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
