@@ -16,12 +16,14 @@ class KeuanganSeeder extends Seeder
         $data = 
         [
             [
+                'rt_id'                 => '1',
                 'tanggal'               => now(),
                 'jenis_keuangan'        => 'Pemasukkan',
                 'nominal'               => 1000000,
                 'keterangan_keuangan'   => 'Iuran Sampah'
             ],
             [
+                'rt_id'                 => '1',
                 'tanggal'               => now(),
                 'jenis_keuangan'        => 'Pengeluaran',
                 'nominal'               => 100000,
