@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory as Faker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+
+require_once 'vendor/autoload.php';
 
 class WargaSeeder extends Seeder
 {
@@ -13,33 +16,22 @@ class WargaSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [
-            [
-                'nik'               => '1234567890123456',
-                'nama_warga'        => 'Rafi Sampang',
-                'tempat_lahir'      => 'Sampang',
-                'tanggal_lahir'     => '1990-01-01',
-                'jenis_kelamin'     => 'Laki-laki',
-                'alamat_ktp'        => 'Jl. KTP No. 123',
-                'alamat_domisili'   => 'Jl. Domisili No. 123',
-                'agama'             => 'Islam',
-                'status_perkawinan' => 'Belum Kawin',
-                'pekerjaan'         => 1, 
-            ],
-            [
-                'nik'               => '1234567890123457',
-                'nama_warga'        => 'Cintya',
-                'tempat_lahir'      => 'Pasuruan',
-                'tanggal_lahir'     => '1992-02-02',
-                'jenis_kelamin'     => 'Perempuan',
-                'alamat_ktp'        => 'Jl. KTP No. 124',
-                'alamat_domisili'   => 'Jl. Domisili No. 124',
-                'agama'             => 'Kristen',
-                'status_perkawinan' => 'Kawin',
-                'pekerjaan'         => 2, 
-            ]
-        ];
+        $faker = Faker::create('id_ID');
 
-        DB::table('warga')->insert($data);
+        for ($i = 0; $i < 100; $i++) {
+            DB::table('warga')->insert([
+                'nik'               => $faker->nik(),
+                'nama_warga'        => $faker->name(),
+                'tempat_lahir'      => $faker->city(),
+                'tanggal_lahir'     => $faker->date(),
+                'jenis_kelamin'     => $faker->randomElement(['Laki-laki', 'Perempuan']),
+                'alamat_ktp'        => $faker->streetAddress(),
+                'alamat_domisili'   => $faker->streetAddress(),
+                'agama'             => $faker->randomElement(['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu', 'Lainnya']),
+                'status_perkawinan' => $faker->randomElement(['Belum Kawin', 'Kawin', 'Cerai Hidup', 'Cerai Mati']),
+                'status_warga'      => 'Hidup',
+                'pekerjaan'         => $faker->numberBetween(1, 3),
+            ]);
+        }
     }
 }
