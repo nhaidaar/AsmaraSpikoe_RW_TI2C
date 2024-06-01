@@ -66,7 +66,7 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'penduduk', 'middleware' => 'admin'], function () {
     Route::get('/', [PendudukController::class, 'index'])->name('penduduk');
     Route::group(['prefix' => 'keluarga'], function () {
-        Route::get('/', [PendudukController::class, 'index']);
+        Route::get('/', [PendudukController::class, 'index_keluarga'])->name('indexKeluarga');
         Route::get('/create', [PendudukController::class, 'create_keluarga'])->name('createKeluarga');
         Route::post('/create', [PendudukController::class, 'store_keluarga'])->name('storeKeluarga');
         Route::get('/edit/{id}', [PendudukController::class, 'edit_keluarga'])->name('editKeluarga');
@@ -75,13 +75,20 @@ Route::group(['prefix' => 'penduduk', 'middleware' => 'admin'], function () {
         Route::post('/delete', [PendudukController::class, 'delete_keluarga'])->name('deleteKeluarga');
     });
     Route::group(['prefix' => 'warga'], function () {
-        Route::get('/', [PendudukController::class, 'index']);
+        Route::get('/', [PendudukController::class, 'index_warga'])->name('indexWarga');
         Route::get('/create', [PendudukController::class, 'create_warga'])->name('createWarga');
         Route::post('/create', [PendudukController::class, 'store_warga'])->name('storeWarga');
         Route::get('/edit/{id}', [PendudukController::class, 'edit_warga'])->name('editWarga');
         Route::put('/edit/{id}', [PendudukController::class, 'update_warga'])->name('updateWarga');
         Route::get('/detail/{id}', [PendudukController::class, 'show_warga'])->name('detailWarga');
         Route::post('/delete', [PendudukController::class, 'delete_warga'])->name('deleteWarga');
+    });
+    Route::group(['prefix' => 'inactive'], function () {
+        Route::get('/', [PendudukController::class, 'index_inactive'])->name('indexInactive');
+        Route::get('/edit/{id}', [PendudukController::class, 'edit_inactive'])->name('editInactive');
+        Route::put('/edit/{id}', [PendudukController::class, 'update_inactive'])->name('updateInactive');
+        Route::get('/detail/{id}', [PendudukController::class, 'show_inactive'])->name('detailInactive');
+        Route::post('/delete', [PendudukController::class, 'delete_inactive'])->name('deleteInactive');
     });
 });
 

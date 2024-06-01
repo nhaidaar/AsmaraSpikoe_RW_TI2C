@@ -27,6 +27,17 @@
                         </div>
                     @endif
 
+                    <div class="flex gap-2 justify-center text-center">
+                        <div class="flex w-full">
+                            <input type="radio" name="jenis" value="newKK" id="newKK" class="hidden peer" {{ old('jenis') == 'newKK' | old('jenis') == null ? 'checked' : '' }}>
+                            <label onclick="newKK()" for="newKK" id="label-newKK" class="bg-Neutral-0 peer-checked:bg-Primary-Base text-Neutral-100 peer-checked:text-Neutral-0 font-medium text-sm md:text-base p-3 rounded-full cursor-pointer text-nowrap md:w-full border-2 border-Neutral-10 peer-checked:border-transparent">Warga Baru</label>
+                        </div>
+                        <div class="flex w-full">
+                            <input type="radio" name="jenis" value="oldKK" id="oldKK" class="hidden peer" {{ old('jenis') == 'oldKK' ? 'checked' : '' }}>
+                            <label onclick="oldKK()" for="oldKK" id="label-oldKK" class="bg-Neutral-0 peer-checked:bg-Primary-Base text-Neutral-100 peer-checked:text-Neutral-0 font-medium text-sm md:text-base p-3 rounded-full cursor-pointer text-nowrap md:w-full border-2 border-Neutral-10 peer-checked:border-transparent">Warga Lama</label>
+                        </div>
+                    </div>
+                    
                     {{-- Kartu Keluarga --}}
                     <section class="flex flex-col gap-2">
                         <label>Kartu Keluarga (KK)</label>
@@ -66,20 +77,50 @@
                                         <button id="remove-image-kk" class="px-4 py-2 text-Neutral-0 bg-Error-50 hover:bg-Error-60 rounded-md">Hapus Gambar</button>
                                     </div>
                                 </div>
+                                <label class="detail">* Ukuran maks. 1MB</label>
                             </div>
+
                             <div class="flex flex-col gap-3">
                                 <label for="no_kk">
                                     No. KK<span class="text-Error-Base">*</span>
                                 </label>
                                 <input type="text" name="no_kk" id="no_kk" placeholder="352xxxxxxxxxxxxx" value="{{ old('no_kk') }}">
                             </div>
+
+                            <div class="flex flex-col gap-3">
+                                <label for="rt_id">
+                                    Domisili<span class="text-Error-Base">*</span>
+                                </label>
+                                <div class="flex gap-3 font-medium">
+                                    <select name="rt_id" id="rt_id">
+                                        @for ($i = 1; $i <= 7; $i++)
+                                            <option value="{{ $i }}" {{ Auth::user()->level == 'rt' && $rt == $i ? 'selected' : '' }} {{ Auth::user()->level == 'rt' && $rt != $i ? 'disabled' : '' }}>RT 0{{$i}}</option>
+                                        @endfor
+                                    </select>
+                                    <select name="rw_id" id="rw_id" disabled>
+                                        <option value="" selected>RW 04</option>
+                                    </select>
+                                </div>
+                            </div>
+
                         </div>
                     </section>
 
                     {{-- Kepala Keluarga --}}
                     <section class="flex flex-col gap-2">
                         <label>Data Kepala Keluarga</label>
-                        <div class="p-4 flex flex-col gap-4 rounded-lg border border-Neutral-20">
+                        <input type="hidden" name="hubungan_id" id="hubungan_id" value="1">
+
+                        <div id="oldNik" class="p-4 hidden flex-col gap-4 rounded-lg border border-Neutral-20">
+                            <div class="flex flex-col gap-3">
+                                <label for="oldNik">
+                                    NIK<span class="text-Error-Base">*</span>
+                                </label>
+                                <input type="text" name="oldNik" placeholder="352xxxxxxxxxxxxx" value="{{ old('oldNik') }}">
+                            </div>
+                        </div>
+                        
+                        <div id="newNik" class="p-4 flex flex-col gap-4 rounded-lg border border-Neutral-20">
                             <div class="flex flex-col gap-3">
                                 <label>
                                     Foto KTP<span class="text-Error-Base">*</span>
@@ -115,19 +156,23 @@
                                         <button id="remove-image-ktp" class="px-4 py-2 text-Neutral-0 bg-Error-50 hover:bg-Error-60 rounded-md">Hapus Gambar</button>
                                     </div>
                                 </div>
+                                <label class="detail">* Ukuran maks. 1MB</label>
                             </div>
+
                             <div class="flex flex-col gap-3">
-                                <label for="nama">
+                                <label for="nama_warga">
                                     Nama<span class="text-Error-Base">*</span>
                                 </label>
-                                <input type="text" name="nama" id="nama" placeholder="Masukkan nama" value="{{ old('nama') }}">
+                                <input type="text" name="nama_warga" id="nama_warga" placeholder="Masukkan nama" value="{{ old('nama_warga') }}">
                             </div>
+
                             <div class="flex flex-col gap-3">
                                 <label for="nik">
                                     NIK<span class="text-Error-Base">*</span>
                                 </label>
-                                <input type="text" name="nik" id="nik" placeholder="Masukkan NIK" value="{{ old('nik') }}">
+                                <input type="text" name="nik" id="nik" placeholder="352xxxxxxxxxxxxx" value="{{ old('nik') }}">
                             </div>
+
                             <div class="flex flex-col gap-3">
                                 <label for="tanggal">
                                     Tempat dan Tanggal Lahir<span class="text-Error-Base">*</span>
@@ -137,32 +182,33 @@
                                     <select name="tanggal" id="tanggal">
                                         <option value="" class=" text-Neutral-40" disabled selected>Tanggal</option>
                                         @for ($i = 1; $i <= 31; $i++)
-                                            <option value="{{ $i }}" class=" text-Neutral-40" >{{ $i }}</option>
+                                            <option value="{{ $i }}" {{ old('tanggal') == $i ? 'selected' : '' }}>{{ $i }}</option>
                                         @endfor
                                     </select>
                                     <select name="bulan" id="bulan">
                                         <option value="" class="text-Neutral-40" disabled selected>Bulan</option>
-                                        <option value="1">Januari</option>
-                                        <option value="2">Februari</option>
-                                        <option value="3">Maret</option>
-                                        <option value="4">April</option>
-                                        <option value="5">Mei</option>
-                                        <option value="6">Juni</option>
-                                        <option value="7">Juli</option>
-                                        <option value="8">Agustus</option>
-                                        <option value="9">September</option>
-                                        <option value="10">Oktober</option>
-                                        <option value="11">November</option>
-                                        <option value="12">Desember</option>
+                                        <option value="1" {{ old('bulan') == 1 ? 'selected' : '' }}>Januari</option>
+                                        <option value="2" {{ old('bulan') == 2 ? 'selected' : '' }}>Februari</option>
+                                        <option value="3" {{ old('bulan') == 3 ? 'selected' : '' }}>Maret</option>
+                                        <option value="4" {{ old('bulan') == 4 ? 'selected' : '' }}>April</option>
+                                        <option value="5" {{ old('bulan') == 5 ? 'selected' : '' }}>Mei</option>
+                                        <option value="6" {{ old('bulan') == 6 ? 'selected' : '' }}>Juni</option>
+                                        <option value="7" {{ old('bulan') == 7 ? 'selected' : '' }}>Juli</option>
+                                        <option value="8" {{ old('bulan') == 8 ? 'selected' : '' }}>Agustus</option>
+                                        <option value="9" {{ old('bulan') == 9 ? 'selected' : '' }}>September</option>
+                                        <option value="10" {{ old('bulan') == 10 ? 'selected' : '' }}>Oktober</option>
+                                        <option value="11" {{ old('bulan') == 11 ? 'selected' : '' }}>November</option>
+                                        <option value="12" {{ old('bulan') == 12 ? 'selected' : '' }}>Desember</option>
                                     </select>
                                     <select name="tahun" id="tahun">
                                         <option value="" class=" text-Neutral-40" disabled selected>Tahun</option>
                                         @for ($i = now()->year; $i >= 1900; $i--)
-                                            <option value="{{ $i }}" class=" text-Neutral-40">{{ $i }}</option>
+                                            <option value="{{ $i }}" {{ old('tahun') == $i ? 'selected' : '' }}>{{ $i }}</option>
                                         @endfor
                                     </select>
                                 </div>
                             </div>
+
                             <div class="flex flex-col gap-3">
                                 <label for="jenis_kelamin">
                                     Jenis Kelamin<span class="text-Error-Base">*</span>
@@ -178,57 +224,50 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="flex flex-col gap-3">
                                 <label for="alamat_ktp">
                                     Alamat KTP<span class="text-Error-Base">*</span>
                                 </label>
                                 <input type="text" name="alamat_ktp" id="alamat_ktp" placeholder="Masukkan alamat KTP" value="{{ old('alamat_ktp') }}">
                             </div>
+
                             <div class="flex flex-col gap-3">
                                 <label for="alamat_domisili">
                                     Alamat Domisili<span class="text-Error-Base">*</span>
                                 </label>
-                                <div class="grid lg:flex gap-3">
-                                    <input type="text" name="alamat_domisili" id="alamat_domisili" placeholder="Masukkan alamat domisili" value="{{ old('alamat_domisili') }}">
-                                    <div class="flex gap-3 lg:w-96 font-medium">
-                                        <select name="rt_id" id="rt_id">
-                                            @for ($i = 1; $i <= 7; $i++)
-                                            <option value="{{$i}}" {{ $rt == $i ? 'selected' : '' }} {{ Auth::user()->level == 'rt' && $rt != $i ? 'disabled' : '' }}>RT 0{{$i}}</option>
-                                            @endfor
-                                        </select>
-                                        <select name="rw_id" id="rw_id" disabled>
-                                            <option value="" selected>RW 04</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                <input type="text" name="alamat_domisili" id="alamat_domisili" placeholder="Masukkan alamat domisili" value="{{ old('alamat_domisili') }}">
                             </div>
+
                             <div class="flex flex-col gap-3">
                                 <label for="agama">
                                     Agama<span class="text-Error-Base">*</span>
                                 </label>
                                 <select name="agama" id="agama">
                                     <option value="" class="text-Neutral-40" disabled selected>Pilih agama</option>
-                                    <option value="Islam">Islam</option>
-                                    <option value="Kristen">Kristen</option>
-                                    <option value="Katolik">Katolik</option>
-                                    <option value="Hindu">Hindu</option>
-                                    <option value="Buddha">Buddha</option>
-                                    <option value="Khonghucu">Khonghucu</option>
-                                    <option value="Lainnya">Lainnya</option>
+                                    <option value="Islam" {{ old('agama') == 'Islam' ? 'selected' : '' }}>Islam</option>
+                                    <option value="Kristen" {{ old('agama') == 'Kristen' ? 'selected' : '' }}>Kristen</option>
+                                    <option value="Katolik" {{ old('agama') == 'Katolik' ? 'selected' : '' }}>Katolik</option>
+                                    <option value="Hindu" {{ old('agama') == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                                    <option value="Buddha" {{ old('agama') == 'Buddha' ? 'selected' : '' }}>Buddha</option>
+                                    <option value="Khonghucu" {{ old('agama') == 'Khonghucu' ? 'selected' : '' }}>Khonghucu</option>
+                                    <option value="Lainnya" {{ old('agama') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                                 </select>
                             </div>
+
                             <div class="flex flex-col gap-3">
                                 <label for="status_perkawinan">
                                     Status Perkawinan<span class="text-Error-Base">*</span>
                                 </label>
                                 <select name="status_perkawinan" id="status_perkawinan">
                                     <option value="" class="text-Neutral-40" disabled selected>Pilih status perkawinan</option>
-                                    <option value="Belum Kawin">Belum Kawin</option>
-                                    <option value="Kawin">Kawin</option>
-                                    <option value="Cerai Hidup">Cerai Hidup</option>
-                                    <option value="Cerai Mati">Cerai Mati</option>
+                                    <option value="Belum Kawin" {{ old('status_perkawinan') == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option>
+                                    <option value="Kawin" {{ old('status_perkawinan') == 'Kawin' ? 'selected' : '' }}>Kawin</option>
+                                    <option value="Cerai Hidup" {{ old('status_perkawinan') == 'Cerai Hidup' ? 'selected' : '' }}>Cerai Hidup</option>
+                                    <option value="Cerai Mati" {{ old('status_perkawinan') == 'Cerai Mati' ? 'selected' : '' }}>Cerai Mati</option>
                                 </select>
                             </div>
+
                             <div class="flex flex-col gap-3">
                                 <label for="pekerjaan">
                                     Pekerjaan<span class="text-Error-Base">*</span>
@@ -236,15 +275,27 @@
                                 <select name="pekerjaan" id="pekerjaan">
                                     <option value="" class="text-Neutral-40" disabled selected>Pilih pekerjaan</option>
                                     @foreach ($pekerjaan as $item)
-                                        <option value="{{ $item->pekerjaan_id }}">{{ $item->pekerjaan_nama }}</option>
+                                        <option value="{{ $item->pekerjaan_id }}" {{ old('pekerjaan') == $item->pekerjaan_id ? 'selected' : '' }}>{{ $item->pekerjaan_nama }}</option>
                                     @endforeach
+                                </select>
+                            </div>
+
+                            <div id="status" class="hidden flex-col gap-3">
+                                <label for="status_warga">
+                                    Status Warga<span class="text-Error-Base">*</span>
+                                </label>
+                                <select name="status_warga" id="status_warga">
+                                    <option value="Hidup" selected>Hidup</option>
+                                    <option value="Meninggal" {{ old('status_warga') == 'Meninggal' ? 'selected' : '' }}>Meninggal</option>
+                                    <option value="Pindah" {{ old('status_warga') == 'Pindah' ? 'selected' : '' }}>Pindah</option>
+                                    <option value="Lainnya" {{ old('status_warga') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                                 </select>
                             </div>
                         </div>
                     </section>
 
                     {{-- Detail Tambahan --}}
-                    <section class="flex flex-col gap-2">
+                    <section id="detailTambahan" class="flex flex-col gap-2">
                         <label>Detail Tambahan</label>
                         <div class="p-4 flex flex-col gap-4 rounded-lg border border-Neutral-20">
                             <div class="flex flex-col gap-3">
@@ -265,17 +316,17 @@
                                 </label>
                                 <select name="bpjs" id="bpjs">
                                     <option value="" class="text-Neutral-40" disabled selected>Pilih tingkat BPJS</option>
-                                    <option value="Kelas 1">Kelas 1</option>
-                                    <option value="Kelas 2">Kelas 2</option>
-                                    <option value="Kelas 3">Kelas 3</option>
-                                    <option value="Tidak ada">Tidak ada</option>
+                                    <option value="Kelas 1" {{ old('bpjs') == 'Kelas 1' ? 'selected' : '' }}>Kelas 1</option>
+                                    <option value="Kelas 2" {{ old('bpjs') == 'Kelas 2' ? 'selected' : '' }}>Kelas 2</option>
+                                    <option value="Kelas 3" {{ old('bpjs') == 'Kelas 3' ? 'selected' : '' }}>Kelas 3</option>
+                                    <option value="Tidak ada" {{ old('bpjs') == 'Tidak ada' ? 'selected' : '' }}>Tidak ada</option>
                                 </select>
                             </div>
                             <div class="flex flex-col gap-3">
-                                <label for="luas_bangunan">
+                                <label for="luas_rumah">
                                     Luas Bangunan<span class="text-Error-Base">*</span>
                                 </label>
-                                <input type="number" name="luas_bangunan" id="luas_bangunan" placeholder="Masukkan luas bangunan (m2)" value="{{ old('luas_bangunan') }}">
+                                <input type="number" name="luas_rumah" id="luas_rumah" placeholder="Masukkan luas bangunan (m2)" value="{{ old('luas_rumah') }}">
                             </div>
                             <div class="flex flex-col gap-3">
                                 <label for="jumlah_tanggungan">
@@ -320,6 +371,39 @@
         </section>
     </main>
     <script>
+        var oldNik = document.getElementById("oldNik");
+        var newNik = document.getElementById("newNik");
+        var detailTambahan = document.getElementById("detailTambahan");
+
+        function newKK() {
+            oldNik.classList.remove('flex');
+            oldNik.classList.add('hidden');
+
+            newNik.classList.remove('hidden');
+            newNik.classList.add('flex');
+            detailTambahan.classList.remove('hidden');
+            detailTambahan.classList.add('flex');
+        }
+
+        function oldKK() {
+            oldNik.classList.remove('hidden');
+            oldNik.classList.add('flex');
+
+            newNik.classList.remove('flex');
+            newNik.classList.add('hidden');
+            detailTambahan.classList.remove('flex');
+            detailTambahan.classList.add('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var oldKKcheckbox = document.getElementById("oldKK");
+            if (oldKKcheckbox.checked) {
+                oldKK();
+            } else {
+                newKK();
+            }
+        });
+
         const kkInput = document.getElementById('imageKK');
         const ktpInput = document.getElementById('imageKTP');
         const kkLabel = document.getElementById('image-label-kk')
