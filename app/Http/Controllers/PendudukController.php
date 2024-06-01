@@ -74,7 +74,9 @@ class PendudukController extends Controller
             $rt = $this->checkRT();
 
             if ($rt != $kk->rt) {
-                return redirect()->route('indexKeluarga')->withErrors('Anda tidak diperkenankan melihat data tersebut');
+                return redirect()
+                    ->route('indexKeluarga')
+                    ->withErrors('Anda tidak diperkenankan melihat data tersebut');
             }
         }
 
@@ -228,7 +230,7 @@ class PendudukController extends Controller
 
         $kk = KKModel::find($id);
 
-        // Restrict other RT to check detail KK
+        // Restrict other RT to edit KK
         if (Auth::user()->level != 'rw' && $rt != $kk->rt) {
             return redirect()
                 ->route('indexKeluarga')
@@ -264,7 +266,7 @@ class PendudukController extends Controller
             }
 
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (\Throwable $th) {
             DB::rollBack();
 
             return back()
@@ -329,6 +331,7 @@ class PendudukController extends Controller
                 $q->where('rt', $rt);
             })
             ->where('status_warga', 'Hidup')
+            ->orderBy('nama_warga')
             ->paginate(2);
 
         if ($request->ajax()) {
@@ -338,6 +341,7 @@ class PendudukController extends Controller
                 })
                 ->where('nama_warga', 'like', "%$request->search%")
                 ->where('status_warga', 'Hidup')
+                ->orderBy('nama_warga')
                 ->paginate(2);
 
             return view('penduduk.warga.child', compact('warga'))->render();
@@ -349,7 +353,19 @@ class PendudukController extends Controller
     public function show_warga($id)
     {
         $active = $this->active;
-        $warga = WargaModel::with(['jenisPekerjaan', 'detailKK.statusHubungan'])->find($id);
+
+        $warga = WargaModel::with(['jenisPekerjaan', 'detailKK.statusHubungan', 'detailKK.kartuKeluarga'])->find($id);
+
+        // Restrict other RT to check detail warga
+        if (Auth::user()->level != 'rw') {
+            $rt = $this->checkRT();
+
+            if ($rt != $warga->detailKK->kartuKeluarga->rt) {
+                return redirect()
+                    ->route('indexWarga')
+                    ->withErrors('Anda tidak diperkenankan melihat data tersebut');
+            }
+        }
 
         $detailWarga = DetailWargaModel::where('warga_id', $id)->first();
 
@@ -358,45 +374,42 @@ class PendudukController extends Controller
 
     public function create_warga()
     {
-        // Get all pekerjaan
+        $active = $this->active;
+
         $pekerjaan = PekerjaanModel::all();
 
-        // Get all status hubungan keluarga
         $hubungan = StatusHubunganModel::all();
 
-        return view('penduduk.warga.create', [
-            'active' => 'penduduk',
-            'pekerjaan' => $pekerjaan,
-            'hubungan' => $hubungan
-        ]);
+        return view('penduduk.warga.create', compact('active', 'pekerjaan', 'hubungan'));
     }
 
     public function store_warga(Request $request)
     {
-        // Validate Request
-        // if ($response = $this->validateWarga($request)) {
-        //     return $response;
-        // }
+        if ($response = $this->validateWarga($request, true)) {
+            return $response;
+        }
 
-        // Check is KK already exist
         $kk = KKModel::where('no_kk', $request->no_kk)->first();
         if (!$kk) {
-            return back()->withErrors('Nomor KK tidak ditemukan')->withInput();
+            return back()
+                ->withInput()
+                ->withErrors('Nomor KK tidak ditemukan');
         }
 
-        // Check is NIK already exist
         $findNik = WargaModel::where('nik', $request->nik)->first();
         if ($findNik) {
-            return back()->withErrors('NIK telah terdaftar sebelumnya')->withInput();
+            return back()
+                ->withInput()
+                ->withErrors('NIK telah terdaftar sebelumnya');
         }
 
-        $tanggal_lahir = $request->tahun . '-' . str_pad($request->bulan, 2, '0', STR_PAD_LEFT) . '-' . str_pad($request->tanggal, 2, '0', STR_PAD_LEFT);
+        $tanggal_lahir = $this->convertTTL($request->tanggal, $request->bulan, $request->tahun);
 
         DB::beginTransaction();
         try {
             $warga = WargaModel::create([
                 'nik' => $request->nik,
-                'nama_warga' => $request->nama,
+                'nama_warga' => $request->nama_warga,
                 'tempat_lahir' => $request->tempat_lahir,
                 'tanggal_lahir' => $tanggal_lahir,
                 'jenis_kelamin' => $request->jenis_kelamin,
@@ -413,71 +426,78 @@ class PendudukController extends Controller
             DetailKKModel::create([
                 'kk_id' => $kk->getKey(),
                 'warga_id' => $warga->getKey(),
-                'hubungan_id' => $request->hubungan,
+                'hubungan_id' => $request->hubungan_id,
             ]);
 
-            DetailWargaModel::create([
+            $detailWarga = DetailWargaModel::create([
                 'warga_id' => $warga->getKey(),
                 'pendapatan' => $request->pendapatan,
                 'bpjs' => $request->bpjs,
                 'jumlah_kendaraan' => $request->jumlah_kendaraan
             ]);
 
+            if ($request->hubungan_id == 1) {
+                DetailWargaModel::find($detailWarga->getKey())
+                    ->update([
+                        'luas_rumah' => $request->luas_rumah,
+                        'jumlah_tanggungan' => $request->jumlah_tanggungan,
+                        'tanggungan_pendidikan' => $request->tanggungan_pendidikan,
+                        'pbb' => $request->pbb,
+                        'tagihan_listrik' => $request->tagihan_listrik,
+                        'tagihan_air' => $request->tagihan_air,
+                    ]);
+            }
+
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (\Throwable $th) {
             DB::rollBack();
 
-            return back()->withErrors('Gagal menambahkan data warga, coba lagi')->withInput();
+            return back()
+                ->withInput()
+                ->withErrors('Gagal menambahkan data warga, coba lagi');
         }
 
-        return redirect()->route('indexWarga');
+        return redirect()
+            ->route('indexWarga')
+            ->with('success', 'Berhasil menambahkan data ' . $request->nama_warga);
     }
 
     public function edit_warga($id)
     {
-        // Get warga data
-        $warga = WargaModel::find($id);
+        $active = $this->active;
 
-        // Get detail warga data
-        $detailWarga = DetailWargaModel::where('warga_id', $id)->first();
+        $rt = $this->checkRT();
 
-        // Get KK data
-        $kk = KKModel::with('detailKK')
-            ->whereHas('detailKK', function ($q) use ($id) {
-                $q->where('warga_id', $id);
-            })
-            ->first();
+        $warga = WargaModel::with(['detailWarga', 'detailKK.kartuKeluarga'])->find($id);
 
-        // Get all pekerjaan
+        // Restrict other RT to edit warga
+        if (Auth::user()->level != 'rw' && $rt != $warga->detailKK->kartuKeluarga->rt) {
+            return redirect()
+                ->route('indexWarga')
+                ->withErrors('Anda tidak diperkenankan mengubah data tersebut');
+        }
+
         $pekerjaan = PekerjaanModel::all();
 
-        // Get all status hubungan keluarga
         $hubungan = StatusHubunganModel::all();
 
-        return view('penduduk.warga.edit', [
-            'active' => 'penduduk',
-            'warga' => $warga,
-            'detailWarga' => $detailWarga,
-            'kk' => $kk,
-            'pekerjaan' => $pekerjaan,
-            'hubungan' => $hubungan
-        ]);
+        return view('penduduk.warga.edit', compact('active', 'warga', 'pekerjaan', 'hubungan'));
     }
 
     public function update_warga(Request $request, string $id)
     {
-        // Validate Request
-        if ($response = $this->validateUpdateWarga($request)) {
+        if ($response = $this->validateWarga($request, true)) {
             return $response;
         }
 
-        // Check is KK already exist
         $kk = KKModel::where('no_kk', $request->no_kk)->first();
         if (!$kk) {
-            return back()->withErrors('Nomor KK tidak ditemukan')->withInput();
+            return back()
+                ->withInput()
+                ->withErrors('Nomor KK tidak ditemukan');
         }
 
-        $tanggal_lahir = $request->tahun . '-' . str_pad($request->bulan, 2, '0', STR_PAD_LEFT) . '-' . str_pad($request->tanggal, 2, '0', STR_PAD_LEFT);
+        $tanggal_lahir = $this->convertTTL($request->tanggal, $request->bulan, $request->tahun);
 
         DB::beginTransaction();
         try {
@@ -489,7 +509,7 @@ class PendudukController extends Controller
             WargaModel::find($id)
                 ->update([
                     'nik' => $request->nik,
-                    'nama_warga' => $request->nama,
+                    'nama_warga' => $request->nama_warga,
                     'tempat_lahir' => $request->tempat_lahir,
                     'tanggal_lahir' => $tanggal_lahir,
                     'jenis_kelamin' => $request->jenis_kelamin,
@@ -503,7 +523,7 @@ class PendudukController extends Controller
             DetailKKModel::where('warga_id', $id)
                 ->first()
                 ->update([
-                    'hubungan_id' => $request->hubungan,
+                    'hubungan_id' => $request->hubungan_id,
                 ]);
 
             DetailWargaModel::where('warga_id', $id)
@@ -514,14 +534,31 @@ class PendudukController extends Controller
                     'jumlah_kendaraan' => $request->jumlah_kendaraan
                 ]);
 
+            if ($request->hubungan_id == 1) {
+                DetailWargaModel::where('warga_id', $id)
+                    ->first()
+                    ->update([
+                        'luas_rumah' => $request->luas_rumah,
+                        'jumlah_tanggungan' => $request->jumlah_tanggungan,
+                        'tanggungan_pendidikan' => $request->tanggungan_pendidikan,
+                        'pbb' => $request->pbb,
+                        'tagihan_listrik' => $request->tagihan_listrik,
+                        'tagihan_air' => $request->tagihan_air,
+                    ]);
+            }
+
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (\Throwable $th) {
             DB::rollBack();
 
-            return back()->withErrors('Gagal mengupdate data warga, coba lagi')->withInput();
+            return back()
+                ->withInput()
+                ->withErrors('Gagal mengupdate data warga, coba lagi');
         }
 
-        return redirect()->route('indexWarga');
+        return redirect()
+            ->route('indexWarga')
+            ->with('success', 'Berhasil mengubah data ' . $request->nama_warga);
     }
 
     public function delete_warga(Request $request)
@@ -532,12 +569,16 @@ class PendudukController extends Controller
         ]);
 
         if ($validate->fails()) {
-            return back()->withErrors('Permintaan hapus warga tidak valid')->withInput();
+            return back()
+                ->withInput()
+                ->withErrors('Permintaan hapus data warga tidak valid');
         }
 
         DB::beginTransaction();
         try {
-            WargaModel::find($request->id)->update([
+            $warga = WargaModel::find($request->id);
+
+            $warga->update([
                 'status_warga' => $request->reason
             ]);
 
@@ -545,10 +586,14 @@ class PendudukController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            return back()->withErrors('Gagal menghapus warga, coba lagi')->withInput();
+            return back()
+                ->withInput()
+                ->withErrors('Gagal menghapus warga, coba lagi');
         }
 
-        return redirect()->route('indexWarga');
+        return redirect()
+            ->route('indexWarga')
+            ->with('success', 'Berhasil menghapus data ' . $warga->nama_warga);
     }
 
     public function index_inactive(Request $request)
@@ -563,6 +608,7 @@ class PendudukController extends Controller
                 $q->where('rt', $rt);
             })
             ->where('status_warga', '!=', 'Hidup')
+            ->orderBy('nama_warga')
             ->paginate(2);
 
         if ($request->ajax()) {
@@ -572,6 +618,7 @@ class PendudukController extends Controller
                 })
                 ->where('nama_warga', 'like', "%$request->search%")
                 ->where('status_warga', '!=', 'Hidup')
+                ->orderBy('nama_warga')
                 ->paginate(2);
 
             return view('penduduk.warga.child', compact('warga'))->render();

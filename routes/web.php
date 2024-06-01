@@ -85,10 +85,8 @@ Route::group(['prefix' => 'penduduk', 'middleware' => 'admin'], function () {
     });
     Route::group(['prefix' => 'inactive'], function () {
         Route::get('/', [PendudukController::class, 'index_inactive'])->name('indexInactive');
-        Route::get('/edit/{id}', [PendudukController::class, 'edit_inactive'])->name('editInactive');
-        Route::put('/edit/{id}', [PendudukController::class, 'update_inactive'])->name('updateInactive');
-        Route::get('/detail/{id}', [PendudukController::class, 'show_inactive'])->name('detailInactive');
-        Route::post('/delete', [PendudukController::class, 'delete_inactive'])->name('deleteInactive');
+        Route::get('/edit/{id}', [PendudukController::class, 'edit_warga'])->name('editInactive');
+        Route::get('/detail/{id}', [PendudukController::class, 'show_warga'])->name('detailInactive');
     });
 });
 

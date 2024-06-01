@@ -97,7 +97,7 @@ trait PendudukTrait
             ];
         }
 
-        if ($request->hubungan == 1) {
+        if ($request->hubungan_id == 1) {
             $rules += [
                 'luas_rumah' => 'required',
                 'jumlah_tanggungan' => 'required',
