@@ -20,7 +20,7 @@ class BansosController extends Controller
         $user = Auth::user();
 
         if ($user) {
-            return view('layout.maintenance', [
+            return view('bansos.daftar_penerima', [
                 'active' => $this->active,
             ]);
         }
