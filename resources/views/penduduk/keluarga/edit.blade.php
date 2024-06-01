@@ -73,6 +73,7 @@
                                     </label>
                                     <input type="text" name="no_kk" id="no_kk" placeholder="352xxxxxxxxxxxxx" value="{{ $kk->no_kk }}">
                                 </div>
+
                                 <div class="flex flex-col gap-3">
                                     <label for="rt_id">
                                         Domisili<span class="text-Error-Base">*</span>

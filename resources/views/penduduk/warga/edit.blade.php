@@ -35,7 +35,7 @@
                                     <label for="no_kk">
                                         No. KK<span class="text-Error-Base">*</span>
                                     </label>
-                                    <input type="text" name="no_kk" id="no_kk" placeholder="Masukkan nomor KK" value="{{ $kk->no_kk }}">
+                                    <input type="text" name="no_kk" id="no_kk" placeholder="Masukkan nomor KK" value="{{ $warga->detailKK->kartuKeluarga->no_kk }}">
                                 </div>
                                 
                                 <div class="flex flex-col gap-3">
@@ -76,10 +76,10 @@
                                 </div>
 
                                 <div class="flex flex-col gap-3">
-                                    <label for="nama">
+                                    <label for="nama_warga">
                                         Nama<span class="text-Error-Base">*</span>
                                     </label>
-                                    <input type="text" name="nama" id="nama" placeholder="Masukkan nama" value="{{ $warga->nama_warga }}">
+                                    <input type="text" name="nama_warga" id="nama_warga" placeholder="Masukkan nama" value="{{ $warga->nama_warga }}">
                                 </div>
                                 
                                 <div class="flex flex-col gap-3">
@@ -88,14 +88,26 @@
                                     </label>
                                     <input type="text" name="nik" id="nik" placeholder="Masukkan NIK" value="{{ $warga->nik }}">
                                 </div>
+
+                                <div id="status" class="flex flex-col gap-3">
+                                    <label for="status_warga">
+                                        Status Warga<span class="text-Error-Base">*</span>
+                                    </label>
+                                    <select name="status_warga" id="status_warga">
+                                        <option value="Hidup" {{ $warga->status_warga == 'Hidup' ? 'selected' : '' }}>Hidup</option>
+                                        <option value="Meninggal" {{ $warga->status_warga == 'Meninggal' ? 'selected' : '' }}>Meninggal</option>
+                                        <option value="Pindah" {{ $warga->status_warga == 'Pindah' ? 'selected' : '' }}>Pindah</option>
+                                        <option value="Lainnya" {{ $warga->status_warga == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                                    </select>
+                                </div>
                                 
                                 <div class="flex flex-col gap-3">
-                                    <label for="hubungan">
+                                    <label for="hubungan_id">
                                         Status dalam Keluarga<span class="text-Error-Base">*</span>
                                     </label>
-                                    <select name="hubungan" id="hubungan">
+                                    <select name="hubungan_id" id="hubungan_id">
                                         @foreach ($hubungan as $item)
-                                        <option value="{{ $item->hubungan_id }}" {{ $item->hubungan_id == $kk->detailKK->first()->hubungan_id ? 'selected' : '' }} >{{ $item->keterangan }}</option>
+                                        <option value="{{ $item->hubungan_id }}" {{ $item->hubungan_id == $warga->detailKK->kartuKeluarga->detailKK->first()->hubungan_id ? 'selected' : '' }} >{{ $item->keterangan }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -212,14 +224,14 @@
                                     <label for="pendapatan">
                                         Pendapatan per Bulan<span class="text-Error-Base">*</span>
                                     </label>
-                                    <input type="number" name="pendapatan" id="pendapatan" placeholder="Masukkan pendapatan per bulan" value="{{ $detailWarga->pendapatan }}">
+                                    <input type="number" name="pendapatan" id="pendapatan" placeholder="Masukkan pendapatan per bulan" value="{{ $warga->detailWarga->pendapatan }}">
                                 </div>
                                 
                                 <div class="flex flex-col gap-3">
                                     <label for="jumlah_kendaraan">
                                         Jumlah Kendaraan<span class="text-Error-Base">*</span>
                                     </label>
-                                    <input type="number" name="jumlah_kendaraan" id="jumlah_kendaraan" placeholder="Masukkan jumlah kendaraan" value="{{ $detailWarga->jumlah_kendaraan }}">
+                                    <input type="number" name="jumlah_kendaraan" id="jumlah_kendaraan" placeholder="Masukkan jumlah kendaraan" value="{{ $warga->detailWarga->jumlah_kendaraan }}">
                                 </div>
 
                                 <div class="flex flex-col gap-3">
@@ -227,64 +239,82 @@
                                         BPJS<span class="text-Error-Base">*</span>
                                     </label>
                                     <select name="bpjs" id="bpjs">
-                                        <option value="Kelas 1" {{ $detailWarga->bpjs == 'Kelas 1' ? 'selected' : '' }} >Kelas 1</option>
-                                        <option value="Kelas 2" {{ $detailWarga->bpjs == 'Kelas 2' ? 'selected' : '' }} >Kelas 2</option>
-                                        <option value="Kelas 3" {{ $detailWarga->bpjs == 'Kelas 3' ? 'selected' : '' }} >Kelas 3</option>
-                                        <option value="Tidak ada" {{ $detailWarga->bpjs == 'Tidak ada' ? 'selected' : '' }} >Tidak ada</option>
+                                        <option value="Kelas 1" {{ $warga->detailWarga->bpjs == 'Kelas 1' ? 'selected' : '' }} >Kelas 1</option>
+                                        <option value="Kelas 2" {{ $warga->detailWarga->bpjs == 'Kelas 2' ? 'selected' : '' }} >Kelas 2</option>
+                                        <option value="Kelas 3" {{ $warga->detailWarga->bpjs == 'Kelas 3' ? 'selected' : '' }} >Kelas 3</option>
+                                        <option value="Tidak ada" {{ $warga->detailWarga->bpjs == 'Tidak ada' ? 'selected' : '' }} >Tidak ada</option>
                                     </select>
                                 </div>
                                 
-                                @if ($kk->detailKK->first()->hubungan_id == 1)
+                                <div id="detailKepala" class="{{ $warga->detailKK->kartuKeluarga->detailKK->first()->hubungan_id == 1 ? 'flex' : 'hidden'}} flex-col gap-4">
                                     <div class="flex flex-col gap-3">
-                                        <label for="luas_bangunan">
+                                        <label for="luas_rumah">
                                             Luas Bangunan<span class="text-Error-Base">*</span>
                                         </label>
-                                        <input type="number" name="luas_bangunan" id="luas_bangunan" placeholder="Masukkan luas bangunan (m2)" value="{{ $detailWarga->luas_rumah }}">
+                                        <input type="number" name="luas_rumah" id="luas_rumah" placeholder="Masukkan luas bangunan (m2)" value="{{ $warga->detailWarga->luas_rumah }}">
                                     </div>
+
                                     <div class="flex flex-col gap-3">
                                         <label for="jumlah_tanggungan">
                                             Jumlah Tanggungan<span class="text-Error-Base">*</span>
                                         </label>
-                                        <input type="number" name="jumlah_tanggungan" id="jumlah_tanggungan" placeholder="Masukkan jumlah tanggungan (anggota keluarga)" value="{{ $detailWarga->jumlah_tanggungan }}">
+                                        <input type="number" name="jumlah_tanggungan" id="jumlah_tanggungan" placeholder="Masukkan jumlah tanggungan (anggota keluarga)" value="{{ $warga->detailWarga->jumlah_tanggungan }}">
                                     </div>
+
                                     <div class="flex flex-col gap-3">
                                         <label for="pbb">
                                             Pajak Bumi & Bangunan<span class="text-Error-Base">*</span>
                                         </label>
-                                        <input type="number" name="pbb" id="pbb" placeholder="Masukkan pajak bumi dan bangunan" value="{{ $detailWarga->pbb }}">
+                                        <input type="number" name="pbb" id="pbb" placeholder="Masukkan pajak bumi dan bangunan" value="{{ $warga->detailWarga->pbb }}">
                                     </div>
+
                                     <div class="flex flex-col gap-3">
                                         <label for="tagihan_listrik">
                                             Tagihan Listrik<span class="text-Error-Base">*</span>
                                         </label>
-                                        <input type="number" name="tagihan_listrik" id="tagihan_listrik" placeholder="Masukkan jumlah tagihan listrik (Rp)" value="{{ $detailWarga->tagihan_listrik }}">
+                                        <input type="number" name="tagihan_listrik" id="tagihan_listrik" placeholder="Masukkan jumlah tagihan listrik (Rp)" value="{{ $warga->detailWarga->tagihan_listrik }}">
                                     </div>
+
                                     <div class="flex flex-col gap-3">
                                         <label for="tagihan_air">
                                             Tagihan Air<span class="text-Error-Base">*</span>
                                         </label>
-                                        <input type="number" name="tagihan_air" id="tagihan_air" placeholder="Masukkan jumlah tagihan air (Rp)" value="{{ $detailWarga->tagihan_air }}">
+                                        <input type="number" name="tagihan_air" id="tagihan_air" placeholder="Masukkan jumlah tagihan air (Rp)" value="{{ $warga->detailWarga->tagihan_air }}">
                                     </div>
+
                                     <div class="flex flex-col gap-3">
                                         <label for="tanggungan_pendidikan">
                                             Tanggungan Pendidikan<span class="text-Error-Base">*</span>
                                         </label>
-                                        <input type="number" name="tanggungan_pendidikan" id="tanggungan_pendidikan" placeholder="Masukkan jumlah tanggungan (anggota keluarga)" value="{{ $detailWarga->tanggungan_pendidikan }}">
+                                        <input type="number" name="tanggungan_pendidikan" id="tanggungan_pendidikan" placeholder="Masukkan jumlah tanggungan (anggota keluarga)" value="{{ $warga->detailWarga->tanggungan_pendidikan }}">
                                     </div>
-                                @endif
+                                </div>
                             </div>
                         </section>                    
                     </div>
-                </div>
-                        
-                <div class="flex gap-2 md:justify-end">
-                    <a href="{{ route('penduduk') }}" class="buttonLight w-full md:w-min">Batal</a>
-                    <button type="submit" class="buttonDark w-full md:w-min">Simpan Data</button>
+                    
+                    <div class="flex gap-2 md:justify-end">
+                        <a href="{{ route('penduduk') }}" class="buttonLight w-full md:w-min">Batal</a>
+                        <button type="submit" class="buttonDark w-full md:w-min">Simpan Data</button>
+                    </div>
                 </div>
             </form>
         </section>
     </main>
     <script>
+        const hubunganSelect = document.getElementById('hubungan_id');
+        const detailKepala = document.getElementById('detailKepala');
+
+        hubunganSelect.addEventListener('change', function() {
+            if (hubunganSelect.value == '1') {
+                detailKepala.classList.add('flex');
+                detailKepala.classList.remove('hidden');
+            } else {
+                detailKepala.classList.remove('flex');
+                detailKepala.classList.add('hidden');
+            }
+        });
+
         const ktpInput = document.getElementById('imageKTP');
         const ktpLabel = document.getElementById('image-label-ktp')
         const ktpContainer = document.getElementById('image-preview-container-ktp');

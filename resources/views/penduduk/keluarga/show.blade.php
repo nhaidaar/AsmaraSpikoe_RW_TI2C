@@ -28,6 +28,14 @@ Carbon::setLocale('id');
                                     <label class="detail">No. KK</label>
                                     <input type="text" class="font-medium" value="{{ $kk->no_kk }}" readonly>
                                 </div>
+
+                                <div class="flex flex-col gap-3">
+                                    <label class="detail">Domisili</label>
+                                    <div class="flex gap-3 font-medium">
+                                        <input type="text" class="font-medium" value="RT 0{{ $kk->rt }}" readonly>
+                                        <input type="text" class="font-medium" value="RW 04" disabled>
+                                    </div>
+                                </div>
                             </div>
                         </section>
                         {{-- Anggota Keluarga --}}

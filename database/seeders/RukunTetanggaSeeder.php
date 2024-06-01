@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory as Faker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,21 +14,13 @@ class RukunTetanggaSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [
-            [
-                // 'pengurus_rt' => 1,
-                // 'jabatan' => 'Ketua RT 1',
-                'ketua_rt' => 1,
-                'no_telepon' => '081234567890',
-            ],
-            [
-                // 'pengurus_rt' => 2,
-                // 'jabatan' => 'Ketua RT 2',
-                'ketua_rt' => 2,
-                'no_telepon' => '087654321098',
-            ],
-        ];
-        
-        DB::table('rukun_tetangga')->insert($data);
+        $faker = Faker::create('id_ID');
+
+        for ($i = 1; $i < 8; $i++) {
+            DB::table('rukun_tetangga')->insert([
+                'ketua_rt' => $faker->numberBetween(1, 100),
+                'no_telepon' => $faker->numerify('08##########'),
+            ]);
+        }
     }
 }

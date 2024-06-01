@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory as Faker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,36 +14,23 @@ class DetailWargaSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [
-            [
-                'warga_id' => 1,
-                'pendapatan' => 5000000.00,
-                'luas_rumah' => 100.50,
-                'jumlah_tanggungan' => 3,
-                'tanggungan_pendidikan' => 1500000.00,
-                'pbb' => 500000.00,
-                'tagihan_listrik' => 300000.00,
-                'tagihan_air' => 200000.00,
-                'jumlah_kendaraan' => 2,
-                'bpjs' => 'Kelas 2',
+        $faker = Faker::create('id_ID');
+
+        for ($i = 1; $i < 101; $i++) {
+            DB::table('detail_warga')->insert([
+                'warga_id' => $i,
+                'pendapatan' => $faker->randomFloat(2, 400000.00, 10000000.00),
+                'luas_rumah' => $faker->randomFloat(2),
+                'jumlah_tanggungan' => $faker->randomDigit(),
+                'tanggungan_pendidikan' => $faker->randomFloat(2, 200000.00, 5000000.00),
+                'pbb' => $faker->randomFloat(2, 100000.00, 1000000.00),
+                'tagihan_listrik' => $faker->randomFloat(2, 100000.00, 1000000.00),
+                'tagihan_air' => $faker->randomFloat(2, 100000.00, 1000000.00),
+                'jumlah_kendaraan' => $faker->randomDigit(),
+                'bpjs' => $faker->randomElement(['Kelas 1', 'Kelas 2', 'Kelas 3', 'Tidak ada']),
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
-            [
-                'warga_id' => 2,
-                'pendapatan' => 7000000.00,
-                'luas_rumah' => 120.75,
-                'jumlah_tanggungan' => 4,
-                'tanggungan_pendidikan' => 2000000.00,
-                'pbb' => 600000.00,
-                'tagihan_listrik' => 350000.00,
-                'tagihan_air' => 250000.00,
-                'jumlah_kendaraan' => 1,
-                'bpjs' => 'Kelas 1',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ];
-        DB::table('detail_warga')->insert($data);
+            ]);
+        }
     }
 }
