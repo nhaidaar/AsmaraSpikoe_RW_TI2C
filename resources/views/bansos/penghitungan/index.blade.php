@@ -24,10 +24,13 @@
                             <input type="search" name="searchData" id="searchData" placeholder="Cari data..." class="pl-12 pr-4 py-2 border rounded-md">
                         </div>
 
-                        <div class="hidden {{-- flex --}} gap-3">
-                            <input type="checkbox" name="jumlah-data" id="jumlah-data">
-                            <label for="jumlah-data">3 NIK dipilih</label>
-                        </div>
+                        <label for="rank-1" class="hidden {{-- flex --}} items-center gap-3">
+                            <input id="rank-1" type="checkbox" class="appearance-none w-6 h-6 bg-white checked:bg-Primary-Base border-transparent checked:border-transparent">
+                            <svg class="w-6 h-6 text-white absolute" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>3 NIK dipilih</span>
+                        </label>
                     </div>
 
                     <a href="#" class="flex items-center justify-center bg-Neutral-0 px-3 py-2 gap-2 border border-Neutral-20 rounded-lg text-nowrap hover:bg-Neutral-20">
@@ -83,7 +86,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                         </svg>
                                         <span>1</span>
-                                    </label>  
+                                    </label>
                                 </td>
                                 <td>3527206343440001</td>
                                 <td>Sal Priyai</td>
@@ -96,13 +99,13 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="rank-1" class="flex items-center gap-3">
-                                        <input id="rank-1" type="checkbox" class="appearance-none w-6 h-6 bg-white checked:bg-Primary-Base border-transparent checked:border-transparent">
+                                    <label for="rank-2" class="flex items-center gap-3">
+                                        <input id="rank-2" type="checkbox" class="appearance-none w-6 h-6 bg-white checked:bg-Primary-Base border-transparent checked:border-transparent">
                                         <svg class="w-6 h-6 text-white absolute" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                         </svg>
                                         <span>1</span>
-                                    </label>  
+                                    </label>
                                 </td>
                                 <td>3527206343440001</td>
                                 <td>Sal Priyai</td>

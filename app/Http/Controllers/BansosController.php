@@ -19,13 +19,11 @@ class BansosController extends Controller
 
     public function index()
     {
-        // $user = Auth::user();
+        $user = Auth::user();
 
-        // if ($user) {
-        //     return view('bansos.daftar_penerima.index', [
-        //         'active' => $this->active,
-        //     ]);
-        // }
+        if ($user) {
+            return redirect()->route('indexPenerima');
+        }
 
         return view('bansos.index', [
             'active' => $this->active,
@@ -102,5 +100,23 @@ class BansosController extends Controller
         $rt = $this->checkRT();
 
         return view('bansos.penghitungan.index', compact('active', 'cardActive', 'rt'));
+    }
+
+    public function create()
+    {
+        $active = $this->active;
+
+        $rt = $this->checkRT();
+
+        return view('bansos.penghitungan.create', compact('active', 'rt'));
+    }
+
+    public function show()
+    {
+        $active = $this->active;
+
+        $rt = $this->checkRT();
+
+        return view('bansos.penghitungan.show', compact('active', 'rt'));
     }
 }
