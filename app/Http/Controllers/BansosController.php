@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PenerimaBansosModel;
 use App\Models\RTModel;
 use App\Models\WargaModel;
+use App\Traits\RtTrait;
 use Illuminate\Http\Request;
 use App\Traits\ValidationTrait;
 use Illuminate\Support\Facades\Auth;
@@ -12,18 +13,19 @@ use Illuminate\Support\Facades\Auth;
 class BansosController extends Controller
 {
     use ValidationTrait;
+    use RtTrait;
 
     protected $active = 'bansos';
 
     public function index()
     {
-        $user = Auth::user();
+        // $user = Auth::user();
 
-        if ($user) {
-            return view('layout.maintenance', [
-                'active' => $this->active,
-            ]);
-        }
+        // if ($user) {
+        //     return view('bansos.daftar_penerima.index', [
+        //         'active' => $this->active,
+        //     ]);
+        // }
 
         return view('bansos.index', [
             'active' => $this->active,
@@ -78,5 +80,27 @@ class BansosController extends Controller
             'bansos' => $bansos,
             'admin' => $noTeleponRT,
         ]);
+    }
+
+    public function index_penerima()
+    {
+        $user = Auth::user();
+        $active = $this->active;
+        $cardActive = 'penerima';
+
+        $rt = $this->checkRT();
+
+        return view('bansos.penerima.index', compact('active', 'cardActive', 'rt'));
+    }
+
+    public function index_penghitungan()
+    {
+        $user = Auth::user();
+        $active = $this->active;
+        $cardActive = 'penghitungan';
+
+        $rt = $this->checkRT();
+
+        return view('bansos.penghitungan.index', compact('active', 'cardActive', 'rt'));
     }
 }

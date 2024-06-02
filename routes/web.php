@@ -46,6 +46,8 @@ Route::group(['prefix' => 'informasi'], function () {
 Route::group(['prefix' => 'bansos'], function () {
     Route::get('/', [BansosController::class, 'index'])->name('bansos');
     Route::post('/', [BansosController::class, 'proses'])->name('prosesBansos');
+    Route::get('/penerima', [BansosController::class, 'index_penerima'])->name('indexPenerima');
+    Route::get('/penghitungan', [BansosController::class, 'index_penghitungan'])->name('indexPenghitungan');
 });
 
 Route::group(['prefix' => 'persuratan'], function () {
