@@ -27,6 +27,10 @@ Carbon::setLocale('id');
                                 <input type="text" class="w-full lg:w-[450px] font-medium" value="{{ $warga->nik }}" readonly>
                             </div>
                             <div class="flex flex-col gap-2 w-80 lg:w-full">
+                                <label class="detail">Status Warga</label>
+                                <input type="text" class="w-full lg:w-[450px] font-medium" value="{{ $warga->status_warga }}" readonly>
+                            </div>
+                            <div class="flex flex-col gap-2 w-80 lg:w-full">
                                 <label class="detail">Status dalam Keluarga</label>
                                 <input type="text" class="w-full lg:w-[450px] font-medium" value="{{ $warga->detailKK->statusHubungan->keterangan }}" readonly>
                             </div>
@@ -49,6 +53,10 @@ Carbon::setLocale('id');
                             <div class="flex flex-col gap-2 w-80 lg:w-full">
                                 <label class="detail">Alamat Domisili</label>
                                 <input type="text" class="w-full lg:w-[450px] font-medium" value="{{ $warga->alamat_domisili }}" readonly>
+                                <div class="flex gap-2 w-full lg:w-[450px]">
+                                    <input type="text" class="font-medium" value="RT 0{{ $warga->detailKK->kartuKeluarga->rt }}" readonly>
+                                    <input type="text" class="font-medium" value="RT 04" readonly>
+                                </div>
                             </div>
                             <div class="flex flex-col gap-2 w-80 lg:w-full">
                                 <label class="detail">Agama</label>
