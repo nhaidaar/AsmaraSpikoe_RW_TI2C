@@ -16,11 +16,6 @@ class BansosModel extends Model
         'bansos_nama'
     ];
 
-    public function kriteriaBansos(): HasMany
-    {
-        return $this->hasMany(KriteriaBansosModel::class, 'bansos_id', 'bansos_id');
-    }
-
     public function penerimaBansos(): HasMany
     {
         return $this->hasMany(PenerimaBansosModel::class, 'bansos_id', 'bansos_id');

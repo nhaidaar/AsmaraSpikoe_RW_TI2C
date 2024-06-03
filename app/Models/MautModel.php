@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class PenerimaBansosModel extends Model
+class MautModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'penerima_bansos';
-    protected $primaryKey = 'penerima_id';
+    protected $table = 'maut';
+    protected $primaryKey = 'maut_id';
     protected $fillable = [
         'warga_id',
-        'bansos_id',
-        'periode'
+        'skor_akhir'
     ];
 
     public function warga(): BelongsTo
@@ -23,8 +23,8 @@ class PenerimaBansosModel extends Model
         return $this->belongsTo(WargaModel::class, 'warga_id', 'warga_id');
     }
 
-    public function bansos(): BelongsTo
+    public function detailMaut(): HasMany
     {
-        return $this->belongsTo(BansosModel::class, 'bansos_id', 'bansos_id');
+        return $this->hasMany(DetailMautModel::class, 'maut_id', 'maut_id');
     }
 }
