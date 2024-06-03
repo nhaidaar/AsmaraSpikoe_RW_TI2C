@@ -73,6 +73,13 @@
                                             <button id="remove-image-ktp" class="px-4 py-2 text-Neutral-0 bg-Error-50 hover:bg-Error-60 rounded-md">Hapus Gambar</button>
                                         </div>
                                     </div>
+                                    <label class="text-Neutral-40 text-sm font-normal">
+                                        <ul class="list-disc pl-4">
+                                            <li>KTP digunakan bagi umur 17 tahun keatas.</li>
+                                            <li>Jika masih di bawah umur menggunakan KIA.</li>
+                                            <li>Ukuran maksimal 1 MB</li>
+                                        </ul>
+                                    </label>
                                 </div>
 
                                 <div class="flex flex-col gap-3">

@@ -91,11 +91,7 @@ Route::group(['prefix' => 'penduduk', 'middleware' => 'admin'], function () {
         Route::get('/detail/{id}', [PendudukController::class, 'show_warga'])->name('detailWarga');
         Route::post('/delete', [PendudukController::class, 'delete_warga'])->name('deleteWarga');
     });
-    Route::group(['prefix' => 'inactive'], function () {
-        Route::get('/', [PendudukController::class, 'index_inactive'])->name('indexInactive');
-        Route::get('/edit/{id}', [PendudukController::class, 'edit_warga'])->name('editInactive');
-        Route::get('/detail/{id}', [PendudukController::class, 'show_warga'])->name('detailInactive');
-    });
+    Route::get('/inactive', [PendudukController::class, 'index_inactive'])->name('indexInactive');
 });
 
 Route::group(['prefix' => 'keuangan'], function () {

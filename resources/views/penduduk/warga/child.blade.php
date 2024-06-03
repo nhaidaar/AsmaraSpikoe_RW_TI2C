@@ -13,8 +13,8 @@
         <td>{{ $item->jenis_kelamin }}</td>
         <td>{{ $item->alamat_domisili }}</td>
         <td class="flex gap-2 max-w-60">
-            <a href="{{ route($item->status_warga == 'Hidup' ? 'detailWarga' : 'detailInactive', $item->warga_id) }}" class="buttonDark md:w-min">Detail</a>
-            <a href="{{ route($item->status_warga == 'Hidup' ? 'editWarga' : 'editInactive', $item->warga_id) }}" class="buttonLight md:w-min">Edit</a>
+            <a href="{{ route('detailWarga', $item->warga_id) }}" class="buttonDark md:w-min">Detail</a>
+            <a href="{{ route('editWarga', $item->warga_id) }}" class="buttonLight md:w-min">Edit</a>
             @if ($item->status_warga == 'Hidup')
             <button type="button" class="delete-btn buttonLight flex items-center w-fit" data-id="{{ $item->warga_id }}" data-name="{{ $item->nama_warga }}" data-nik="{{ $item->nik }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" fill="none" viewBox="0 0 18 20">

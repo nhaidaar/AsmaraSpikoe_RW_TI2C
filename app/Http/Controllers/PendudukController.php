@@ -82,6 +82,7 @@ class PendudukController extends Controller
             ->whereHas('detailKK', function ($q) use ($id) {
                 $q->where('kk_id', $id);
             })
+            ->where('status_warga', 'Hidup')
             ->get()
             ->sortBy(function ($item) {
                 return $item->detailKK->hubungan_id;

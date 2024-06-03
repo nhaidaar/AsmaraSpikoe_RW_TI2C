@@ -77,7 +77,11 @@
                                         <button id="remove-image-kk" class="px-4 py-2 text-Neutral-0 bg-Error-50 hover:bg-Error-60 rounded-md">Hapus Gambar</button>
                                     </div>
                                 </div>
-                                <label class="detail">* Ukuran maks. 1MB</label>
+                                <label class="text-Neutral-40 text-sm font-normal">
+                                    <ul class="list-disc pl-4">
+                                        <li>Ukuran maksimal 1 MB</li>
+                                    </ul>
+                                </label>
                             </div>
 
                             <div class="flex flex-col gap-3">
@@ -156,7 +160,13 @@
                                         <button id="remove-image-ktp" class="px-4 py-2 text-Neutral-0 bg-Error-50 hover:bg-Error-60 rounded-md">Hapus Gambar</button>
                                     </div>
                                 </div>
-                                <label class="detail">* Ukuran maks. 1MB</label>
+                                <label class="text-Neutral-40 text-sm font-normal">
+                                    <ul class="list-disc pl-4">
+                                        <li>KTP digunakan bagi umur 17 tahun keatas.</li>
+                                        <li>Jika masih di bawah umur menggunakan KIA.</li>
+                                        <li>Ukuran maksimal 1 MB</li>
+                                    </ul>
+                                </label>
                             </div>
 
                             <div class="flex flex-col gap-3">
@@ -215,11 +225,11 @@
                                 </label>
                                 <div class="flex gap-2 justify-center text-center">
                                     <div class="flex w-full">
-                                        <input type="radio" name="jenis_kelamin" value="Laki-laki" id="laki-laki" class="hidden peer" checked>
+                                        <input type="radio" name="jenis_kelamin" value="Laki-laki" id="laki-laki" class="hidden peer" {{ old('jenis_kelamin') == 'Laki-laki' || old('jenis_kelamin') == null ? 'selected' : '' }}>
                                         <label for="laki-laki" id="label-laki-laki" class="bg-Neutral-0 peer-checked:bg-Additional-Base text-Neutral-100 peer-checked:text-Neutral-0 font-normal lg:text-lg p-3 rounded-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10 peer-checked:border-transparent">Laki-laki</label>
                                     </div>
                                     <div class="flex w-full">
-                                        <input type="radio" name="jenis_kelamin" value="Perempuan" id="perempuan" class="hidden peer">
+                                        <input type="radio" name="jenis_kelamin" value="Perempuan" id="perempuan" class="hidden peer" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>
                                         <label for="perempuan" id="label-perempuan" class="bg-Neutral-0 peer-checked:bg-Additional-Base text-Neutral-100 peer-checked:text-Neutral-0 font-normal lg:text-lg p-3 rounded-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10 peer-checked:border-transparent">Perempuan</label>
                                     </div>
                                 </div>
