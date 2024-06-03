@@ -12,7 +12,6 @@ use App\Models\StatusHubunganModel;
 use App\Models\UserModel;
 use App\Models\WargaModel;
 use App\Traits\PendudukTrait;
-use App\Traits\ValidationTrait;
 use App\Traits\RtTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +20,6 @@ use Illuminate\Support\Facades\Validator;
 
 class PendudukController extends Controller
 {
-    use ValidationTrait;
     use PendudukTrait;
     use RtTrait;
 
@@ -45,7 +43,7 @@ class PendudukController extends Controller
             })
             ->where('rt', $rt)
             ->orderBy('no_kk')
-            ->paginate(2);
+            ->paginate(5);
 
         if ($request->ajax()) {
             $keluarga = KKModel::with(['detailKK.anggotaKeluarga'])
@@ -55,7 +53,7 @@ class PendudukController extends Controller
                 })
                 ->where('rt', $request->rt)
                 ->orderBy('no_kk')
-                ->paginate(2);
+                ->paginate(5);
 
             return view('penduduk.keluarga.child', compact('keluarga'))->render();
         }
@@ -332,7 +330,7 @@ class PendudukController extends Controller
             })
             ->where('status_warga', 'Hidup')
             ->orderBy('nama_warga')
-            ->paginate(2);
+            ->paginate(5);
 
         if ($request->ajax()) {
             $warga = WargaModel::with(['detailKK.kartuKeluarga'])
@@ -342,7 +340,7 @@ class PendudukController extends Controller
                 ->where('nama_warga', 'like', "%$request->search%")
                 ->where('status_warga', 'Hidup')
                 ->orderBy('nama_warga')
-                ->paginate(2);
+                ->paginate(5);
 
             return view('penduduk.warga.child', compact('warga'))->render();
         }
@@ -609,7 +607,7 @@ class PendudukController extends Controller
             })
             ->where('status_warga', '!=', 'Hidup')
             ->orderBy('nama_warga')
-            ->paginate(2);
+            ->paginate(5);
 
         if ($request->ajax()) {
             $warga = WargaModel::with(['detailKK.kartuKeluarga'])
@@ -619,7 +617,7 @@ class PendudukController extends Controller
                 ->where('nama_warga', 'like', "%$request->search%")
                 ->where('status_warga', '!=', 'Hidup')
                 ->orderBy('nama_warga')
-                ->paginate(2);
+                ->paginate(5);
 
             return view('penduduk.warga.child', compact('warga'))->render();
         }

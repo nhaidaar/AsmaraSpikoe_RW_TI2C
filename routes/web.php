@@ -46,9 +46,11 @@ Route::group(['prefix' => 'informasi'], function () {
 Route::group(['prefix' => 'bansos'], function () {
     Route::get('/', [BansosController::class, 'index'])->name('bansos');
     Route::post('/', [BansosController::class, 'proses'])->name('prosesBansos');
-    Route::get('/penerima', [BansosController::class, 'index_penerima'])->name('indexPenerima');
-    Route::group(['prefix' => 'penghitungan', 'middleware' => 'admin'], function () {
-        Route::get('/', [BansosController::class, 'index_penghitungan'])->name('indexPenghitungan');
+    Route::group(['prefix' => 'penerima', 'middleware' => 'admin'], function () {
+        Route::get('/', [BansosController::class, 'index_penerima'])->name('indexPenerimaBansos');
+    });
+    Route::group(['prefix' => 'perhitungan', 'middleware' => 'admin'], function () {
+        Route::get('/', [BansosController::class, 'index_penghitungan'])->name('indexPenghitunganBansos');
         Route::get('/tambah', [BansosController::class, 'create'])->name('createPenghitungan');
         Route::get('/detail', [BansosController::class, 'show'])->name('showPenghitungan');
     });

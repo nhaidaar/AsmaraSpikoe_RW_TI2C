@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory as Faker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,21 +14,13 @@ class PenerimaBansosSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [
-            [
-                'penerima_bansos' => 1, 
-                'bansos_id' => 1, 
-            ],
-            [
-                'penerima_bansos' => 1, 
-                'bansos_id' => 2, 
-            ],
-            [
-                'penerima_bansos' => 2, 
-                'bansos_id' => 3, 
-            ],
-        ];
-        
-        DB::table('penerima_bansos')->insert($data);
+        $faker = Faker::create('id_ID');
+
+        for ($i = 1; $i < 91; $i++) {
+            DB::table('penerima_bansos')->insert([
+                'penerima_bansos' => $i,
+                'bansos_id' => $faker->numberBetween(1, 3)
+            ]);
+        }
     }
 }
