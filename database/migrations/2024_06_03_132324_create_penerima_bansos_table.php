@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kriteria_bansos', function (Blueprint $table) {
-            $table->id('kb_id');
+        Schema::create('penerima_bansos', function (Blueprint $table) {
+            $table->id('penerima_id');
+            $table->unsignedBigInteger('warga_id')->index();
             $table->unsignedBigInteger('bansos_id')->index();
-            $table->string('bansos_kriteria');
+            $table->date('periode');
             $table->timestamps();
+
+            $table->foreign('warga_id')->references('warga_id')->on('warga');
+            $table->foreign('bansos_id')->references('bansos_id')->on('bansos');
         });
     }
 
@@ -24,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kriteria_bansos');
+        Schema::dropIfExists('penerima_bansos');
     }
 };

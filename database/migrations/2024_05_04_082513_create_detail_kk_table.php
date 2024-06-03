@@ -17,6 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('warga_id')->index();
             $table->unsignedBigInteger('hubungan_id')->index();
             $table->timestamps();
+
+            $table->foreign('kk_id')->references('kk_id')->on('kartu_keluarga');
+            $table->foreign('hubungan_id')->references('hubungan_id')->on('status_hubungan');
         });
     }
 

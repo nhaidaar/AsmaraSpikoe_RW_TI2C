@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pendaftar_bansos', function (Blueprint $table) {
-            $table->id('pendaftar_id');
-            $table->unsignedBigInteger('detail_warga_id')->index();
+        
+        Schema::create('maut', function (Blueprint $table) {
+            $table->id('maut_id');
+            $table->unsignedBigInteger('warga_id')->index();
+            $table->double('skor_akhir');
             $table->timestamps();
+
+            $table->foreign('warga_id')->references('warga_id')->on('warga');
         });
     }
 
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pendaftar_bansos');
+        Schema::dropIfExists('maut');
     }
 };
