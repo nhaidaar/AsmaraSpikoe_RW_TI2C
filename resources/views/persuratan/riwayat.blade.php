@@ -23,7 +23,7 @@ Carbon::setLocale('id');
                             <circle cx="11.0586" cy="11.0586" r="7.06194" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M20.0033 20.0033L16.0517 16.0516" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <input type="search" name="searchData" id="searchData" placeholder="Cari data..." class="pl-12 pr-4 py-2 border rounded-md">
+                        <input type="search" name="searchData" id="searchData" placeholder="Cari Nama Pengaju..." class="pl-12 pr-4 py-2 border rounded-md">
                     </div>
                 </div>
 
@@ -39,49 +39,61 @@ Carbon::setLocale('id');
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($surat as $item)  
-                                <tr>
-                                    <td class="hidden" id="rt">{{ $item->pengajuSurat->detailKK->kartuKeluarga->rt }}</td>
-                                    <td>{{ Carbon::parse($item->surat_tanggal)->translatedFormat('j F Y') }}</td>
-                                    <td id="nama">{{ $item->pengajuSurat->nama_warga }}</td>
-                                    <td>{{ $item->surat_jenis }}</td>
-                                    <td>{{ $item->surat_tujuan }}</td>
-                                    <td class="flex gap-2 max-w-20">
-                                        <a href="{{ url('surat/' . $item->surat_id . '.docx') }}" class="bg-Primary-Base text-Neutral-0 font-medium px-4 py-2.5 gap-1 rounded-lg">Unduh</a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            @include('persuratan.child')
                         </tbody>
                     </table>
+
+                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
             </div>
         </section>
     </main>
     <script>
-        document.getElementById('rt_id').addEventListener('change', function() {
-            filterAndSearchTable();
-        });
+        $(document).ready(function () {
+            const page = document.getElementById('hidden_page');
+            const search = document.getElementById('searchData');
+            const rt = document.getElementById('rt_id')
 
-        document.getElementById('searchData').addEventListener('input', function() {
-            filterAndSearchTable();
-        });
-
-        function filterAndSearchTable() {
-            var selectedRT = document.getElementById('rt_id').value;
-            var search = document.getElementById('searchData').value.toLowerCase();
-
-            var suratRows = document.querySelectorAll('#tableSurat tbody tr');
-            suratRows.forEach(function(row) {
-                var rtValue = row.querySelector('#rt').textContent.trim();
-                var namaValue = row.querySelector('#nama').textContent.trim().toLowerCase();
-
-                if ((rtValue === selectedRT || selectedRT === "") && (namaValue.includes(search) || search === "")) {
-                    row.classList.remove('hidden');
-                } else {
-                    row.classList.add('hidden');
+            const fetchData = () => {
+                if(search.value === undefined){
+                    search.value = "";
                 }
-            });
-        }
 
-        filterAndSearchTable();
+                $.ajax({
+                    url: "/persuratan?page=" + page.value + "&rt=" + rt.value +  "&search=" + search.value,
+                    success: function(data) {
+                        $('tbody').html('');
+                        $('tbody').html(data);
+                        // console.log("/penduduk/warga/?page=" + page.value + "&rt=" + rt.value +  "&search=" + search.value);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error fetching data:', textStatus, errorThrown);
+                    }
+                });
+            }
+            
+            rt.addEventListener('change', function () {
+                event.preventDefault();
+                fetchData();
+            });
+
+            $('body').on('click', '.pager a', function(event){
+                event.preventDefault();
+                var newPage = $(this).attr('href').split('page=')[1];
+                page.value = newPage;
+                fetchData();
+            });
+
+            let timer,
+                timeoutVal = 500;
+                
+            $('body').on('keyup', '#searchData', function(e){
+                event.preventDefault();
+
+                window.clearTimeout(timer);
+                timer = window.setTimeout(() => {
+                    fetchData();
+                }, timeoutVal);
+            });
+        });
     </script>
 @endsection
