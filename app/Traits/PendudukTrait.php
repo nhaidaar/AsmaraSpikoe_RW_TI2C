@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\WargaModel;
+use DateTime;
 use Illuminate\Support\Facades\Validator;
 
 trait PendudukTrait
@@ -10,6 +11,14 @@ trait PendudukTrait
     public function convertTTL($tanggal, $bulan, $tahun)
     {
         return $tahun . '-' . str_pad($bulan, 2, '0', STR_PAD_LEFT) . '-' . str_pad($tanggal, 2, '0', STR_PAD_LEFT);
+    }
+
+    public function calculateAge($dateOfBirth)
+    {
+        $dob = new DateTime($dateOfBirth);
+        $now = new DateTime();
+        $age = $now->diff($dob);
+        return $age->y;
     }
 
     public function validateKK($request, $isUpdate)
@@ -39,7 +48,9 @@ trait PendudukTrait
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return back()
+                ->withInput()
+                ->withErrors($validator);
         }
     }
 
@@ -86,7 +97,10 @@ trait PendudukTrait
             'bpjs.required' => 'Mohon mengisi seluruh detail tambahan'
         ];
 
-        if (!$isUpdate) {
+        $tanggal_lahir = $this->convertTTL($request->tanggal, $request->bulan, $request->tahun);
+        $age = $this->calculateAge($tanggal_lahir);
+
+        if (!$isUpdate && ($age >= 17)) {
             $rules += [
                 'imageKTP' => 'required|image|max:1024',
             ];
@@ -120,7 +134,9 @@ trait PendudukTrait
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return back()
+                ->withInput()
+                ->withErrors($validator);
         }
     }
 }

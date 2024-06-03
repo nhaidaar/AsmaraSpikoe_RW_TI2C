@@ -78,6 +78,13 @@
                                         <button id="remove-image-ktp" class="px-4 py-2 text-Neutral-0 bg-Error-50 hover:bg-Error-60 rounded-md">Hapus Gambar</button>
                                     </div>
                                 </div>
+                                <label class="text-Neutral-40 text-sm font-normal">
+                                    <ul class="list-disc pl-4">
+                                        <li>KTP digunakan bagi umur 17 tahun keatas.</li>
+                                        <li>Jika masih di bawah umur menggunakan KIA.</li>
+                                        <li>Ukuran maksimal 1 MB</li>
+                                    </ul>
+                                </label>
                             </div>
 
                             <div class="flex flex-col gap-3">
@@ -115,28 +122,28 @@
                                     <select name="tanggal" id="tanggal">
                                         <option value="" class=" text-Neutral-40" disabled selected>Tanggal</option>
                                         @for ($i = 1; $i <= 31; $i++)
-                                            <option value="{{ $i }}" class=" text-Neutral-40" >{{ $i }}</option>
+                                            <option value="{{ $i }}" {{ old('tanggal') == $i ? 'selected' : '' }}>{{ $i }}</option>
                                         @endfor
                                     </select>
                                     <select name="bulan" id="bulan">
                                         <option value="" class="text-Neutral-40" disabled selected>Bulan</option>
-                                        <option value="1">Januari</option>
-                                        <option value="2">Februari</option>
-                                        <option value="3">Maret</option>
-                                        <option value="4">April</option>
-                                        <option value="5">Mei</option>
-                                        <option value="6">Juni</option>
-                                        <option value="7">Juli</option>
-                                        <option value="8">Agustus</option>
-                                        <option value="9">September</option>
-                                        <option value="10">Oktober</option>
-                                        <option value="11">November</option>
-                                        <option value="12">Desember</option>
+                                        <option value="1" {{ old('bulan') == 1 ? 'selected' : '' }}>Januari</option>
+                                        <option value="2" {{ old('bulan') == 2 ? 'selected' : '' }}>Februari</option>
+                                        <option value="3" {{ old('bulan') == 3 ? 'selected' : '' }}>Maret</option>
+                                        <option value="4" {{ old('bulan') == 4 ? 'selected' : '' }}>April</option>
+                                        <option value="5" {{ old('bulan') == 5 ? 'selected' : '' }}>Mei</option>
+                                        <option value="6" {{ old('bulan') == 6 ? 'selected' : '' }}>Juni</option>
+                                        <option value="7" {{ old('bulan') == 7 ? 'selected' : '' }}>Juli</option>
+                                        <option value="8" {{ old('bulan') == 8 ? 'selected' : '' }}>Agustus</option>
+                                        <option value="9" {{ old('bulan') == 9 ? 'selected' : '' }}>September</option>
+                                        <option value="10" {{ old('bulan') == 10 ? 'selected' : '' }}>Oktober</option>
+                                        <option value="11" {{ old('bulan') == 11 ? 'selected' : '' }}>November</option>
+                                        <option value="12" {{ old('bulan') == 12 ? 'selected' : '' }}>Desember</option>
                                     </select>
                                     <select name="tahun" id="tahun">
                                         <option value="" class=" text-Neutral-40" disabled selected>Tahun</option>
                                         @for ($i = now()->year; $i >= 1900; $i--)
-                                            <option value="{{ $i }}" class=" text-Neutral-40">{{ $i }}</option>
+                                            <option value="{{ $i }}" {{ old('tahun') == $i ? 'selected' : '' }}>{{ $i }}</option>
                                         @endfor
                                     </select>
                                 </div>
@@ -148,11 +155,11 @@
                                 </label>
                                 <div class="flex gap-2 justify-center text-center">
                                     <div class="flex w-full">
-                                        <input type="radio" name="jenis_kelamin" value="Laki-laki" id="laki-laki" class="hidden peer" checked>
+                                        <input type="radio" name="jenis_kelamin" value="Laki-laki" id="laki-laki" class="hidden peer" {{ old('jenis_kelamin') == 'Laki-laki' || old('jenis_kelamin') == null ? 'selected' : '' }}>
                                         <label for="laki-laki" id="label-laki-laki" class="bg-Neutral-0 peer-checked:bg-Additional-Base text-Neutral-100 peer-checked:text-Neutral-0 font-normal lg:text-lg p-3 rounded-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10 peer-checked:border-transparent">Laki-laki</label>
                                     </div>
                                     <div class="flex w-full">
-                                        <input type="radio" name="jenis_kelamin" value="Perempuan" id="perempuan" class="hidden peer">
+                                        <input type="radio" name="jenis_kelamin" value="Perempuan" id="perempuan" class="hidden peer" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>
                                         <label for="perempuan" id="label-perempuan" class="bg-Neutral-0 peer-checked:bg-Additional-Base text-Neutral-100 peer-checked:text-Neutral-0 font-normal lg:text-lg p-3 rounded-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10 peer-checked:border-transparent">Perempuan</label>
                                     </div>
                                 </div>
@@ -178,13 +185,13 @@
                                 </label>
                                 <select name="agama" id="agama">
                                     <option value="" class="text-Neutral-40" disabled selected>Pilih agama</option>
-                                    <option value="Islam">Islam</option>
-                                    <option value="Kristen">Kristen</option>
-                                    <option value="Katolik">Katolik</option>
-                                    <option value="Hindu">Hindu</option>
-                                    <option value="Buddha">Buddha</option>
-                                    <option value="Khonghucu">Khonghucu</option>
-                                    <option value="Lainnya">Lainnya</option>
+                                    <option value="Islam" {{ old('agama') == 'Islam' ? 'selected' : '' }}>Islam</option>
+                                    <option value="Kristen" {{ old('agama') == 'Kristen' ? 'selected' : '' }}>Kristen</option>
+                                    <option value="Katolik" {{ old('agama') == 'Katolik' ? 'selected' : '' }}>Katolik</option>
+                                    <option value="Hindu" {{ old('agama') == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                                    <option value="Buddha" {{ old('agama') == 'Buddha' ? 'selected' : '' }}>Buddha</option>
+                                    <option value="Khonghucu" {{ old('agama') == 'Khonghucu' ? 'selected' : '' }}>Khonghucu</option>
+                                    <option value="Lainnya" {{ old('agama') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                                 </select>
                             </div>
 
@@ -194,10 +201,10 @@
                                 </label>
                                 <select name="status_perkawinan" id="status_perkawinan">
                                     <option value="" class="text-Neutral-40" disabled selected>Pilih status perkawinan</option>
-                                    <option value="Belum Kawin">Belum Kawin</option>
-                                    <option value="Kawin">Kawin</option>
-                                    <option value="Cerai Hidup">Cerai Hidup</option>
-                                    <option value="Cerai Mati">Cerai Mati</option>
+                                    <option value="Belum Kawin" {{ old('status_perkawinan') == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option>
+                                    <option value="Kawin" {{ old('status_perkawinan') == 'Kawin' ? 'selected' : '' }}>Kawin</option>
+                                    <option value="Cerai Hidup" {{ old('status_perkawinan') == 'Cerai Hidup' ? 'selected' : '' }}>Cerai Hidup</option>
+                                    <option value="Cerai Mati" {{ old('status_perkawinan') == 'Cerai Mati' ? 'selected' : '' }}>Cerai Mati</option>
                                 </select>
                             </div>
 
@@ -208,11 +215,22 @@
                                 <select name="pekerjaan" id="pekerjaan">
                                     <option value="" class="text-Neutral-40" disabled selected>Pilih pekerjaan</option>
                                     @foreach ($pekerjaan as $item)
-                                        <option value="{{ $item->pekerjaan_id }}">{{ $item->pekerjaan_nama }}</option>
+                                        <option value="{{ $item->pekerjaan_id }}" {{ old('pekerjaan') == $item->pekerjaan_id ? 'selected' : '' }}>{{ $item->pekerjaan_nama }}</option>
                                     @endforeach
                                 </select>
                             </div>
 
+                            <div id="status" class="hidden flex-col gap-3">
+                                <label for="status_warga">
+                                    Status Warga<span class="text-Error-Base">*</span>
+                                </label>
+                                <select name="status_warga" id="status_warga">
+                                    <option value="Hidup" selected>Hidup</option>
+                                    <option value="Meninggal" {{ old('status_warga') == 'Meninggal' ? 'selected' : '' }}>Meninggal</option>
+                                    <option value="Pindah" {{ old('status_warga') == 'Pindah' ? 'selected' : '' }}>Pindah</option>
+                                    <option value="Lainnya" {{ old('status_warga') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                                </select>
+                            </div>
                         </div>
                     </section>
 
@@ -241,10 +259,10 @@
                                 </label>
                                 <select name="bpjs" id="bpjs">
                                     <option value="" class="text-Neutral-40" disabled selected>Pilih tingkat BPJS</option>
-                                    <option value="Kelas 1">Kelas 1</option>
-                                    <option value="Kelas 2">Kelas 2</option>
-                                    <option value="Kelas 3">Kelas 3</option>
-                                    <option value="Tidak ada">Tidak ada</option>
+                                    <option value="Kelas 1" {{ old('bpjs') == 'Kelas 1' ? 'selected' : '' }}>Kelas 1</option>
+                                    <option value="Kelas 2" {{ old('bpjs') == 'Kelas 2' ? 'selected' : '' }}>Kelas 2</option>
+                                    <option value="Kelas 3" {{ old('bpjs') == 'Kelas 3' ? 'selected' : '' }}>Kelas 3</option>
+                                    <option value="Tidak ada" {{ old('bpjs') == 'Tidak ada' ? 'selected' : '' }}>Tidak ada</option>
                                 </select>
                             </div>
 

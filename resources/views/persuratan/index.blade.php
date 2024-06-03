@@ -29,11 +29,11 @@
                     <div class="flex gap-2 justify-center text-center">
                         <div class="flex w-full">
                             <input type="radio" name="jenis" value="sp" id="sp" class="hidden peer" {{ old('jenis') == 'sp' | old('jenis') == null ? 'checked' : '' }}>
-                            <label onclick="toggleTujuan()" for="sp" id="label-sp" class="bg-Neutral-0 peer-checked:bg-Primary-Base text-Neutral-100 peer-checked:text-Neutral-0 font-medium text-sm md:text-base p-3 rounded-full cursor-pointer text-nowrap md:w-full border-2 border-Neutral-10 peer-checked:border-transparent">Surat Pengantar</label>
+                            <label onclick="toggleSp()" for="sp" id="label-sp" class="bg-Neutral-0 peer-checked:bg-Primary-Base text-Neutral-100 peer-checked:text-Neutral-0 font-medium text-sm md:text-base p-3 rounded-full cursor-pointer text-nowrap md:w-full border-2 border-Neutral-10 peer-checked:border-transparent">Surat Pengantar</label>
                         </div>
                         <div class="flex w-full">
                             <input type="radio" name="jenis" value="sktm" id="sktm" class="hidden peer" {{ old('jenis') == 'sktm' ? 'checked' : '' }}>
-                            <label onclick="toggleTujuan()" for="sktm" id="label-sktm" class="bg-Neutral-0 peer-checked:bg-Primary-Base text-Neutral-100 peer-checked:text-Neutral-0 font-medium text-sm md:text-base p-3 rounded-full cursor-pointer text-nowrap md:w-full border-2 border-Neutral-10 peer-checked:border-transparent">Surat Tidak Mampu</label>
+                            <label onclick="toggleSktm()" for="sktm" id="label-sktm" class="bg-Neutral-0 peer-checked:bg-Primary-Base text-Neutral-100 peer-checked:text-Neutral-0 font-medium text-sm md:text-base p-3 rounded-full cursor-pointer text-nowrap md:w-full border-2 border-Neutral-10 peer-checked:border-transparent">Surat Tidak Mampu</label>
                         </div>
                     </div>
 
@@ -96,14 +96,19 @@
         </section>
     </main>
     <script>
-        function toggleTujuan() {
-            var tujuanField = document.getElementById("tujuanField");
+        var tujuanField = document.getElementById("tujuanField");
+        
+        function toggleSp() {
+            if (tujuanField.classList.contains('hidden')) {
+                tujuanField.classList.remove('hidden');
+                tujuanField.classList.add('flex');
+            }
+        }
+
+        function toggleSktm() {
             if (tujuanField.classList.contains('flex')) {
                 tujuanField.classList.remove('flex');
                 tujuanField.classList.add('hidden');
-            } else if (tujuanField.classList.contains('hidden')) {
-                tujuanField.classList.remove('hidden');
-                tujuanField.classList.add('flex');
             }
         }
     </script>

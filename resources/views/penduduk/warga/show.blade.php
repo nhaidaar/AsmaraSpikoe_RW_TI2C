@@ -19,6 +19,13 @@ Carbon::setLocale('id');
                     <div class="flex flex-col lg:flex-row gap-12 lg:gap-[60px] self-start">
                         <div id="dataWarga" class="flex flex-col gap-4">
                             <div class="flex flex-col gap-2 w-80 lg:w-full">
+                                <label class="detail">No. KK</label>
+                                <div class="flex gap-2">
+                                    <input type="text" class="w-full lg:w-[400px] font-medium" value="{{ $warga->detailKK->kartuKeluarga->no_kk }}" readonly>
+                                    <a href="{{ route('detailKeluarga', $warga->detailKK->kk_id) }}" class="buttonDark w-min">></a>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-2 w-80 lg:w-full">
                                 <label class="detail">Nama Lengkap</label>
                                 <input type="text" class="w-full lg:w-[450px] font-medium" value="{{ $warga->nama_warga }}" readonly>
                             </div>

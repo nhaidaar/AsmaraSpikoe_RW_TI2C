@@ -1,5 +1,5 @@
 <section class="p-4 flex flex-row items-center md:items-start gap-4 rounded-xl border border-Neutral-10 bg-Neutral-0"> {{-- Outer Card --}}
-    <a href="{{ route('indexPenerima') }}" class="p-3 flex flex-col gap-4 border {{ $cardActive == 'penerima' ? 'border-Primary-30 outline outline-4 outline-Primary-10' : 'border-Neutral-20'}} rounded-xl text-nowrap overflow-hidden w-full">
+    <a href="{{ route('indexPenerimaBansos') }}" class="p-3 flex flex-col gap-4 border {{ $cardActive == 'penerima' ? 'border-Primary-30 outline outline-4 outline-Primary-10' : 'border-Neutral-20'}} rounded-xl text-nowrap overflow-hidden w-full">
         <svg class="w-12 p-2 border border-Neutral-20 rounded-full" width="48" height="48" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_1799_26945)">
                 <path d="M12.0003 6.66602H9.33366C8.62641 6.66602 7.94814 6.94697 7.44804 7.44706C6.94794 7.94716 6.66699 8.62544 6.66699 9.33268V25.3327C6.66699 26.0399 6.94794 26.7182 7.44804 27.2183C7.94814 27.7184 8.62641 27.9993 9.33366 27.9993H22.667C23.3742 27.9993 24.0525 27.7184 24.5526 27.2183C25.0527 26.7182 25.3337 26.0399 25.3337 25.3327V9.33268C25.3337 8.62544 25.0527 7.94716 24.5526 7.44706C24.0525 6.94697 23.3742 6.66602 22.667 6.66602H20.0003" stroke="#1B1B1B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -20,7 +20,7 @@
         </span>
     </a>
 
-    <a href="{{ route('indexPenghitungan') }}" class="p-3 flex flex-col gap-4 border {{ $cardActive == 'penghitungan' ? 'border-Primary-30 outline outline-4 outline-Primary-10' : 'border-Neutral-20'}} rounded-xl text-nowrap overflow-hidden w-full">
+    <a href="{{ route('indexPenghitunganBansos') }}" class="p-3 flex flex-col gap-4 border {{ $cardActive == 'penghitungan' ? 'border-Primary-30 outline outline-4 outline-Primary-10' : 'border-Neutral-20'}} rounded-xl text-nowrap overflow-hidden w-full">
         <svg class="w-12 p-2 border border-Neutral-20 rounded-full" width="48" height="48" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_1799_26951)">
                 <path d="M5.33301 6.66667C5.33301 5.95942 5.61396 5.28115 6.11406 4.78105C6.61415 4.28095 7.29243 4 7.99967 4H23.9997C24.7069 4 25.3852 4.28095 25.8853 4.78105C26.3854 5.28115 26.6663 5.95942 26.6663 6.66667V25.3333C26.6663 26.0406 26.3854 26.7189 25.8853 27.219C25.3852 27.719 24.7069 28 23.9997 28H7.99967C7.29243 28 6.61415 27.719 6.11406 27.219C5.61396 26.7189 5.33301 26.0406 5.33301 25.3333V6.66667Z" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>

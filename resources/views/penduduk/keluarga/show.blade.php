@@ -38,6 +38,7 @@ Carbon::setLocale('id');
                                 </div>
                             </div>
                         </section>
+                        
                         {{-- Anggota Keluarga --}}
                         @foreach ($anggota as $item)
                             <section class="flex flex-col gap-2 lg:w-[664px] sm:w-[442px]">

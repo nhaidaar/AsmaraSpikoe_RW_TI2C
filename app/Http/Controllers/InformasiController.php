@@ -15,33 +15,40 @@ class InformasiController extends Controller
 
     public function index()
     {
-        $pengumumanList = PengumumanModel::orderBy('pengumuman_id', 'DESC')->take(4)->get();
-        $kegiatanList = KegiatanModel::orderBy('kegiatan_id', 'ASC')->where('tanggal_waktu', '>=', now())->get();
+        $active = $this->active;
 
-        return view('informasi.index', [
-            'active' => $this->active,
-            'pengumuman' => $pengumumanList,
-            'kegiatan' => $kegiatanList
-        ]);
+        $pengumuman = PengumumanModel::with('user.warga')
+            ->orderBy('pengumuman_id', 'DESC')
+            ->take(4)
+            ->get();
+
+        $kegiatan = KegiatanModel::orderBy('kegiatan_id', 'ASC')
+            ->where('tanggal_waktu', '>=', now())
+            ->get();
+
+        return view('informasi.index', compact('active', 'pengumuman', 'kegiatan'));
     }
 
     public function detail($id)
     {
-        $pengumuman = PengumumanModel::find($id);
+        $active = $this->active;
+
+        $pengumuman = PengumumanModel::with('user.warga')->find($id);
 
         if (!$pengumuman) {
-            return redirect()->route('informasi');
+            return redirect()
+                ->route('informasi')
+                ->withErrors('Pengumuman yang dicari tidak ditemukan');
         }
 
-        return view('informasi.detail', [
-            'active' => $this->active,
-            'pengumuman' => $pengumuman
-        ]);
+        return view('informasi.detail', compact('active', 'pengumuman'));
     }
 
     public function create_pengumuman()
     {
-        return view('informasi.create_pengumuman', ['active' => $this->active]);
+        $active = $this->active;
+
+        return view('informasi.create_pengumuman', compact('active'));
     }
 
     public function store_pengumuman(Request $request)
@@ -93,20 +100,23 @@ class InformasiController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return back()->withErrors('Gagal membuat pengumuman, coba lagi');
+            return back()
+                ->withInput()
+                ->withErrors('Gagal membuat pengumuman, coba lagi');
         }
 
-        return redirect()->route('informasi');
+        return redirect()
+            ->route('informasi')
+            ->with('success', 'Berhasil menambahkan pengumuman');
     }
 
     public function edit_pengumuman($id)
     {
+        $active = $this->active;
+
         $pengumuman = PengumumanModel::find($id);
 
-        return view('informasi.edit_pengumuman', [
-            'active' => $this->active,
-            'pengumuman' => $pengumuman
-        ]);
+        return view('informasi.edit_pengumuman', compact('active', 'pengumuman'));
     }
 
     public function update_pengumuman(Request $request, string $id)
@@ -153,10 +163,14 @@ class InformasiController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return back()->withErrors('Gagal mengedit pengumuman, coba lagi');
+            return back()
+                ->withInput()
+                ->withErrors('Gagal mengedit pengumuman, coba lagi');
         }
 
-        return redirect()->route('informasi');
+        return redirect()
+            ->route('informasi')
+            ->with('success', 'Berhasil mengubah pengumuman');
     }
 
     public function delete_pengumuman($id)
@@ -174,12 +188,16 @@ class InformasiController extends Controller
             return back()->withErrors('Gagal menghapus pengumuman, coba lagi');
         }
 
-        return redirect()->route('informasi');
+        return redirect()
+            ->route('informasi')
+            ->with('success', 'Berhasil menghapus pengumuman');
     }
 
     public function create_kegiatan()
     {
-        return view('informasi.create_kegiatan', ['active' => $this->active]);
+        $active = $this->active;
+
+        return view('informasi.create_kegiatan', compact('active'));
     }
 
     public function store_kegiatan(Request $request)
@@ -220,20 +238,23 @@ class InformasiController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return back()->withErrors('Gagal membuat informasi kegiatan, coba lagi');
+            return back()
+                ->withInput()
+                ->withErrors('Gagal membuat informasi kegiatan, coba lagi');
         }
 
-        return redirect()->route('informasi');
+        return redirect()
+            ->route('informasi')
+            ->with('success', 'Berhasil menambahkan informasi kegiatan');
     }
 
     public function edit_kegiatan($id)
     {
+        $active = $this->active;
+
         $kegiatan = KegiatanModel::find($id);
 
-        return view('informasi.edit_kegiatan', [
-            'active' => $this->active,
-            'kegiatan' => $kegiatan
-        ]);
+        return view('informasi.edit_kegiatan', compact('active', 'kegiatan'));
     }
 
     public function update_kegiatan(Request $request, string $id)
@@ -274,10 +295,14 @@ class InformasiController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return back()->withErrors('Gagal membuat informasi kegiatan, coba lagi');
+            return back()
+                ->withInput()
+                ->withErrors('Gagal membuat informasi kegiatan, coba lagi');
         }
 
-        return redirect()->route('informasi');
+        return redirect()
+            ->route('informasi')
+            ->with('success', 'Berhasil mengubah informasi kegiatan');
     }
 
     public function delete_kegiatan($id)
@@ -290,9 +315,11 @@ class InformasiController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return back()->withErrors('Gagal menghapus kegiatan, coba lagi');
+            return back()->withErrors('Gagal menghapus informasi kegiatan, coba lagi');
         }
 
-        return redirect()->route('informasi');
+        return redirect()
+            ->route('informasi')
+            ->with('success', 'Berhasil menghapus informasi kegiatan');
     }
 }

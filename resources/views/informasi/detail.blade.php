@@ -15,6 +15,7 @@
                 <img src="{{ asset('img/pengumuman/' . $pengumuman->pengumuman_id . '.png') }}" alt="Pengumuman" class="h-80 w-full flex self-center rounded-lg object-cover">
                 <div class="flex flex-col gap-6">
                     <h3 class="text-2xl font-medium text-Neutral-Base">{{ $pengumuman->pengumuman_nama }}</h3>
+                    <h3 class="subtitle text-Neutral-40">oleh {{ $pengumuman->user->warga->nama_warga }}</h3>
                     <div class="border-b-2"></div>
                     <p class="text-lg text-Neutral-Base whitespace-pre-line">{{ $pengumuman->pengumuman_detail ? $pengumuman->pengumuman_detail : 'Tidak ada informasi lebih lanjut.' }}</p>
                 </div>

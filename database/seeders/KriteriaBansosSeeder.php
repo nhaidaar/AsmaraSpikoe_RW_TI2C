@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
-use Faker\Factory as Faker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PenerimaBansosSeeder extends Seeder
+class KriteriaBansosSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,17 +15,20 @@ class PenerimaBansosSeeder extends Seeder
     {
         $data = [
             [
-                'warga_id'  => 1, 
                 'bansos_id' => 1,
-                'periode'   => now()
+                'bansos_kriteria' => 'Sebatang kara',
             ],
             [
-                'warga_id'  => 2, 
+                'bansos_id' => 2,
+                'bansos_kriteria' => 'Berpenghasilan Rendah',
+            ],
+            [
                 'bansos_id' => 3,
-                'periode'   => now()
+                'bansos_kriteria' => 'Memiliki Kartu Keluarga Sejahtera (KKS)',
             ],
         ];
-        
-        DB::table('penerima_bansos')->insert($data);
+
+        DB::table('kriteria_bansos')->insert($data);
     }
 }
+
