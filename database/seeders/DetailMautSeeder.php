@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PendaftarBansosSeeder extends Seeder
+class DetailMautSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,15 +15,17 @@ class PendaftarBansosSeeder extends Seeder
     {
         $data = [
             [
-                // 'warga_id' => '1', 
-                'detail_warga_id' => '1',
+                'maut_id'       => 1, 
+                'kriteria_id'   => 1,
+                'kriteria_skor' => 20
             ],
             [
-                // 'warga_id' => '2', 
-                'detail_warga_id' => '2',
+                'maut_id'       => 2, 
+                'kriteria_id'   => 2,
+                'kriteria_skor' => 20
             ],
         ];
 
-        DB::table('pendaftar_bansos')->insert($data);
+        DB::table('detail_maut')->insert($data);
     }
 }
