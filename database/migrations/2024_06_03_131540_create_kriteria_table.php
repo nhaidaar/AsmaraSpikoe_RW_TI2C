@@ -10,11 +10,10 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('kriteria_penerima', function (Blueprint $table) {
-            $table->id('kp_id');
-            $table->unsignedBigInteger('pendaftar_id')->index();
-            $table->unsignedBigInteger('kb_id')->index();
+    {   
+        Schema::create('kriteria', function (Blueprint $table) {
+            $table->id('kriteria_id');
+            $table->string('kriteria_nama', 100);
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kriteria_penerima');
+        Schema::dropIfExists('kriteria');
     }
 };

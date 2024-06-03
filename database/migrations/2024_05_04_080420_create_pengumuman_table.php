@@ -19,6 +19,8 @@ return new class extends Migration
             $table->dateTime('tanggal_waktu');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('user_id')->on('users');
         });
     }
 

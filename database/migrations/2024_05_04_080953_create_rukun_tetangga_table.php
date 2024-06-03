@@ -16,6 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('ketua_rt')->index();
             $table->string('no_telepon', 14);
             $table->timestamps();
+
+            $table->foreign('ketua_rt')->references('warga_id')->on('warga');
         });
     }
 

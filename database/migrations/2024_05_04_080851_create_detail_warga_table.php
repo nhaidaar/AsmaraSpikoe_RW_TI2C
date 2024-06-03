@@ -29,6 +29,8 @@ return new class extends Migration
                 'Tidak ada'
             ]);
             $table->timestamps();
+
+            $table->foreign('warga_id')->references('warga_id')->on('warga');
         });
     }
 

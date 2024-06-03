@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('no_kk', 16)->unique();
             $table->unsignedBigInteger('rt')->index();
             $table->timestamps();
+
+            $table->foreign('rt')->references('rt_id')->on('rukun_tetangga');
         });
     }
 

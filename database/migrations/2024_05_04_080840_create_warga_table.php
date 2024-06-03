@@ -37,6 +37,8 @@ return new class extends Migration
             ]);
             $table->unsignedBigInteger('pekerjaan')->index();
             $table->timestamps();
+
+            $table->foreign('pekerjaan')->references('pekerjaan_id')->on('pekerjaan');
         });
     }
 
