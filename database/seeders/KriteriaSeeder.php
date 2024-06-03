@@ -7,7 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PenerimaBansosSeeder extends Seeder
+class KriteriaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,17 +16,16 @@ class PenerimaBansosSeeder extends Seeder
     {
         $data = [
             [
-                'warga_id'  => 1, 
-                'bansos_id' => 1,
-                'periode'   => now()
+                'kriteria_nama' => 'C1',
             ],
             [
-                'warga_id'  => 2, 
-                'bansos_id' => 3,
-                'periode'   => now()
+                'kriteria_nama' => 'C2',
+            ],
+            [
+                'kriteria_nama' => 'C3',
             ],
         ];
         
-        DB::table('penerima_bansos')->insert($data);
+        DB::table('kriteria')->insert($data);
     }
 }
