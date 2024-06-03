@@ -7,6 +7,7 @@ use App\Models\PekerjaanModel;
 use App\Models\RTModel;
 use App\Models\SuratModel;
 use App\Models\WargaModel;
+use App\Traits\RtTrait;
 use App\Traits\ValidationTrait;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -18,40 +19,43 @@ Carbon::setLocale('id');
 
 class PersuratanController extends Controller
 {
+    use RtTrait;
     use ValidationTrait;
 
     protected $active = 'persuratan';
 
-    public function index()
+    public function index(Request $request)
     {
+        $active = $this->active;
+
         if (!Auth::check()) {
-            return view('persuratan.index', [
-                'active' => $this->active,
-            ]);
+            return view('persuratan.index', compact('active'));
         }
 
-        // Default rt is 1
-        $rt = 1;
-
-        // If user not ketua rw, choose their rt
-        $user = Auth::user();
-        if ($user->level != 'rw') {
-            $rt = RTModel::whereHas('kartuKeluarga.detailKK.anggotaKeluarga', function ($q) use ($user) {
-                $q->where('warga_id', $user->warga_id);
-            })
-                ->pluck('rt_id')
-                ->first();
-        }
+        $rt = $this->checkRT();
 
         $surat = SuratModel::with(['pengajuSurat.detailKK.kartuKeluarga'])
+            ->whereHas('pengajuSurat.detailKK.kartuKeluarga', function ($q) use ($rt) {
+                $q->where('rt', $rt);
+            })
             ->orderBy('surat_tanggal', 'DESC')
-            ->get();
+            ->paginate(5);
 
-        return view('persuratan.riwayat', [
-            'active' => $this->active,
-            'rt' => $rt,
-            'surat' => $surat
-        ]);
+        if ($request->ajax()) {
+            $surat = SuratModel::with(['pengajuSurat.detailKK.kartuKeluarga'])
+                ->whereHas('pengajuSurat', function ($q) use ($request) {
+                    $q->where('nama_warga', $request->search);
+                })
+                ->whereHas('pengajuSurat.detailKK.kartuKeluarga', function ($q) use ($request) {
+                    $q->where('rt', $request->rt);
+                })
+                ->orderBy('surat_tanggal', 'DESC')
+                ->paginate(5);
+
+            return view('persuratan.child', compact('surat'))->render();
+        }
+
+        return view('persuratan.riwayat', compact('active', 'rt', 'surat'));
     }
 
     public function proses(Request $request)
@@ -80,17 +84,17 @@ class PersuratanController extends Controller
         $validationError = $this->matchNIKwithBirth($request->nik, $request->all());
 
         if ($validationError) {
-            return back()->withErrors($validationError)->withInput();
+            return back()
+                ->withInput()
+                ->withErrors($validationError);
         }
 
         $warga = WargaModel::where('nik', $request->nik)->first();
 
-        $no_kk = KKModel::whereHas(
-            'detailKK.anggotaKeluarga',
-            function ($q) use ($warga) {
-                $q->where('warga_id', $warga->warga_id);
-            }
-        )->pluck('no_kk')
+        $no_kk = KKModel::whereHas(['detailKK.anggotaKeluarga'], function ($q) use ($warga) {
+            $q->where('warga_id', $warga->warga_id);
+        })
+            ->pluck('no_kk')
             ->first();
 
         $pekerjaan = PekerjaanModel::find($warga->pekerjaan);

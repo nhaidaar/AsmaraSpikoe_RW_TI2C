@@ -10,7 +10,7 @@ trait RtTrait
 {
     public function checkRT()
     {
-        $rt = 1; // Default
+        $rt = 1;
 
         if (Auth::check() && Auth::user()->level != 'rw') {
             $user = WargaModel::with('detailKK.kartuKeluarga')->find(Auth::user()->warga_id);

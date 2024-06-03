@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class DetailWargaModel extends Model
 {
@@ -24,6 +25,11 @@ class DetailWargaModel extends Model
         'bpjs',
         'jumlah_kendaraan',
     ];
+
+    public function pendaftarBansos(): HasMany
+    {
+        return $this->hasMany(PendaftarBansosModel::class, 'detail_warga_id', 'detail_warga_id');
+    }
 
     public function warga(): BelongsTo
     {

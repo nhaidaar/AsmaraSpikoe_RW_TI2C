@@ -15,19 +15,19 @@ class KriteriaBansosSeeder extends Seeder
     {
         $data = [
             [
-                'bansos_id' => 1, 
+                'bansos_id' => 1,
                 'bansos_kriteria' => 'Sebatang kara',
             ],
             [
-                'bansos_id' => 1, 
+                'bansos_id' => 2,
                 'bansos_kriteria' => 'Berpenghasilan Rendah',
             ],
             [
-                'bansos_id' => 2, 
+                'bansos_id' => 3,
                 'bansos_kriteria' => 'Memiliki Kartu Keluarga Sejahtera (KKS)',
             ],
         ];
-        
+
         DB::table('kriteria_bansos')->insert($data);
     }
 }

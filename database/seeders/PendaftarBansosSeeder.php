@@ -13,17 +13,10 @@ class PendaftarBansosSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [
-            [
-                // 'warga_id' => '1', 
-                'detail_warga_id' => '1',
-            ],
-            [
-                // 'warga_id' => '2', 
-                'detail_warga_id' => '2',
-            ],
-        ];
-
-        DB::table('pendaftar_bansos')->insert($data);
+        for ($i = 1; $i < 101; $i++) {
+            DB::table('pendaftar_bansos')->insert([
+                'detail_warga_id' => $i
+            ]);
+        }
     }
 }

@@ -46,9 +46,11 @@ Route::group(['prefix' => 'informasi'], function () {
 Route::group(['prefix' => 'bansos'], function () {
     Route::get('/', [BansosController::class, 'index'])->name('bansos');
     Route::post('/', [BansosController::class, 'proses'])->name('prosesBansos');
-    Route::get('/penerima', [BansosController::class, 'index_penerima'])->name('indexPenerima');
-    Route::group(['prefix' => 'penghitungan', 'middleware' => 'admin'], function () {
-        Route::get('/', [BansosController::class, 'index_penghitungan'])->name('indexPenghitungan');
+    Route::group(['prefix' => 'penerima', 'middleware' => 'admin'], function () {
+        Route::get('/', [BansosController::class, 'index_penerima'])->name('indexPenerimaBansos');
+    });
+    Route::group(['prefix' => 'perhitungan', 'middleware' => 'admin'], function () {
+        Route::get('/', [BansosController::class, 'index_penghitungan'])->name('indexPenghitunganBansos');
         Route::get('/tambah', [BansosController::class, 'create'])->name('createPenghitungan');
         Route::get('/detail', [BansosController::class, 'show'])->name('showPenghitungan');
     });
@@ -89,11 +91,7 @@ Route::group(['prefix' => 'penduduk', 'middleware' => 'admin'], function () {
         Route::get('/detail/{id}', [PendudukController::class, 'show_warga'])->name('detailWarga');
         Route::post('/delete', [PendudukController::class, 'delete_warga'])->name('deleteWarga');
     });
-    Route::group(['prefix' => 'inactive'], function () {
-        Route::get('/', [PendudukController::class, 'index_inactive'])->name('indexInactive');
-        Route::get('/edit/{id}', [PendudukController::class, 'edit_warga'])->name('editInactive');
-        Route::get('/detail/{id}', [PendudukController::class, 'show_warga'])->name('detailInactive');
-    });
+    Route::get('/inactive', [PendudukController::class, 'index_inactive'])->name('indexInactive');
 });
 
 Route::group(['prefix' => 'keuangan'], function () {
