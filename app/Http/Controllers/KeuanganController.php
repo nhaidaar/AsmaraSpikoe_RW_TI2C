@@ -5,25 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\KeuanganModel;
 use App\Models\RTModel;
 use App\Models\WargaModel;
+use App\Traits\RtTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class KeuanganController extends Controller
 {
+    use RtTrait;
+
     protected $active = 'keuangan';
 
     public function index()
     {
         $active = $this->active;
 
-        // Default rt is 1
-        $rt = 1;
-
-        // If user not ketua rw, choose their rt
-        if (Auth::check() && Auth::user()->level != 'rw') {
-            $user = WargaModel::with('detailKK.kartuKeluarga')->find(Auth::user()->warga_id);
-            $rt = $user->detailKK->kartuKeluarga->rt;
-        }
+        $rt = $this->checkRT();
 
         $keuangan = KeuanganModel::all();
         $totalPemasukan = KeuanganModel::where('jenis_keuangan', 'Pemasukkan')->sum('nominal');
@@ -35,8 +31,8 @@ class KeuanganController extends Controller
 
     public function create()
     {
-        return view('keuangan.create', [
-            'active' => $this->active
-        ]);
+        $active = $this->active;
+
+        return view('keuangan.create', compact('active'));
     }
 }

@@ -38,28 +38,28 @@
                                 <select name="tanggal" id="tanggal">
                                     <option value="" class=" text-Neutral-40" disabled selected>Tanggal</option>
                                     @for ($i = 1; $i <= 31; $i++)
-                                        <option value="{{ $i }}" class=" text-Neutral-40" >{{ $i }}</option>
+                                        <option value="{{ $i }}" {{ old('tanggal') == $i ? 'selected' : '' }}>{{ $i }}</option>
                                     @endfor
                                 </select>
                                 <select name="bulan" id="bulan">
                                     <option value="" class="text-Neutral-40" disabled selected>Bulan</option>
-                                    <option value="1">Januari</option>
-                                    <option value="2">Februari</option>
-                                    <option value="3">Maret</option>
-                                    <option value="4">April</option>
-                                    <option value="5">Mei</option>
-                                    <option value="6">Juni</option>
-                                    <option value="7">Juli</option>
-                                    <option value="8">Agustus</option>
-                                    <option value="9">September</option>
-                                    <option value="10">Oktober</option>
-                                    <option value="11">November</option>
-                                    <option value="12">Desember</option>
+                                    <option value="1" {{ old('bulan') == 1 ? 'selected' : '' }}>Januari</option>
+                                    <option value="2" {{ old('bulan') == 2 ? 'selected' : '' }}>Februari</option>
+                                    <option value="3" {{ old('bulan') == 3 ? 'selected' : '' }}>Maret</option>
+                                    <option value="4" {{ old('bulan') == 4 ? 'selected' : '' }}>April</option>
+                                    <option value="5" {{ old('bulan') == 5 ? 'selected' : '' }}>Mei</option>
+                                    <option value="6" {{ old('bulan') == 6 ? 'selected' : '' }}>Juni</option>
+                                    <option value="7" {{ old('bulan') == 7 ? 'selected' : '' }}>Juli</option>
+                                    <option value="8" {{ old('bulan') == 8 ? 'selected' : '' }}>Agustus</option>
+                                    <option value="9" {{ old('bulan') == 9 ? 'selected' : '' }}>September</option>
+                                    <option value="10" {{ old('bulan') == 10 ? 'selected' : '' }}>Oktober</option>
+                                    <option value="11" {{ old('bulan') == 11 ? 'selected' : '' }}>November</option>
+                                    <option value="12" {{ old('bulan') == 12 ? 'selected' : '' }}>Desember</option>
                                 </select>
                                 <select name="tahun" id="tahun">
                                     <option value="" class=" text-Neutral-40" disabled selected>Tahun</option>
                                     @for ($i = now()->year; $i >= 1900; $i--)
-                                        <option value="{{ $i }}" class=" text-Neutral-40">{{ $i }}</option>
+                                        <option value="{{ $i }}" {{ old('tahun') == $i ? 'selected' : '' }}>{{ $i }}</option>
                                     @endfor
                                 </select>
                             </div>

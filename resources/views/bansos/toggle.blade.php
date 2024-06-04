@@ -20,7 +20,7 @@
         </span>
     </a>
 
-    <a href="{{ route('indexPenghitunganBansos') }}" class="p-3 flex flex-col gap-4 border {{ $cardActive == 'penghitungan' ? 'border-Primary-30 outline outline-4 outline-Primary-10' : 'border-Neutral-20'}} rounded-xl text-nowrap overflow-hidden w-full">
+    <a href="{{ route('indexPerhitunganBansos') }}" class="p-3 flex flex-col gap-4 border {{ $cardActive == 'perhitungan' ? 'border-Primary-30 outline outline-4 outline-Primary-10' : 'border-Neutral-20'}} rounded-xl text-nowrap overflow-hidden w-full">
         <svg class="w-12 p-2 border border-Neutral-20 rounded-full" width="48" height="48" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_1799_26951)">
                 <path d="M5.33301 6.66667C5.33301 5.95942 5.61396 5.28115 6.11406 4.78105C6.61415 4.28095 7.29243 4 7.99967 4H23.9997C24.7069 4 25.3852 4.28095 25.8853 4.78105C26.3854 5.28115 26.6663 5.95942 26.6663 6.66667V25.3333C26.6663 26.0406 26.3854 26.7189 25.8853 27.219C25.3852 27.719 24.7069 28 23.9997 28H7.99967C7.29243 28 6.61415 27.719 6.11406 27.219C5.61396 26.7189 5.33301 26.0406 5.33301 25.3333V6.66667Z" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -40,7 +40,7 @@
         </svg>
 
         <span class="flex flex-col gap-1">
-            <p class="cardTitle">Penghitungan <br class="sm:hidden">Kelayakan</p>
+            <p class="cardTitle">Perhitungan <br class="sm:hidden">Kelayakan</p>
             <p class="hidden lg:block subsubtitle text-Neutral-40">Klik untuk mendapatkan ranking prioritas</p>
         </span>
     </a>

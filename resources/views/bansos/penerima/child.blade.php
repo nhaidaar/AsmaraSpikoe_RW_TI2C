@@ -11,7 +11,7 @@
         <td id="nik">{{ $item->warga->nik }}</td>
         <td id="nama_warga">{{ $item->warga->nama_warga }}</td>
         <td>{{ $item->warga->alamat_domisili }}</td>
-        <td>{{ $item->pendaftarBansos->first()->kriteriaPenerima->first()->penerimaBansos->first()->bansos->bansos_nama }}</td>
+        <td>{{ $item->bansos->bansos_nama }}</td>
     </tr>
 @endforeach
 <tr>

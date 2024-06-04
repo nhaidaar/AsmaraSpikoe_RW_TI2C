@@ -28,7 +28,7 @@
                 @foreach ($rt as $item)
                     <div class="p-4 w-56 md:w-64 flex flex-col gap-4 rounded-xl border border-Neutral-20 fadeIn">
                         <div class="flex flex-col gap-1 text-center">
-                            <p class="text-base lg:text-lg font-medium">{{$item->ketuaRT->nama_warga}}</p>
+                            <p class="text-base lg:text-lg font-medium line-clamp-1">{{$item->ketuaRT->nama_warga}}</p>
                             <p class="text-sm lg:text-base text-Neutral-40">Ketua RT {{ str_pad($item->rt_id, 2, '0', STR_PAD_LEFT) }}</p>
                         </div>
                         <a href="https://wa.me/62{{$item->no_telepon}}" class="flex gap-2 font-medium px-4 py-2 border border-solid rounded-md border-Neutral-20 text-nowrap text-center justify-center">

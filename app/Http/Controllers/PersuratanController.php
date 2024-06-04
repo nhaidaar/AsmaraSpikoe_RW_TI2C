@@ -98,12 +98,14 @@ class PersuratanController extends Controller
             ->first();
 
         $pekerjaan = PekerjaanModel::find($warga->pekerjaan);
+
         $rt = RTModel::whereHas(
             'kartuKeluarga.detailKK.anggotaKeluarga',
             function ($q) use ($warga) {
                 $q->where('warga_id', $warga->warga_id);
             }
         )->first();
+
         $tanggal = now();
 
         $word = new TemplateProcessor('templates/' . $request->jenis . '.docx');
@@ -147,13 +149,15 @@ class PersuratanController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return back()->withErrors('Gagal membuat surat, coba lagi')->withInput();
+            return back()
+                ->withInput()
+                ->withErrors('Gagal membuat surat, coba lagi');
         }
 
-        return view('persuratan.download', [
-            'active' => $this->active,
-            'url' => 'surat/' . $namaSurat,
-            'admin' => $rt->no_telepon,
-        ]);
+        $active = $this->active;
+        $url = 'surat/' . $namaSurat;
+        $admin = $rt->no_telepon;
+
+        return view('persuratan.download', compact('active', 'url', 'admin'));
     }
 }

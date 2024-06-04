@@ -15,17 +15,22 @@ class KriteriaSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            [
-                'kriteria_nama' => 'C1',
-            ],
-            [
-                'kriteria_nama' => 'C2',
-            ],
-            [
-                'kriteria_nama' => 'C3',
-            ],
+            'pendapatan' => 'Pendapatan per Bulan',
+            'jumlah_kendaraan' => 'Jumlah Kendaraan',
+            'bpjs' => 'BPJS',
+            'luas_rumah' => 'Luas Bangunan',
+            'jumlah_tanggungan' => 'Jumlah Tanggungan',
+            'pbb' => 'Pajak Bumi dan Bangunan',
+            'tagihan_listrik' => 'Tagihan Listrik',
+            'tagihan_air' => 'Tagihan Air',
+            'tanggungan_pendidikan' => 'Tanggungan Pendidikan'
         ];
-        
-        DB::table('kriteria')->insert($data);
+
+        foreach ($data as $key => $value) {
+            DB::table('kriteria')->insert([
+                'kriteria_nama' => $key,
+                'keterangan' => $value,
+            ]);
+        }
     }
 }
