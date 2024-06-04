@@ -50,9 +50,10 @@ Route::group(['prefix' => 'bansos'], function () {
         Route::get('/', [BansosController::class, 'index_penerima'])->name('indexPenerimaBansos');
     });
     Route::group(['prefix' => 'perhitungan', 'middleware' => 'admin'], function () {
-        Route::get('/', [BansosController::class, 'index_penghitungan'])->name('indexPenghitunganBansos');
-        Route::get('/tambah', [BansosController::class, 'create'])->name('createPenghitungan');
-        Route::get('/detail', [BansosController::class, 'show'])->name('showPenghitungan');
+        Route::get('/', [BansosController::class, 'index_perhitungan'])->name('indexPerhitunganBansos');
+        Route::get('/hitung', [BansosController::class, 'hitung'])->name('hitungBansos');
+        Route::get('/tambah', [BansosController::class, 'create'])->name('createPerhitungan');
+        Route::get('/detail/{id}', [BansosController::class, 'show'])->name('detailPerhitungan');
     });
 });
 
@@ -94,7 +95,7 @@ Route::group(['prefix' => 'penduduk', 'middleware' => 'admin'], function () {
     Route::get('/inactive', [PendudukController::class, 'index_inactive'])->name('indexInactive');
 });
 
-Route::group(['prefix' => 'keuangan'], function () {
+Route::group(['prefix' => 'keuangan', 'middleware' => 'admin'], function () {
     Route::get('/', [KeuanganController::class, 'index'])->name('keuangan');
-    Route::get('/create', [KeuanganController::class, 'create'])->name('createKeuangan')->middleware('admin');
+    Route::get('/create', [KeuanganController::class, 'create'])->name('createKeuangan');
 });

@@ -10,10 +10,11 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {   
+    {
         Schema::create('kriteria', function (Blueprint $table) {
             $table->id('kriteria_id');
             $table->string('kriteria_nama', 100);
+            $table->string('keterangan', 100);
             $table->timestamps();
         });
     }

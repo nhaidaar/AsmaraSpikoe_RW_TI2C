@@ -26,11 +26,6 @@ class DetailWargaModel extends Model
         'jumlah_kendaraan',
     ];
 
-    public function pendaftarBansos(): HasMany
-    {
-        return $this->hasMany(PendaftarBansosModel::class, 'detail_warga_id', 'detail_warga_id');
-    }
-
     public function warga(): BelongsTo
     {
         return $this->belongsTo(WargaModel::class, 'warga_id', 'warga_id');

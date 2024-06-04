@@ -5,32 +5,18 @@
         @include('bansos.toggle')
 
         <section class="flex flex-col gap-3 p-4 bg-Neutral-0 rounded-xl">
-            <p class="cardTitle">Daftar Penerima Bansos</p>
+            <p class="cardTitle">Penghitungan Kelayakan</p>
 
             <div class="p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10">
                 <div class="grid lg:flex gap-8 lg:flex-row justify-center lg:justify-between text-center w-full border-b pb-6 pt-3">
                     <div class="grid grid-cols-subgrid md:max-w-[554px] md:flex items-center gap-2">
-                        <select name="bulan" id="bulan" class="font-medium md:max-w-[120px]">
-                            <option value="1" {{ now()->month == 1 ? 'selected' : '' }}>Januari</option>
-                            <option value="2" {{ now()->month == 2 ? 'selected' : '' }}>Februari</option>
-                            <option value="3" {{ now()->month == 3 ? 'selected' : '' }}>Maret</option>
-                            <option value="4" {{ now()->month == 4 ? 'selected' : '' }}>April</option>
-                            <option value="5" {{ now()->month == 5 ? 'selected' : '' }}>Mei</option>
-                            <option value="6" {{ now()->month == 6 ? 'selected' : '' }}>Juni</option>
-                            <option value="7" {{ now()->month == 7 ? 'selected' : '' }}>Juli</option>
-                            <option value="8" {{ now()->month == 8 ? 'selected' : '' }}>Agustus</option>
-                            <option value="9" {{ now()->month == 9 ? 'selected' : '' }}>September</option>
-                            <option value="10" {{ now()->month == 10 ? 'selected' : '' }}>Oktober</option>
-                            <option value="11" {{ now()->month == 11 ? 'selected' : '' }}>November</option>
-                            <option value="12" {{ now()->month == 12 ? 'selected' : '' }}>Desember</option>
-                        </select>
-
                         <select name="rt_id" id="rt_id" class="font-medium md:max-w-[120px]" {{ (Auth::check() && Auth::user()->level != 'rw') ? 'disabled' : '' }}>
+                            <option value="" {{ $rt == '' ? 'selected' : '' }}>Semua</option>
                             @for ($i = 1; $i <= 7; $i++)
-                                <option value="{{$i}}" {{ $rt == $i ? 'selected' : '' }}>RT 0{{$i}}</option>
+                                <option value="{{$i}}" >RT 0{{$i}}</option>
                             @endfor
                         </select>
-
+    
                         <div class="relative w-full">
                             <svg class="absolute left-3 top-1/2 transform -translate-y-1/2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="11.0586" cy="11.0586" r="7.06194" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -38,22 +24,37 @@
                             </svg>
                             <input type="search" name="searchData" id="searchData" placeholder="Cari data..." class="pl-12 pr-4 py-2 border rounded-md">
                         </div>
+
+                        <label for="rank-1" class="hidden {{-- flex --}} items-center gap-3">
+                            <input id="rank-1" type="checkbox" class="appearance-none w-6 h-6 bg-white checked:bg-Primary-Base border-transparent checked:border-transparent">
+                            <svg class="w-6 h-6 text-white absolute" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>3 NIK dipilih</span>
+                        </label>
                     </div>
-                    
-                    <a href="#" class="flex items-center justify-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap hover:bg-Primary-60">
+
+                    <a href="{{ route('hitungBansos') }}" class="flex items-center justify-center bg-Neutral-0 px-3 py-2 gap-2 border border-Neutral-20 rounded-lg text-nowrap hover:bg-Neutral-10">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_1575_2641)">
-                                <path d="M4 17V19C4 19.5304 4.21071 20.0391 4.58579 20.4142C4.96086 20.7893 5.46957 21 6 21H18C18.5304 21 19.0391 20.7893 19.4142 20.4142C19.7893 20.0391 20 19.5304 20 19V17" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M7 11L12 16L17 11" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12 4V16" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <g clip-path="url(#clip0_1575_2929)">
+                                <path d="M20 11.0007C19.7554 9.2409 18.9391 7.61034 17.6766 6.36018C16.4142 5.11001 14.7758 4.3096 13.0137 4.08224C11.2516 3.85487 9.46362 4.21316 7.9252 5.10193C6.38678 5.99069 5.18325 7.36062 4.5 9.00068M4 5.00068V9.00068H8" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M4 13C4.24456 14.7598 5.06093 16.3903 6.32336 17.6405C7.58579 18.8907 9.22424 19.6911 10.9863 19.9184C12.7484 20.1458 14.5364 19.7875 16.0748 18.8988C17.6132 18.01 18.8168 16.6401 19.5 15M20 19V15H16" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </g>
                             <defs>
-                                <clipPath id="clip0_1575_2641">
+                                <clipPath id="clip0_1575_2929">
                                     <rect width="24" height="24" fill="white"/>
                                 </clipPath>
                             </defs>
                         </svg>
-                        <span>Unduh CSV</span>
+                        <span>Hitung</span>
+                    </a>
+
+                    <a href="#" class="hidden {{-- flex --}} items-center justify-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap hover:bg-Primary-60">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 6V18M18 12H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+
+                        <span>Tambahkan</span>
                     </a>
                 </div>
 
@@ -61,20 +62,30 @@
                     <table class="text-left text-nowrap">
                         <thead class="border-b">
                             <tr>
+                                <th>
+                                    <label for="rank" class="flex items-center gap-3">
+                                        <input id="rank" type="checkbox" class="appearance-none w-6 h-6 bg-white checked:bg-Primary-Base border-transparent checked:border-transparent">
+                                        <svg class="w-6 h-6 text-white absolute" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        <span>Rank</span>
+                                    </label>    
+                                </th>
                                 <th>NIK</th>
                                 <th>Nama</th>
-                                <th>Alamat</th>
-                                <th>Jenis Bansos</th>
+                                <th>Total Skor</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @include('bansos.penerima.child')
+                            @include('bansos.perhitungan.child')
                         </tbody>
                     </table>
 
                     <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                 </div>
             </div>
+
         </section>
     </main>
     <script>
@@ -89,11 +100,11 @@
                 }
 
                 $.ajax({
-                    url: "/bansos/penerima/?page=" + page.value + "&rt=" + rt.value +  "&search=" + search.value,
+                    url: "/bansos/perhitungan/?page=" + page.value + "&rt=" + rt.value +  "&search=" + search.value,
                     success: function(data) {
                         $('tbody').html('');
                         $('tbody').html(data);
-                        // console.log("/penduduk/warga/?page=" + page.value + "&rt=" + rt.value +  "&search=" + search.value);
+                        // console.log("/bansos/perhitungan/?page=" + page.value + "&rt=" + rt.value +  "&search=" + search.value);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.error('Error fetching data:', textStatus, errorThrown);

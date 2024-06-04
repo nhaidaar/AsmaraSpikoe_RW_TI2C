@@ -14,7 +14,7 @@ class KriteriaModel extends Model
     protected $table = 'kriteria';
     protected $primaryKey = 'kriteria_id';
     protected $fillable = [
-        'nama_kriteria'
+        'kriteria_nama'
     ];
 
     public function detailMaut(): HasMany

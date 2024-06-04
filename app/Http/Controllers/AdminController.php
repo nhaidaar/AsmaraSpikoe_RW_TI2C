@@ -9,9 +9,7 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-
-        if ($user) {
+        if (Auth::check()) {
             return redirect()->route('penduduk');
         }
 
@@ -27,7 +25,9 @@ class AdminController extends Controller
             return redirect()->route('admin');
         }
 
-        return back()->withErrors('Username atau password salah!');
+        return back()
+            ->withInput()
+            ->withErrors('Username atau password salah!');
     }
 
     public function logout(Request $request)

@@ -13,13 +13,12 @@ class RtController extends Controller
 
     public function index()
     {
-        $rw = UserModel::with('warga')->where('level', 'rt')->first();
+        $active = $this->active;
+
+        $rw = UserModel::with('warga')->where('level', 'rw')->first();
+
         $rt = RTModel::with('ketuaRT')->get();
 
-        return view('rt.index', [
-            'active' => $this->active,
-            'rw' => $rw,
-            'rt' => $rt
-        ]);
+        return view('rt.index', compact('active', 'rw', 'rt'));
     }
 }
