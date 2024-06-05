@@ -36,7 +36,7 @@ jobs:
             sudo apt install -y gettext git
             sudo git -C $DOCROOT reset --hard
             sudo git -C $DOCROOT pull || sudo git clone --single-branch --branch main $REPO_URL $DOCROOT
-            envsubst > ${DOCROOT}/.env < ${DOCROOT}/.env.example
+
             sudo composer install --working-dir $DOCROOT
             sudo php -f ${DOCROOT}/artisan route:clear
             sudo php -f ${DOCROOT}/artisan clear-compiled
