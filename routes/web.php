@@ -64,6 +64,7 @@ Route::group(['prefix' => 'persuratan'], function () {
 
 Route::group(['prefix' => 'rt'], function () {
     Route::get('/', [RtController::class, 'index'])->name('rt');
+    Route::get('/edit', [RtController::class, 'edit'])->name('editRt');
 });
 
 Route::group(['prefix' => 'admin'], function () {
