@@ -21,6 +21,31 @@ trait PendudukTrait
         return $age->y;
     }
 
+    public function censoredNIK($number)
+    {
+        $firstFour = substr($number, 0, 4);
+        $lastFour = substr($number, -4);
+
+        return $firstFour . 'xxxxxxxx' . $lastFour;
+    }
+
+    public function matchNIKwithBirth($nik, $tanggal)
+    {
+        $findNik = WargaModel::where('nik', $nik)->first();
+
+        if (!$findNik) {
+            return 'NIK yang anda masukkan salah';
+        }
+
+        $tanggalLahir = $this->convertTTL($tanggal['tanggal'], $tanggal['bulan'], $tanggal['tahun']);
+
+        if ($findNik->tanggal_lahir != $tanggalLahir) {
+            return 'Tanggal lahir tidak valid';
+        }
+
+        return null; // No validation error
+    }
+
     public function validateKK($request, $isUpdate)
     {
         $rules = [

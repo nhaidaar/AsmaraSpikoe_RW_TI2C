@@ -8,16 +8,18 @@ use App\Models\RTModel;
 use App\Models\WargaModel;
 use App\Traits\RtTrait;
 use Illuminate\Http\Request;
-use App\Traits\ValidationTrait;
+use App\Traits\PendudukTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\MAUT;
+use App\Models\BansosModel;
 use App\Models\DetailMautModel;
 use App\Models\MautModel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class BansosController extends Controller
 {
-    use ValidationTrait;
+    use PendudukTrait;
     use RtTrait;
 
     protected $active = 'bansos';
@@ -60,6 +62,8 @@ class BansosController extends Controller
 
         $warga = WargaModel::where('nik', $request->nik)->first();
 
+        $nik = $this->censoredNIK($warga->nik);
+
         $bansos = PenerimaBansosModel::with(['bansos', 'warga'])
             ->whereHas('warga', function ($q) use ($warga) {
                 $q->where('warga_id', $warga->warga_id);
@@ -70,7 +74,7 @@ class BansosController extends Controller
             ->pluck('no_telepon')
             ->first();
 
-        return view('bansos.detail', compact('active', 'warga', 'bansos', 'admin'));
+        return view('bansos.detail', compact('active', 'warga', 'nik', 'bansos', 'admin'));
     }
 
     public function index_penerima(Request $request)
@@ -79,12 +83,10 @@ class BansosController extends Controller
 
         $cardActive = 'penerima';
 
-        $rt = $this->checkRT();
-
         $warga = PenerimaBansosModel::with(['bansos', 'warga.detailKK.kartuKeluarga'])
-            ->whereHas('warga.detailKK.kartuKeluarga', function ($q) use ($rt) {
-                $q->where('rt', $rt);
-            })
+            ->where('periode_bulan', now()->month)
+            ->where('periode_tahun', now()->year)
+            ->orderBy('bansos_id')
             ->paginate(5);
 
         if ($request->ajax()) {
@@ -93,14 +95,49 @@ class BansosController extends Controller
                     $q->where('nama_warga', 'like', "%$request->search%");
                 })
                 ->whereHas('warga.detailKK.kartuKeluarga', function ($q) use ($request) {
-                    $q->where('rt', $request->rt);
+                    if ($request->rt != '') {
+                        $q->where('rt', $request->rt);
+                    }
                 })
+                ->where('periode_bulan', $request->periode)
+                ->where('periode_tahun', now()->year)
                 ->paginate(5);
 
             return view('bansos.penerima.child', compact('warga'))->render();
         }
 
-        return view('bansos.penerima.index', compact('active', 'cardActive', 'rt', 'warga'));
+        return view('bansos.penerima.index', compact('active', 'cardActive', 'warga'));
+    }
+
+    public function delete_penerima(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'penerima_id' => 'required',
+        ]);
+
+        if ($validate->fails()) {
+            return back()
+                ->withInput()
+                ->withErrors('Permintaan hapus penerima bansos tidak valid');
+        }
+
+        DB::beginTransaction();
+        try {
+            $warga = PenerimaBansosModel::with('warga')->find($request->penerima_id);
+            PenerimaBansosModel::destroy($request->penerima_id);
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return back()
+                ->withInput()
+                ->withErrors('Gagal menghapus penerima bansos, coba lagi');
+        }
+
+        return redirect()
+            ->route('indexPenerimaBansos')
+            ->with('success', 'Berhasil menghapus data penerima bansos ' . $warga->warga->nama_warga);
     }
 
     public function index_perhitungan(Request $request)
@@ -109,14 +146,8 @@ class BansosController extends Controller
 
         $cardActive = 'perhitungan';
 
-        // $rt = $this->checkRT();
-        $rt = '';
-
         $maut = MautModel::with(['warga.detailKK.kartukeluarga'])
-            // ->whereHas('warga.detailKK.kartuKeluarga', function ($q) use ($rt) {
-            //     $q->where('rt', $rt);
-            // })
-            ->orderBy('skor_akhir', 'DESC')
+            // ->orderBy('skor_akhir', 'DESC')
             ->paginate(5);
 
         if ($request->ajax()) {
@@ -135,7 +166,7 @@ class BansosController extends Controller
             return view('bansos.perhitungan.child', compact('maut'))->render();
         }
 
-        return view('bansos.perhitungan.index', compact('active', 'cardActive', 'rt', 'maut'));
+        return view('bansos.perhitungan.index', compact('active', 'cardActive', 'maut'));
     }
 
     public function hitung()
@@ -173,6 +204,26 @@ class BansosController extends Controller
         $maut = new MAUT($kriteria, $bobot);
 
         $wargaList = WargaModel::all();
+        // $wargaList = WargaModel::leftJoin('penerima_bansos', 'warga.warga_id', '=', 'penerima_bansos.warga_id')
+        //     ->whereNull('penerima_bansos.warga_id')
+        //     ->select('warga.*')
+        //     ->get();
+
+        // $wargaList = WargaModel::leftJoin('penerima_bansos', function ($q) {
+        //     $q->on('warga.warga_id', '=', 'penerima_bansos.warga_id')
+        //         ->where('penerima_bansos.periode_bulan', '=', now()->month)
+        //         ->where('penerima_bansos.periode_tahun', '=', now()->year);
+        // })
+        //     ->whereNull('penerima_bansos.warga_id')
+        //     ->select('warga.*')
+        //     ->get();
+
+        // $wargaList = WargaModel::whereDoesntHave('penerimaBansos', function ($q) {
+        //     $q->where('periode_bulan', '=', now()->month)
+        //         ->where('periode_tahun', '=', now()->year);
+        // })
+        //     ->get();
+
         foreach ($wargaList as $warga) {
             $detail = DetailWargaModel::where('warga_id', $warga->warga_id)->first();
             if ($detail) {
@@ -199,23 +250,65 @@ class BansosController extends Controller
             ->with('success', 'Berhasil menghitung penerima bansos');
     }
 
-    public function create()
+    public function create($id)
     {
         $active = $this->active;
 
-        $rt = $this->checkRT();
+        $maut = MautModel::with(['warga', 'detailMaut.kriteria'])->find($id);
 
-        return view('bansos.perhitungan.create', compact('active', 'rt'));
+        $bansos = BansosModel::all();
+
+        return view('bansos.perhitungan.create', compact('active', 'maut', 'bansos'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'maut_id' => 'required',
+            'warga_id' => 'required',
+            'bansos_id' => 'required',
+            'bulan' => 'required',
+            'tahun' => 'required',
+        ], [
+            'maut_id.required' => 'Permintaan tidak valid',
+            'warga_id.required' => 'Permintaan tidak valid',
+            'bansos_id.required' => 'Mohon memilih jenis bantuan sosial',
+            'bulan.required' => 'Mohon memilih periode bantuan sosial',
+            'tahun.required' => 'Mohon memilih periode bantuan sosial',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            PenerimaBansosModel::create([
+                'warga_id' => $request->warga_id,
+                'bansos_id' => $request->bansos_id,
+                'periode_bulan' => $request->bulan,
+                'periode_tahun' => $request->tahun
+            ]);
+
+            DetailMautModel::where('maut_id', $request->maut_id)->delete();
+            MautModel::destroy($request->maut_id);
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return back()
+                ->withInput()
+                ->withErrors('Gagal menambahkan penerima bansos, coba lagi');
+        }
+
+        return redirect()
+            ->route('indexPenerimaBansos')
+            ->with('success', 'Berhasil menambahkan penerima bansos');
     }
 
     public function show($id)
     {
         $active = $this->active;
 
-        $rt = $this->checkRT();
-
         $maut = MautModel::with(['warga', 'detailMaut.kriteria'])->find($id);
 
-        return view('bansos.perhitungan.show', compact('active', 'rt', 'maut'));
+        return view('bansos.perhitungan.show', compact('active', 'maut'));
     }
 }

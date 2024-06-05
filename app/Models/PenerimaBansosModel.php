@@ -15,7 +15,8 @@ class PenerimaBansosModel extends Model
     protected $fillable = [
         'warga_id',
         'bansos_id',
-        'periode'
+        'periode_bulan',
+        'periode_tahun',
     ];
 
     public function warga(): BelongsTo

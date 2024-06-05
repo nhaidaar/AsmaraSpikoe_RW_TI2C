@@ -13,6 +13,7 @@ class KegiatanSeeder extends Seeder
      */
     public function run(): void
     {
+
         $data = [
             [
                 'kegiatan_id' => 1,
@@ -33,7 +34,7 @@ class KegiatanSeeder extends Seeder
                 'kegiatan_nama' => 'Pertunjukan Dangdut',
                 'kegiatan_lokasi' => 'Lapangan RT 4',
                 'tanggal_waktu' => now(),
-                'user_id' => 3,
+                'user_id' => 1,
             ],
         ];
         DB::table('kegiatan')->insert($data);

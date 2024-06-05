@@ -29,15 +29,8 @@ class UsersSeeder extends Seeder
                 'password'  => Hash::make('12345'),
                 'warga_id'  => 2
             ],
-            [
-                'user_id'   => 3,
-                'level'     => 'karang_taruna',
-                'username'  => 'kartar',
-                'password'  => Hash::make('12345'),
-                'warga_id'  => 1
-            ],
         ];
-        
+
         DB::table('users')->insert($data);
     }
 }

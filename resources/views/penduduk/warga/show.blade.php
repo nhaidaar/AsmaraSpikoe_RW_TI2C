@@ -22,7 +22,18 @@ Carbon::setLocale('id');
                                 <label class="detail">No. KK</label>
                                 <div class="flex gap-2">
                                     <input type="text" class="w-full lg:w-[400px] font-medium" value="{{ $warga->detailKK->kartuKeluarga->no_kk }}" readonly>
-                                    <a href="{{ route('detailKeluarga', $warga->detailKK->kk_id) }}" class="buttonDark w-min">></a>
+                                    <a href="{{ route('detailKeluarga', $warga->detailKK->kk_id) }}" class="p-2 bg-Additional-Base rounded-lg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <g clip-path="url(#a)">
+                                                <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 7 7 17M8 7h9v9"/>
+                                            </g>
+                                            <defs>
+                                                <clipPath id="a">
+                                                <path fill="#fff" d="M0 0h24v24H0z"/>
+                                                </clipPath>
+                                            </defs>
+                                        </svg> 
+                                    </a>
                                 </div>
                             </div>
                             <div class="flex flex-col gap-2 w-80 lg:w-full">

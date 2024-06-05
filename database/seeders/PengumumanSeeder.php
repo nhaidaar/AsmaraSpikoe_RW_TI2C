@@ -31,9 +31,9 @@ class PengumumanSeeder extends Seeder
             [
                 'pengumuman_nama'   => 'Pengaspalan jalan',
                 'pengumuman_lokasi' => 'RT 5',
-                'pengumuman_detail' => 's',
+                'pengumuman_detail' => '',
                 'tanggal_waktu'     => now(),
-                'user_id'           => 3,
+                'user_id'           => 1,
             ],
             [
                 'pengumuman_nama'   => 'Gotong Royong',
@@ -53,7 +53,7 @@ class PengumumanSeeder extends Seeder
                 Hormat Kami,
                 Pengurus RT 2 RW 4 Gondorejo.',
                 'tanggal_waktu'     => now(),
-                'user_id'           => 1,
+                'user_id'           => 2,
             ],
         ];
         DB::table('pengumuman')->insert($data);

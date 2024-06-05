@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory as Faker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -14,16 +15,21 @@ class SuratSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [
-            [
+        $faker = Faker::create('id_ID');
+
+        for ($i = 1; $i < 101; $i++) {
+            DB::table('surat')->insert([
                 'surat_id' => Str::uuid(),
-                'surat_pengaju' => 1,
-                'surat_jenis' => 'Surat Pengantar',
-                'surat_tujuan' => 'Administrasi Kependudukan',
-                'surat_tanggal' => now(),
-            ],
-        ];
-        
-        DB::table('surat')->insert($data);
+                'surat_pengaju' => $i,
+                'surat_jenis' => $faker->randomElement(['Surat Pengantar', 'Surat Pernyataan Tidak Mampu']),
+                'surat_tujuan' => $faker->randomElement([
+                    'Administrasi Kependudukan',
+                    'Pengajuan Bantuan Sosial',
+                    'Permohonan Administratif RT',
+                    'Permohonan Layanan Kesehatan'
+                ]),
+                'surat_tanggal' => $faker->dateTime(),
+            ]);
+        }
     }
 }
