@@ -21,4 +21,11 @@ class RtController extends Controller
 
         return view('rt.index', compact('active', 'rw', 'rt'));
     }
+
+    public function edit()
+    {
+        $active = $this->active;
+
+        return view('rt.edit', compact('active'));
+    }
 }
