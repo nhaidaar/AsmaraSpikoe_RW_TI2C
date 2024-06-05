@@ -225,11 +225,11 @@
                                 </label>
                                 <div class="flex gap-2 justify-center text-center">
                                     <div class="flex w-full">
-                                        <input type="radio" name="jenis_kelamin" value="Laki-laki" id="laki-laki" class="hidden peer" {{ old('jenis_kelamin') == 'Laki-laki' || old('jenis_kelamin') == null ? 'selected' : '' }}>
+                                        <input type="radio" name="jenis_kelamin" value="Laki-laki" id="laki-laki" class="hidden peer" {{ old('jenis_kelamin') == 'Laki-laki' || old('jenis_kelamin') == null ? 'checked' : '' }}>
                                         <label for="laki-laki" id="label-laki-laki" class="bg-Neutral-0 peer-checked:bg-Additional-Base text-Neutral-100 peer-checked:text-Neutral-0 font-normal lg:text-lg p-3 rounded-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10 peer-checked:border-transparent">Laki-laki</label>
                                     </div>
                                     <div class="flex w-full">
-                                        <input type="radio" name="jenis_kelamin" value="Perempuan" id="perempuan" class="hidden peer" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>
+                                        <input type="radio" name="jenis_kelamin" value="Perempuan" id="perempuan" class="hidden peer" {{ old('jenis_kelamin') == 'Perempuan' ? 'checked' : '' }}>
                                         <label for="perempuan" id="label-perempuan" class="bg-Neutral-0 peer-checked:bg-Additional-Base text-Neutral-100 peer-checked:text-Neutral-0 font-normal lg:text-lg p-3 rounded-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10 peer-checked:border-transparent">Perempuan</label>
                                     </div>
                                 </div>

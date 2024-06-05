@@ -196,7 +196,6 @@
                 id.value = currentWargaId;
                 reason.value = choice.value;
             });
-
         });
     </script>
 @endsection

@@ -11,19 +11,19 @@
 
                     <div class="flex flex-col p-4 gap-4 border border-Neutral-20 rounded-lg">
                         <div class="flex flex-col gap-3">
-                            <p class="text-base md:text-lg font-medium">Nama<span class="text-Error-Base">*</span></p>
-                            <p class="p-4 gap-4 border border-Neutral-20 rounded-lg text-base md:text-lg text-Neutral-40 font-normal">{{ $maut->warga->nama_warga }}</p>
+                            <p class="text-base md:text-lg font-medium">Nama Lengkap</p>
+                            <input type="text" class="font-normal text-Neutral-40" value="{{ $maut->warga->nama_warga }}" readonly>
                         </div>
 
                         <div class="flex flex-col gap-3">
-                            <p class="text-base md:text-lg font-medium">NIK<span class="text-Error-Base">*</span></p>
-                            <p class="p-4 gap-4 border border-Neutral-20 rounded-lg text-base md:text-lg text-Neutral-40 font-normal">{{ $maut->warga->nik }}</p>
+                            <p class="text-base md:text-lg font-medium">NIK</p>
+                            <input type="text" class="font-normal text-Neutral-40" value="{{ $maut->warga->nik }}" readonly>
                         </div>
                     </div>
                 </div>
 
                 <div class="flex flex-col gap-2">
-                    <p class="text-base md:text-lg font-medium text-center">Data Perhitungan</p>
+                    <p class="text-base md:text-lg font-medium">Data Perhitungan</p>
 
                     <div class="flex flex-col p-4 gap-3 border border-Neutral-20 rounded-lg">
                         @foreach ($maut->detailMaut as $item)
@@ -31,12 +31,12 @@
                         <div class="flex justify-between">
                             <div class="flex flex-col items-start">
                                 <p class="text-base md:text-lg font-medium">{{ $item->kriteria->keterangan }}</p>
-                                <p class="text-base md:text-lg text-Neutral-40 font-normal">Kriteria {{ $loop->iteration }}</p>
+                                <p class="text-sm md:text-base text-Neutral-40 font-normal">Kriteria {{ $loop->iteration }}</p>
                             </div>
                             
                             <div class="flex flex-col items-end">
                                 <p class="text-base md:text-lg font-medium">{{ $item->kriteria_skor }}</p>
-                                <p class="text-base md:text-lg text-Neutral-40 font-normal">Skor</p>
+                                <p class="text-sm md:text-base text-Neutral-40 font-normal">Skor</p>
                             </div>
                         </div>
                         
@@ -45,11 +45,11 @@
 
                         <div class="flex justify-between py-2">
                             <div class="flex flex-col items-start">
-                                <p class="text-xl md:text-2xl font-semibold">Total Skor</p>
+                                <p class="text-lg md:text-xl font-bold">Total Skor</p>
                             </div>
     
                             <div class="flex flex-col items-end">
-                                <p class="text-xl md:text-2xl font-semibold">{{ $maut->skor_akhir }}</p>
+                                <p class="text-xl md:text-2xl font-bold">{{ $maut->skor_akhir }}</p>
                             </div>
                         </div>
                     </div>

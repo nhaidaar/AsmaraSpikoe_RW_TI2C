@@ -21,7 +21,7 @@
                             @else
                             <div class="flex flex-col gap-1.5 text-center">
                                 <p class="text-lg md:text-xl font-medium">{{ $warga->nama_warga }}</p>
-                                <p class="text-sm md:text-base text-Neutral-40 text-nowrap">NIK : {{ $warga->nik }}</p>
+                                <p class="text-sm md:text-base text-Neutral-40 text-nowrap">NIK : {{ $nik }}</p>
                             </div>
                             <div class="p-3 flex flex-col gap-3 bg-Neutral-10 rounded-lg">
                                 @foreach ($bansos as $item)   

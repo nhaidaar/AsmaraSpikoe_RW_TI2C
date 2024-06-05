@@ -7,6 +7,36 @@
         <section class="flex flex-col gap-3 p-4 bg-Neutral-0 rounded-xl">
             <p class="cardTitle">Daftar Penerima Bansos</p>
 
+            @if ($errors->any())
+                <div class="p-3 md:p-4 flex gap-1.5 md:gap-2.5 bg-Error-10 border border-Error-20 rounded-lg items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <g clip-path="url(#a)">
+                            <path stroke="#C04949" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12a9 9 0 1 0 18.001 0A9 9 0 0 0 3 12Zm9-3h.01"/>
+                            <path stroke="#C04949" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 12h1v4h1"/>
+                        </g>
+                        <defs>
+                            <clipPath id="a"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath>
+                        </defs>
+                    </svg>
+                    <p class="font-medium text-sm md:text-base text-Error-Base">{{ $errors->first() }}</p>
+                </div>
+            @endif
+
+            @if ($success = Session::get('success'))
+                <div class="p-3 md:p-4 flex gap-1.5 md:gap-2.5 bg-Success-10 border border-Success-20 rounded-lg items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <g clip-path="url(#a)">
+                            <path stroke="#1f9d45" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12a9 9 0 1 0 18.001 0A9 9 0 0 0 3 12Zm9-3h.01"/>
+                            <path stroke="#1f9d45" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 12h1v4h1"/>
+                        </g>
+                        <defs>
+                            <clipPath id="a"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath>
+                        </defs>
+                    </svg>
+                    <p class="font-medium text-sm md:text-base text-Success-Base">{{ $success }}</p>
+                </div>
+            @endif
+
             <div class="p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10">
                 <div class="grid lg:flex gap-8 lg:flex-row justify-center lg:justify-between text-center w-full border-b pb-6 pt-3">
                     <div class="grid grid-cols-subgrid md:max-w-[554px] md:flex items-center gap-2">
@@ -25,9 +55,10 @@
                             <option value="12" {{ now()->month == 12 ? 'selected' : '' }}>Desember</option>
                         </select>
 
-                        <select name="rt_id" id="rt_id" class="font-medium md:max-w-[120px]" {{ (Auth::check() && Auth::user()->level != 'rw') ? 'disabled' : '' }}>
+                        <select name="rt_id" id="rt_id" class="font-medium md:max-w-[120px]">
+                            <option value="" selected>Semua</option>
                             @for ($i = 1; $i <= 7; $i++)
-                                <option value="{{$i}}" {{ $rt == $i ? 'selected' : '' }}>RT 0{{$i}}</option>
+                                <option value="{{$i}}">RT 0{{$i}}</option>
                             @endfor
                         </select>
 
@@ -65,6 +96,7 @@
                                 <th>Nama</th>
                                 <th>Alamat</th>
                                 <th>Jenis Bansos</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -76,12 +108,45 @@
                 </div>
             </div>
         </section>
+
+        <!-- Delete Modal -->
+        <div id="deleteModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div id="modalOverlay" class="fixed inset-0 bg-Neutral-100 bg-opacity-30 transition-opacity" aria-hidden="true"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true"></span>
+                <div class="inline-block align-bottom bg-white rounded-lg text-center overflow-hidden shadow-xl transform transition-all sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="p-4 flex flex-col gap-2 border border-b-2 border-Neutral-20">
+                        <p class="cardTitle">Apakah Anda ingin hapus data ini?</p>
+                    </div>
+                    <div class="p-4 flex flex-col gap-6">
+                        <div class="flex flex-col gap-2">
+                            <p class="title" id="wargaName"></p>
+                            <p class="subtitle text-Neutral-40" id="wargaNik"></p>
+                        </div>
+                        <div class="flex flex-col gap-3 text-left">
+                            <label for="choice">Jenis Bansos</label>
+                            <input type="text" class="detail" id="wargaBansos" readonly>
+                        </div>
+                    </div>
+                    <div class="p-4 flex justify-end gap-2 border border-t-2 border-Neutral-20">
+                        <button type="button" id="cancelDelete" class="buttonLight md:w-min">Batal</button>
+                        <form id="deleteForm" method="POST" action="{{ route('deletePenerimaBansos') }}">
+                            @csrf
+                            
+                            <input type="hidden" name="penerima_id" id="penerima_id">
+                            <button type="submit" class="buttonDark md:w-min">Hapus</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
     <script>
         $(document).ready(function () {
             const page = document.getElementById('hidden_page');
             const search = document.getElementById('searchData');
-            const rt = document.getElementById('rt_id')
+            const rt = document.getElementById('rt_id');
+            const periode = document.getElementById('bulan');
 
             const fetchData = () => {
                 if(search.value === undefined){
@@ -89,11 +154,11 @@
                 }
 
                 $.ajax({
-                    url: "/bansos/penerima/?page=" + page.value + "&rt=" + rt.value +  "&search=" + search.value,
+                    url: "/bansos/penerima/?page=" + page.value + "&periode=" + bulan.value + "&rt=" + rt.value +  "&search=" + search.value,
                     success: function(data) {
                         $('tbody').html('');
                         $('tbody').html(data);
-                        // console.log("/penduduk/warga/?page=" + page.value + "&rt=" + rt.value +  "&search=" + search.value);
+                        // console.log("/bansos/penerima/?page=" + page.value + "&periode=" + bulan.value + "&rt=" + rt.value +  "&search=" + search.value);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.error('Error fetching data:', textStatus, errorThrown);
@@ -102,6 +167,11 @@
             }
             
             rt.addEventListener('change', function () {
+                event.preventDefault();
+                fetchData();
+            });
+
+            bulan.addEventListener('change', function () {
                 event.preventDefault();
                 fetchData();
             });
@@ -123,6 +193,34 @@
                 timer = window.setTimeout(() => {
                     fetchData();
                 }, timeoutVal);
+            });
+
+            let currentWargaId;
+
+            $('body').on('click', '.delete-btn', function(event) {
+                event.preventDefault();
+                currentWargaId = this.getAttribute('data-id');
+                const name = this.getAttribute('data-name');
+                const nik = this.getAttribute('data-nik');
+                const bansos = this.getAttribute('data-bansos');
+
+                wargaName.textContent = name;
+                wargaNik.textContent = 'NIK : ' + nik;
+                wargaBansos.value = bansos;
+                deleteModal.classList.remove('hidden');
+            });
+
+            $('body').on('click', '#cancelDelete', function(event) {
+                event.preventDefault();
+                deleteModal.classList.add('hidden');
+            });
+            $('body').on('click', '#modalOverlay', function(event) {
+                event.preventDefault();
+                deleteModal.classList.add('hidden');
+            });
+
+            $('body').on('submit', '#deleteForm', function(event) {
+                penerima_id.value = currentWargaId;
             });
         });
     </script>

@@ -58,4 +58,14 @@ class WargaModel extends Model
     {
         return $this->hasOne(DetailKKModel::class, 'warga_id', 'warga_id');
     }
+
+    public function penerimaBansos(): HasOne
+    {
+        return $this->hasOne(PenerimaBansosModel::class, 'warga_id', 'warga_id');
+    }
+
+    public function maut(): HasOne
+    {
+        return $this->hasOne(MautModel::class, 'warga_id', 'warga_id');
+    }
 }

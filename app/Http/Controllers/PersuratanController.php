@@ -8,7 +8,7 @@ use App\Models\RTModel;
 use App\Models\SuratModel;
 use App\Models\WargaModel;
 use App\Traits\RtTrait;
-use App\Traits\ValidationTrait;
+use App\Traits\PendudukTrait;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Carbon\Carbon;
@@ -20,7 +20,7 @@ Carbon::setLocale('id');
 class PersuratanController extends Controller
 {
     use RtTrait;
-    use ValidationTrait;
+    use PendudukTrait;
 
     protected $active = 'persuratan';
 
@@ -89,12 +89,8 @@ class PersuratanController extends Controller
                 ->withErrors($validationError);
         }
 
-        $warga = WargaModel::where('nik', $request->nik)->first();
-
-        $no_kk = KKModel::whereHas(['detailKK.anggotaKeluarga'], function ($q) use ($warga) {
-            $q->where('warga_id', $warga->warga_id);
-        })
-            ->pluck('no_kk')
+        $warga = WargaModel::with(['detailKK.kartuKeluarga'])
+            ->where('nik', $request->nik)
             ->first();
 
         $pekerjaan = PekerjaanModel::find($warga->pekerjaan);
@@ -138,7 +134,7 @@ class PersuratanController extends Controller
                 'surat_tujuan' => $request->tujuan,
                 'tanggal' => Carbon::parse($tanggal)->translatedFormat('j F Y'),
 
-                'no_kk' => $no_kk,
+                'no_kk' => $warga->detailKK->kartuKeluarga->no_kk,
                 'nik' => $request->nik
             ));
 

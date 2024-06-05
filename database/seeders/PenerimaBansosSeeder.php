@@ -16,17 +16,19 @@ class PenerimaBansosSeeder extends Seeder
     {
         $data = [
             [
-                'warga_id'  => 1, 
+                'warga_id'  => 1,
                 'bansos_id' => 1,
-                'periode'   => now()
+                'periode_bulan'   => now()->month,
+                'periode_tahun'   => now()->year
             ],
             [
-                'warga_id'  => 2, 
+                'warga_id'  => 2,
                 'bansos_id' => 3,
-                'periode'   => now()
+                'periode_bulan'   => now()->month,
+                'periode_tahun'   => now()->year
             ],
         ];
-        
+
         DB::table('penerima_bansos')->insert($data);
     }
 }
