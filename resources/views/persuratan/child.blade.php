@@ -1,3 +1,8 @@
+@php
+use Carbon\Carbon;
+Carbon::setLocale('id');
+@endphp
+
 @if ($surat->isEmpty())
     <tr>
         <td colspan="5">
