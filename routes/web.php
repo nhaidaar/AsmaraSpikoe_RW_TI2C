@@ -101,4 +101,5 @@ Route::group(['prefix' => 'penduduk', 'middleware' => 'admin'], function () {
 Route::group(['prefix' => 'keuangan', 'middleware' => 'admin'], function () {
     Route::get('/', [KeuanganController::class, 'index'])->name('keuangan');
     Route::get('/create', [KeuanganController::class, 'create'])->name('createKeuangan');
+    Route::post('/create', [KeuanganController::class, 'store'])->name('storeKeuangan');
 });
