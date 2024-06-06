@@ -16,34 +16,34 @@ class DetailKKSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
 
-        $kk = 1;
-        for ($i = 1; $i < 31; $i++) {
+        // $kk = 1;
+        for ($i = 1; $i < 21; $i++) {
             DB::table('detail_kk')->insert([
-                'kk_id' => $kk,
+                'kk_id' => $i,
                 'warga_id' => $i,
                 'hubungan_id' => 1,
             ]);
 
-            $kk++;
+            // $kk++;
         }
 
-        $kk = 1;
-        for ($i = 31; $i < 61; $i++) {
-            DB::table('detail_kk')->insert([
-                'kk_id' => $kk,
-                'warga_id' => $i,
-                'hubungan_id' => 2,
-            ]);
+        // $kk = 1;
+        // for ($i = 31; $i < 61; $i++) {
+        //     DB::table('detail_kk')->insert([
+        //         'kk_id' => $kk,
+        //         'warga_id' => $i,
+        //         'hubungan_id' => 2,
+        //     ]);
 
-            $kk++;
-        }
+        //     $kk++;
+        // }
 
-        for ($i = 61; $i < 101; $i++) {
-            DB::table('detail_kk')->insert([
-                'kk_id' => $faker->numberBetween(1, 30),
-                'warga_id' => $i,
-                'hubungan_id' => 3,
-            ]);
-        }
+        // for ($i = 61; $i < 101; $i++) {
+        //     DB::table('detail_kk')->insert([
+        //         'kk_id' => $faker->numberBetween(1, 30),
+        //         'warga_id' => $i,
+        //         'hubungan_id' => 3,
+        //     ]);
+        // }
     }
 }

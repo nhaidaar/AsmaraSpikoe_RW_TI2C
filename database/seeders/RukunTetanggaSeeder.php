@@ -18,7 +18,7 @@ class RukunTetanggaSeeder extends Seeder
 
         for ($i = 1; $i < 8; $i++) {
             DB::table('rukun_tetangga')->insert([
-                'ketua_rt' => $faker->numberBetween(1, 100),
+                'ketua_rt' => $faker->numberBetween(1, 20),
                 'no_telepon' => $faker->numerify('08##########'),
             ]);
         }
