@@ -44,7 +44,7 @@ class PersuratanController extends Controller
         if ($request->ajax()) {
             $surat = SuratModel::with(['pengajuSurat.detailKK.kartuKeluarga'])
                 ->whereHas('pengajuSurat', function ($q) use ($request) {
-                    $q->where('nama_warga', $request->search);
+                    $q->where('nama_warga', 'like', "%$request->search%");
                 })
                 ->whereHas('pengajuSurat.detailKK.kartuKeluarga', function ($q) use ($request) {
                     $q->where('rt', $request->rt);

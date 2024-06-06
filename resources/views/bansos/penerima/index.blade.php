@@ -168,6 +168,7 @@
             
             rt.addEventListener('change', function () {
                 event.preventDefault();
+                page.value = 1;
                 fetchData();
             });
 
