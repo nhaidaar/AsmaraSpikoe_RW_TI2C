@@ -72,17 +72,6 @@ Carbon::setLocale('id');
                         </a>
                     </div>
                 @endforeach
-                @foreach ($pengumuman as $item)
-                    <div class="innerCard">
-                        <a href="{{ route('detailPengumuman', $item->pengumuman_id) }}" class="flex flex-col gap-3">
-                            <img src="{{ asset('img/pengumuman/' . $item->pengumuman_id . '.png') }}" alt="Pengumuman" class="h-56 w-full flex self-center rounded-xl object-cover">
-                            <div class="p-1 flex flex-col gap-1">
-                                <p class="title">{{ $item->pengumuman_nama }}</p>
-                                <p class="subtitle text-Neutral-40">{{ $item->pengumuman_lokasi }} - {{ Carbon::parse($item->tanggal_waktu)->translatedFormat('j F \j\a\m H:i') }}</p>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
             </div>
 
             <a href="{{ route('informasi') }}" class="buttonDark w-min">
@@ -111,8 +100,8 @@ Carbon::setLocale('id');
                 </div>
             </div>
 
-            <div class="flex gap-[60px] items-center">
-                <div class="flex flex-col gap-2 w-[610px]">
+            <div class="flex flex-col md:flex-row gap-[60px] items-center">
+                <div class="flex flex-col gap-2 w-full md:w-[610px]">
                     <div class="py-5 px-5 border-solid border-2 border-Neutral-20 rounded-xl text-Neutral-base bg-Neutral-0 text-xl">
                         Peringatan Hari Kemerdekaan Indonesia
                     </div>
@@ -130,7 +119,7 @@ Carbon::setLocale('id');
                     </div>
                 </div>
                 
-                <div class="bg-Neutral-10 w-[652px] h-[442px] rounded-xl"></div>
+                <div class="bg-Neutral-10 w-full h-[442px] rounded-xl"></div>
             </div>
         </section>
 
@@ -193,17 +182,6 @@ Carbon::setLocale('id');
                         </a>
                     </div>
                 @endforeach
-                @foreach ($pengumuman as $item)
-                    <div class="innerCard">
-                        <a href="{{ route('detailPengumuman', $item->pengumuman_id) }}" class="flex flex-col gap-3">
-                            <img src="{{ asset('img/pengumuman/' . $item->pengumuman_id . '.png') }}" alt="Pengumuman" class="h-56 w-full flex self-center rounded-xl object-cover">
-                            <div class="p-1 flex flex-col gap-1">
-                                <p class="title">{{ $item->pengumuman_nama }}</p>
-                                <p class="subtitle text-Neutral-40">{{ $item->pengumuman_lokasi }} - {{ Carbon::parse($item->tanggal_waktu)->translatedFormat('j F \j\a\m H:i') }}</p>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
             </div>
         </section>
 
@@ -214,17 +192,17 @@ Carbon::setLocale('id');
 
         {{-- Footer --}}
         <footer class="py-20 px-12 md:px-12 lg:px-[60px] justify-between bg-Neutral-100 flex flex-col gap-[60px]">    
-            <div class="flex justify-between items-center">
-                <div class="flex gap-[80px]">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-20">
+                <div class="flex gap-20">
                     <div class="flex flex-col gap-4">
                         <p class="text-Neutral-0 text-xl">
                             Menu
                         </p>
-                        <div class="flex flex-col gap-4 text-Neutral-40 text-base">
-                            <a href="http://127.0.0.1:8000/informasi" class="hover:text-Neutral-0">Informasi</a>
-                            <a href="http://127.0.0.1:8000/bansos" class="hover:text-Neutral-0">Bantuan Sosial</a>
-                            <a href="http://127.0.0.1:8000/persuratan" class="hover:text-Neutral-0">Persuratan</a>
-                            <a href="http://127.0.0.1:8000/rt" class="hover:text-Neutral-0">Struktur</a>
+                        <div class="flex flex-col gap-4 text-Neutral-40 text-base text-no">
+                            <a href="{{ route('informasi') }}" class="hover:text-Neutral-0">Informasi</a>
+                            <a href="{{ route('bansos') }}" class="hover:text-Neutral-0">Bantuan Sosial</a>
+                            <a href="{{ route('persuratan') }}" class="hover:text-Neutral-0">Persuratan</a>
+                            <a href="{{ route('rt') }}" class="hover:text-Neutral-0">Struktur</a>
                         </div>
                     </div>
                     
@@ -242,7 +220,7 @@ Carbon::setLocale('id');
                     </div>
                 </div>
 
-                <div class=" flex flex-col gap-5 items-end">
+                <div class="flex flex-col gap-5 items-center md:items-end">
                     <div class="text-Neutral-40">
                         Supported By
                     </div>
@@ -260,7 +238,7 @@ Carbon::setLocale('id');
                         <img src="/img/main_logo.png" class="w-8 h-8 m-0.5" alt="Gondorejo">
                         <p class="text-2xl font-normal">Gondorejo</p>
                     </a>
-                    <p class="text-base font-normal">
+                    <p class="text-base font-normal text-center">
                         © Copyright {{now()->year}} Gondorejo. All Right Reserved.
                     </p>
                 </div>
