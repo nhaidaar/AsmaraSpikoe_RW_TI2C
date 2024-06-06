@@ -3,7 +3,7 @@
 @section('content')
     <main class="p-2 flex flex-col gap-2 bg-Neutral-10">
         <section class="p-4 md:p-20 flex flex-col gap-6 rounded-xl border border-Neutral-10 items-center bg-Neutral-0">
-            <form action="{{ route('storeKegiatan') }}" method="post" class="md:w-[480px] p-4 flex flex-col gap-12 rounded-xl border border-Neutral-10">
+            <form action="{{ route('storeKeuangan') }}" method="post" class="md:w-[480px] p-4 flex flex-col gap-12 rounded-xl border border-Neutral-10">
                 @csrf
 
                 <div class="flex flex-col gap-8">
@@ -28,33 +28,49 @@
                     @endif
                     
                     <div class="flex flex-col gap-2">
-                        <label for="tanggal">Tanggal <span class="text-Error-Base">*</span></label>
+                        <label for="rt_id">
+                            Domisili<span class="text-Error-Base">*</span>
+                        </label>
+                        <div class="flex gap-3 font-medium">
+                            <select name="rt_id" id="rt_id">
+                                @for ($i = 1; $i <= 7; $i++)
+                                    <option value="{{ $i }}" {{ Auth::user()->level == 'rt' && $rt == $i ? 'selected' : '' }} {{ Auth::user()->level == 'rt' && $rt != $i ? 'disabled' : '' }}>RT 0{{$i}}</option>
+                                @endfor
+                            </select>
+                            <select name="rw_id" id="rw_id" disabled>
+                                <option value="" selected>RW 04</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="tanggal">Tanggal<span class="text-Error-Base">*</span></label>
                         <div class="flex flex-col md:flex-row gap-2">
                             <select name="tanggal" id="tanggal">
                                 <option value="" class=" text-Neutral-40" disabled selected>Tanggal</option>
                                 @for ($i = 1; $i <= 31; $i++)
-                                    <option value="{{ $i }}" class=" text-Neutral-40" >{{ $i }}</option>
+                                    <option value="{{ $i }}" {{ old('tanggal') == $i ? 'selected' : '' }}>{{ $i }}</option>
                                 @endfor
                             </select>
                             <select name="bulan" id="bulan">
                                 <option value="" class="text-Neutral-40" disabled selected>Bulan</option>
-                                <option value="1">Januari</option>
-                                <option value="2">Februari</option>
-                                <option value="3">Maret</option>
-                                <option value="4">April</option>
-                                <option value="5">Mei</option>
-                                <option value="6">Juni</option>
-                                <option value="7">Juli</option>
-                                <option value="8">Agustus</option>
-                                <option value="9">September</option>
-                                <option value="10">Oktober</option>
-                                <option value="11">November</option>
-                                <option value="12">Desember</option>
+                                <option value="1" {{ old('bulan') == 1 ? 'selected' : '' }}>Januari</option>
+                                <option value="2" {{ old('bulan') == 2 ? 'selected' : '' }}>Februari</option>
+                                <option value="3" {{ old('bulan') == 3 ? 'selected' : '' }}>Maret</option>
+                                <option value="4" {{ old('bulan') == 4 ? 'selected' : '' }}>April</option>
+                                <option value="5" {{ old('bulan') == 5 ? 'selected' : '' }}>Mei</option>
+                                <option value="6" {{ old('bulan') == 6 ? 'selected' : '' }}>Juni</option>
+                                <option value="7" {{ old('bulan') == 7 ? 'selected' : '' }}>Juli</option>
+                                <option value="8" {{ old('bulan') == 8 ? 'selected' : '' }}>Agustus</option>
+                                <option value="9" {{ old('bulan') == 9 ? 'selected' : '' }}>September</option>
+                                <option value="10" {{ old('bulan') == 10 ? 'selected' : '' }}>Oktober</option>
+                                <option value="11" {{ old('bulan') == 11 ? 'selected' : '' }}>November</option>
+                                <option value="12" {{ old('bulan') == 12 ? 'selected' : '' }}>Desember</option>
                             </select>
                             <select name="tahun" id="tahun">
                                 <option value="" class=" text-Neutral-40" disabled selected>Tahun</option>
-                                @for ($i = now()->year; $i <= (now()->year + 5); $i++)
-                                    <option value="{{ $i }}" class=" text-Neutral-40">{{ $i }}</option>
+                                @for ($i = now()->year; $i > (now()->year - 10); $i--)
+                                    <option value="{{ $i }}" {{ old('tahun') == $i ? 'selected' : '' }}>{{ $i }}</option>
                                 @endfor
                             </select>
                         </div>
@@ -62,31 +78,35 @@
 
                     <div class="flex flex-col gap-4">
                         <div class="flex flex-col gap-1">
-                            <label for="jenis">Jenis <span class="text-Error-Base">*</span></label>
-                            <select name="jenis" id="jenis">
-                                <option value="" disabled selected>Pilih jenis Transaksi</option>
-                                <option value="jenis1">Jenis Transaksi 1</option>
-                                <option value="jenis2">Jenis Transaksi 2</option>
-                                <option value="jenis3">Jenis Transaksi 3</option>
-                            </select>
+                            <label for="jenis">Jenis<span class="text-Error-Base">*</span></label>
+                            <div class="flex gap-2 justify-center text-center">
+                                <div class="flex w-full">
+                                    <input type="radio" name="jenis_keuangan" value="Pemasukkan" id="Pemasukkan" class="hidden peer" {{ old('jenis_keuangan') == 'Pemasukkan' || old('jenis_keuangan') == null ? 'checked' : '' }}>
+                                    <label for="Pemasukkan" id="label-Pemasukkan" class="bg-Neutral-0 peer-checked:bg-Additional-Base text-Neutral-100 peer-checked:text-Neutral-0 font-normal lg:text-lg p-3 rounded-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10 peer-checked:border-transparent">Pemasukkan</label>
+                                </div>
+                                <div class="flex w-full">
+                                    <input type="radio" name="jenis_keuangan" value="Pengeluaran" id="Pengeluaran" class="hidden peer" {{ old('jenis_keuangan') == 'Pengeluaran' ? 'checked' : '' }}>
+                                    <label for="Pengeluaran" id="label-Pengeluaran" class="bg-Neutral-0 peer-checked:bg-Additional-Base text-Neutral-100 peer-checked:text-Neutral-0 font-normal lg:text-lg p-3 rounded-lg cursor-pointer text-nowrap w-full border-2 border-Neutral-10 peer-checked:border-transparent">Pengeluaran</label>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="flex flex-col gap-2">
-                            <label for="tempat">Nominal <span class="text-Error-Base">*</span></label>
+                            <label for="tempat">Nominal<span class="text-Error-Base">*</span></label>
                             <div class="flex gap-2 items-center ">
                                 <span class="p-4">Rp</span>
-                                <input type="text" name="nominal" id="nominal" placeholder=".000" value="{{ old('nominal') }}">
+                                <input type="text" name="nominal" id="nominal" placeholder="10.000" value="{{ old('nominal') }}">
                             </div>
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label for="tempat">Keterangan <span class="text-Error-Base">*</span></label>
-                            <input type="text" name="keterangan" id="keterangan" placeholder="Masukkan keterangan" value="{{ old('keterangan') }}">
+                            <label for="tempat">Keterangan<span class="text-Error-Base">*</span></label>
+                            <input type="text" name="keterangan_keuangan" id="keterangan_keuangan" placeholder="Masukkan keterangan" value="{{ old('keterangan_keuangan') }}">
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row gap-2 md:justify-end">
-                    <a href="{{ route('informasi') }}" class="buttonLight w-full md:w-min">Batal</a>
+                    <a href="{{ route('keuangan') }}" class="buttonLight w-full md:w-min">Batal</a>
                     <button type="submit" class="buttonDark w-full md:w-min">Tambahkan</button>
                 </div>
             </form>

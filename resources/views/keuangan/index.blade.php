@@ -42,6 +42,36 @@
         <section class="p-4 flex flex-col gap-3 rounded-xl border border-Neutral-10 bg-Neutral-0"> {{-- Outer Card --}}
             <p class="cardTitle">Riwayat Keuangan</p>
 
+            @if ($errors->any())
+                <div class="p-3 md:p-4 flex gap-1.5 md:gap-2.5 bg-Error-10 border border-Error-20 rounded-lg items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <g clip-path="url(#a)">
+                            <path stroke="#C04949" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12a9 9 0 1 0 18.001 0A9 9 0 0 0 3 12Zm9-3h.01"/>
+                            <path stroke="#C04949" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 12h1v4h1"/>
+                        </g>
+                        <defs>
+                            <clipPath id="a"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath>
+                        </defs>
+                    </svg>
+                    <p class="font-medium text-sm md:text-base text-Error-Base">{{ $errors->first() }}</p>
+                </div>
+            @endif
+
+            @if ($success = Session::get('success'))
+                <div class="p-3 md:p-4 flex gap-1.5 md:gap-2.5 bg-Success-10 border border-Success-20 rounded-lg items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <g clip-path="url(#a)">
+                            <path stroke="#1f9d45" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12a9 9 0 1 0 18.001 0A9 9 0 0 0 3 12Zm9-3h.01"/>
+                            <path stroke="#1f9d45" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 12h1v4h1"/>
+                        </g>
+                        <defs>
+                            <clipPath id="a"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath>
+                        </defs>
+                    </svg>
+                    <p class="font-medium text-sm md:text-base text-Success-Base">{{ $success }}</p>
+                </div>
+            @endif
+
             <div class="p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10"> {{-- Inner Card --}}
                 <div class="grid lg:flex gap-8 lg:flex-row justify-center lg:justify-between text-center w-full border-b pb-6 pt-3">
                     <div class="grid grid-cols-subgrid md:max-w-[554px] md:flex items-center gap-2">
@@ -60,14 +90,12 @@
                         </div>
                     </div>
                     
-                    @if (Auth::check())    
-                        <a href="{{ route('createKeuangan') }}" class="flex items-center justify-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap hover:bg-Primary-60">
-                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 6V18M18 12H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            Tambah Transaksi
-                        </a>
-                    @endif
+                    <a href="{{ route('createKeuangan') }}" class="flex items-center justify-center bg-Primary-Base text-Neutral-0 px-3 py-2 gap-1.5 rounded-lg text-nowrap hover:bg-Primary-60">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 6V18M18 12H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Tambah Transaksi
+                    </a>
                 </div>
 
                 <div class="w-full bg-Neutral-0 overflow-x-auto fadeIn">
@@ -81,18 +109,63 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($keuangan as $item)
-                                <tr>
-                                    <td>{{ $item->tanggal }}</td>
-                                    <td>{{ $item->jenis_keuangan }}</td>
-                                    <td>{{ $item->nominal }}</td>
-                                    <td>{{ $item->keterangan_keuangan }}</td>
-                                </tr>
-                            @endforeach
+                            @include('keuangan.child')
                         </tbody>
                     </table>
+
+                    <input type="hidden" name="hidden_page" id="hidden_page" value="1">
                 </div>
             </div>
         </section>
     </main>
+    <script>
+        $(document).ready(function () {
+            const page = document.getElementById('hidden_page');
+            const search = document.getElementById('searchData');
+            const rt = document.getElementById('rt_id')
+
+            const fetchData = () => {
+                if(search.value === undefined){
+                    search.value = "";
+                }
+
+                $.ajax({
+                    url: "/keuangan?page=" + page.value + "&rt=" + rt.value +  "&search=" + search.value,
+                    success: function(data) {
+                        $('tbody').html('');
+                        $('tbody').html(data);
+                        // console.log("/penduduk/warga/?page=" + page.value + "&rt=" + rt.value +  "&search=" + search.value);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error fetching data:', textStatus, errorThrown);
+                    }
+                });
+            }
+            
+            rt.addEventListener('change', function () {
+                event.preventDefault();
+                page.value = 1;
+                fetchData();
+            });
+
+            $('body').on('click', '.pager a', function(event){
+                event.preventDefault();
+                var newPage = $(this).attr('href').split('page=')[1];
+                page.value = newPage;
+                fetchData();
+            });
+
+            let timer,
+                timeoutVal = 500;
+                
+            $('body').on('keyup', '#searchData', function(e){
+                event.preventDefault();
+
+                window.clearTimeout(timer);
+                timer = window.setTimeout(() => {
+                    fetchData();
+                }, timeoutVal);
+            });
+        });
+    </script>
 @endsection

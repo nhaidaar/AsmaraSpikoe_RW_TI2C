@@ -212,7 +212,7 @@ Carbon::setLocale('id');
                         </p>
                         <div class="flex flex-col gap-4 text-Neutral-40 text-base">
                             <a href="https://www.linkedin.com/in/chyntia-santi/" class="hover:text-Neutral-0">Chyntia Santi Nur Trisnawati</a>
-                            <a href="https://www.linkedin.com/in/ahmad-khoirul-falah-70b275251/" class="hover:text-Neutral-0">Ahmad Khoirul Falah</a>
+                            <a href="https://www.linkedin.com/in/ahmad-khoirul-falah/" class="hover:text-Neutral-0">Ahmad Khoirul Falah</a>
                             <a href="https://www.linkedin.com/in/irsyaddani/" class="hover:text-Neutral-0">Irsyad Danisaputra</a>
                             <a href="https://www.linkedin.com/in/nhaidaar/" class="hover:text-Neutral-0">Muhammad Naufal Haidar S.</a>
                             <a href="https://www.linkedin.com/in/rayyanalfirdausi/" class="hover:text-Neutral-0">Rayyan Al Firdausi</a>
