@@ -17,7 +17,7 @@ return new class extends Migration
             $table->double('pendapatan');
             $table->double('luas_rumah')->nullable();
             $table->unsignedInteger('jumlah_tanggungan')->nullable();
-            $table->int('tanggungan_pendidikan')->nullable();
+            $table->integer('tanggungan_pendidikan')->nullable();
             $table->double('pbb')->nullable();
             $table->double('tagihan_listrik')->nullable();
             $table->double('tagihan_air')->nullable();
