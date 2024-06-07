@@ -39,7 +39,14 @@
 
             <div class="p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10">
                 <div class="grid lg:flex gap-8 lg:flex-row justify-center lg:justify-between text-center w-full border-b pb-6 pt-3">
-                    <div class="grid grid-cols-subgrid md:max-w-[554px] md:flex items-center gap-2">
+                    <div class="grid grid-cols-subgrid md:max-w-[600px] md:flex items-center gap-2">
+                        <select name="rt_id" id="rt_id" class="font-medium md:max-w-[150px]">
+                            <option value="" selected>Semua RT</option>
+                            @for ($i = 1; $i <= 7; $i++)
+                                <option value="{{$i}}">RT 0{{$i}}</option>
+                            @endfor
+                        </select>
+
                         <select name="bulan" id="bulan" class="font-medium md:max-w-[120px]">
                             <option value="1" {{ now()->month == 1 ? 'selected' : '' }}>Januari</option>
                             <option value="2" {{ now()->month == 2 ? 'selected' : '' }}>Februari</option>
@@ -53,13 +60,6 @@
                             <option value="10" {{ now()->month == 10 ? 'selected' : '' }}>Oktober</option>
                             <option value="11" {{ now()->month == 11 ? 'selected' : '' }}>November</option>
                             <option value="12" {{ now()->month == 12 ? 'selected' : '' }}>Desember</option>
-                        </select>
-
-                        <select name="rt_id" id="rt_id" class="font-medium md:max-w-[120px]">
-                            <option value="" selected>Semua</option>
-                            @for ($i = 1; $i <= 7; $i++)
-                                <option value="{{$i}}">RT 0{{$i}}</option>
-                            @endfor
                         </select>
 
                         <div class="relative w-full">

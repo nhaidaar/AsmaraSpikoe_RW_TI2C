@@ -16,8 +16,8 @@
                     </svg>
 
                     <span>
-                        <p class="subtitle text-Neutral-40">Total Kas</p>
-                        <p class="cardTitle text-Success-Base">Rp {{ $totalKas }}</p>
+                        <p class="subtitle text-Neutral-40">Total Kas Bulan Ini</p>
+                        <p class="cardTitle text-Success-Base">Rp {{ number_format($totalKas, 0, ',', '.') }}</p>
                     </span>
                 </div>
 
@@ -33,8 +33,8 @@
                     </svg>
 
                     <span>
-                        <p class="subtitle text-Neutral-40">Total Pengeluaran</p>
-                        <p class="cardTitle text-Error-Base">Rp {{ $totalPengeluaran }}</p>
+                        <p class="subtitle text-Neutral-40">Total Pengeluaran Bulan Ini</p>
+                        <p class="cardTitle text-Error-Base">Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</p>
                     </span>
                 </div>
         </section>
@@ -74,10 +74,31 @@
 
             <div class="p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10"> {{-- Inner Card --}}
                 <div class="grid lg:flex gap-8 lg:flex-row justify-center lg:justify-between text-center w-full border-b pb-6 pt-3">
-                    <div class="grid grid-cols-subgrid md:max-w-[554px] md:flex items-center gap-2">
+                    <div class="grid grid-cols-subgrid md:max-w-[600px] md:flex items-center gap-2">
                         <select name="rt_id" id="rt_id" class="font-medium md:max-w-[120px]" {{ (Auth::check() && Auth::user()->level != 'rw') ? 'disabled' : '' }} >
                             @for ($i = 1; $i <= 7; $i++)
                                 <option value="{{$i}}" {{ $rt == $i ? 'selected' : '' }}>RT 0{{$i}}</option>
+                            @endfor
+                        </select>
+
+                        <select name="bulan" id="bulan" class="font-medium md:max-w-[120px]">
+                            <option value="1" {{ $bulan == 1 ? 'selected' : '' }}>Januari</option>
+                            <option value="2" {{ $bulan == 2 ? 'selected' : '' }}>Februari</option>
+                            <option value="3" {{ $bulan == 3 ? 'selected' : '' }}>Maret</option>
+                            <option value="4" {{ $bulan == 4 ? 'selected' : '' }}>April</option>
+                            <option value="5" {{ $bulan == 5 ? 'selected' : '' }}>Mei</option>
+                            <option value="6" {{ $bulan == 6 ? 'selected' : '' }}>Juni</option>
+                            <option value="7" {{ $bulan == 7 ? 'selected' : '' }}>Juli</option>
+                            <option value="8" {{ $bulan == 8 ? 'selected' : '' }}>Agustus</option>
+                            <option value="9" {{ $bulan == 9 ? 'selected' : '' }}>September</option>
+                            <option value="10" {{ $bulan == 10 ? 'selected' : '' }}>Oktober</option>
+                            <option value="11" {{ $bulan == 11 ? 'selected' : '' }}>November</option>
+                            <option value="12" {{ $bulan == 12 ? 'selected' : '' }}>Desember</option>
+                        </select>
+
+                        <select name="tahun" id="tahun" class="font-medium md:max-w-[100px]">
+                            @for ($i = now()->year; $i > (now()->year - 10); $i--)
+                                <option value="{{ $i }}" {{ $tahun == $i ? 'selected' : '' }}>{{ $i }}</option>
                             @endfor
                         </select>
 
@@ -122,7 +143,10 @@
         $(document).ready(function () {
             const page = document.getElementById('hidden_page');
             const search = document.getElementById('searchData');
-            const rt = document.getElementById('rt_id')
+            const rt = document.getElementById('rt_id');
+
+            const bulan = document.getElementById('bulan');
+            const tahun = document.getElementById('tahun');
 
             const fetchData = () => {
                 if(search.value === undefined){
@@ -130,7 +154,7 @@
                 }
 
                 $.ajax({
-                    url: "/keuangan?page=" + page.value + "&rt=" + rt.value +  "&search=" + search.value,
+                    url: "/keuangan?page=" + page.value + "&rt=" + rt.value + "&bulan=" + bulan.value + "&tahun=" + tahun.value +  "&search=" + search.value,
                     success: function(data) {
                         $('tbody').html('');
                         $('tbody').html(data);
@@ -143,6 +167,18 @@
             }
             
             rt.addEventListener('change', function () {
+                event.preventDefault();
+                page.value = 1;
+                fetchData();
+            });
+
+            bulan.addEventListener('change', function () {
+                event.preventDefault();
+                page.value = 1;
+                fetchData();
+            });
+
+            tahun.addEventListener('change', function () {
                 event.preventDefault();
                 page.value = 1;
                 fetchData();

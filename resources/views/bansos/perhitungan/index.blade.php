@@ -39,9 +39,9 @@
 
             <div class="p-3 flex flex-col gap-3 rounded-xl border border-Neutral-10">
                 <div class="grid lg:flex gap-8 lg:flex-row justify-center lg:justify-between text-center w-full border-b pb-6 pt-3">
-                    <div class="grid grid-cols-subgrid md:max-w-[554px] md:flex items-center gap-2">
-                        <select name="rt_id" id="rt_id" class="font-medium md:max-w-[120px]">
-                            <option value="" selected>Semua</option>
+                    <div class="grid grid-cols-subgrid md:max-w-[600px] md:flex items-center gap-2">
+                        <select name="rt_id" id="rt_id" class="font-medium md:max-w-[150px]">
+                            <option value="" selected>Semua RT</option>
                             @for ($i = 1; $i <= 7; $i++)
                                 <option value="{{$i}}">RT 0{{$i}}</option>
                             @endfor

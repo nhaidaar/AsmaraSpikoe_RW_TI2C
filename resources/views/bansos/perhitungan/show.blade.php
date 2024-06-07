@@ -35,7 +35,7 @@
                             </div>
                             
                             <div class="flex flex-col items-end">
-                                <p class="text-base md:text-lg font-medium">{{ $item->kriteria_skor }}</p>
+                                <p class="text-base md:text-lg font-medium">{{ round($item->kriteria_skor, 3) }}</p>
                                 <p class="text-sm md:text-base text-Neutral-40 font-normal">Skor</p>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                             </div>
     
                             <div class="flex flex-col items-end">
-                                <p class="text-xl md:text-2xl font-bold">{{ $maut->skor_akhir }}</p>
+                                <p class="text-xl md:text-2xl font-bold">{{ round($maut->skor_akhir, 3) }}</p>
                             </div>
                         </div>
                     </div>

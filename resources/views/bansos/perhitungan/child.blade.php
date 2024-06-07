@@ -11,7 +11,7 @@
         <td>{{ $item->maut_id }}</td>
         <td id="nik">{{ $item->warga->nik }}</td>
         <td id="nama_warga">{{ $item->warga->nama_warga }}</td>
-        <td>{{ $item->skor_akhir }}</td>
+        <td>{{ round($item->skor_akhir, 3) }}</td>
         <td class="flex gap-2 max-w-40">
             <a href="{{ route('detailPerhitungan', $item->maut_id) }}" class="buttonDark">Detail</a>
             <a href="{{ route('createPerhitungan', $item->maut_id) }}" class="buttonLight">+ Tambah</a>

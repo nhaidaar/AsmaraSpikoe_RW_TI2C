@@ -14,7 +14,7 @@
     <tr>
         <td>{{ Carbon::parse($item->tanggal)->translatedFormat('j F Y') }}</td>
         <td>{{ $item->jenis_keuangan }}</td>
-        <td>Rp {{ $item->nominal }}</td>
+        <td>Rp {{ number_format($item->nominal, 0, ',', '.') }}</td>
         <td>{{ $item->keterangan_keuangan }}</td>
     </tr>
 @endforeach
