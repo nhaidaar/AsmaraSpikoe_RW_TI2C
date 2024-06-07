@@ -24,21 +24,38 @@ class KeuanganController extends Controller
 
         $rt = $this->checkRT();
 
-        $keuangan = KeuanganModel::where('rt_id', $rt)->paginate(5);
+        $bulan = now()->month;
+        $tahun = now()->year;
+
+        $keuangan = KeuanganModel::where('rt_id', $rt)
+            ->whereMonth('tanggal', $bulan)
+            ->whereYear('tanggal', $tahun)
+            ->orderBy('tanggal')
+            ->paginate(5);
 
         if ($request->ajax()) {
             $keuangan = KeuanganModel::where('rt_id', $request->rt)
-            ->where('keterangan_keuangan', 'like', "%$request->search%")
-            ->paginate(5);
+                ->whereMonth('tanggal', $request->bulan)
+                ->whereYear('tanggal', $request->tahun)
+                ->where('keterangan_keuangan', 'like', "%$request->search%")
+                ->orderBy('tanggal')
+                ->paginate(5);
 
             return view('keuangan.child', compact('keuangan'))->render();
         }
 
-        $totalPemasukan = KeuanganModel::where('jenis_keuangan', 'Pemasukkan')->sum('nominal');
-        $totalPengeluaran = KeuanganModel::where('jenis_keuangan', 'Pengeluaran')->sum('nominal');
+
+        $totalPemasukan = KeuanganModel::where('jenis_keuangan', 'Pemasukkan')
+            ->whereMonth('tanggal', $bulan)
+            ->whereYear('tanggal', $tahun)
+            ->sum('nominal');
+        $totalPengeluaran = KeuanganModel::where('jenis_keuangan', 'Pengeluaran')
+            ->whereMonth('tanggal', $bulan)
+            ->whereYear('tanggal', $tahun)
+            ->sum('nominal');
         $totalKas = $totalPemasukan - $totalPengeluaran;
 
-        return view('keuangan.index', compact('active', 'rt', 'keuangan', 'totalPengeluaran', 'totalKas'));
+        return view('keuangan.index', compact('active', 'rt', 'bulan', 'tahun', 'keuangan', 'totalPengeluaran', 'totalKas'));
     }
 
     public function create()
@@ -50,7 +67,8 @@ class KeuanganController extends Controller
         return view('keuangan.create', compact('active', 'rt'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
             'tanggal' => 'required',
             'bulan' => 'required',
