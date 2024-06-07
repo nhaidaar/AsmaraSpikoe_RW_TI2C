@@ -17,7 +17,7 @@ class SuratSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
 
-        for ($i = 1; $i < 101; $i++) {
+        for ($i = 1; $i < 21; $i++) {
             DB::table('surat')->insert([
                 'surat_id' => Str::uuid(),
                 'surat_pengaju' => $i,

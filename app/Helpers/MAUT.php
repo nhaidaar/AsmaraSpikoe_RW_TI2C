@@ -117,7 +117,7 @@ class MAUT
 
     function scorePendapatan($pendapatan)
     {
-        return $pendapatan < 500000 ? 6 : ($pendapatan <= 1000000 ? 5 : ($pendapatan <= 2000000 ? 4 : ($pendapatan <= 3000000 ? 3 : ($pendapatan <= 5000000 ? 2 : 1))));
+        return $pendapatan <= 500000 ? 6 : ($pendapatan <= 1000000 ? 5 : ($pendapatan <= 1500000 ? 4 : ($pendapatan <= 2000000 ? 3 : ($pendapatan <= 2500000 ? 2 : 1))));
     }
 
     function scoreJumlahKendaraan($jumlah_kendaraan)
@@ -127,12 +127,12 @@ class MAUT
 
     function scoreBPJS($bpjs)
     {
-        return $bpjs == 'Kelas 3' ? 3 : ($bpjs == 'Kelas 2' ? 2 : 1);
+        return $bpjs == 'Tidak ada' ? 4 : ($bpjs == 'Kelas 3' ? 3 : ($bpjs == 'Kelas 2' ? 2 : 1));
     }
 
     function scoreLuasBangunan($luas)
     {
-        return $luas < 50 ? 5 : ($luas <= 100 ? 4 : ($luas <= 150 ? 3 : ($luas <= 200 ? 2 : 1)));
+        return $luas <= 20 ? 5 : ($luas <= 30 ? 4 : ($luas <= 40 ? 3 : ($luas <= 50 ? 2 : 1)));
     }
 
     function scoreJumlahTanggungan($jumlah_tanggungan)
@@ -147,12 +147,12 @@ class MAUT
 
     function scoreTagihanListrik($tagihan_listrik)
     {
-        return $tagihan_listrik > 400000 ? 1 : ($tagihan_listrik <= 400000 ? 2 : ($tagihan_listrik <= 300000 ? 3 : ($tagihan_listrik <= 200000 ? 4 : 5)));
+        return $tagihan_listrik <= 100000 ? 5 : ($tagihan_listrik <= 200000 ? 4 : ($tagihan_listrik <= 300000 ? 3 : ($tagihan_listrik <= 200000 ? 2 : 1)));
     }
 
     function scoreTagihanAir($tagihan_air)
     {
-        return $tagihan_air > 200000 ? 1 : ($tagihan_air <= 200000 ? 2 : ($tagihan_air <= 150000 ? 3 : ($tagihan_air <= 100000 ? 4 : 5)));
+        return $tagihan_air <=  50000 ? 5 : ($tagihan_air <= 100000 ? 4 : ($tagihan_air <= 150000 ? 3 : ($tagihan_air <= 200000 ? 2 : 1)));
     }
 
     function scoreTanggunganPendidikan($tanggungan_pendidikan)

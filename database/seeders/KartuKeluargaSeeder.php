@@ -16,7 +16,7 @@ class KartuKeluargaSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
 
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 21; $i++) {
             DB::table('kartu_keluarga')->insert([
                 'no_kk' => $faker->nik(),
                 'rt'    => $faker->numberBetween(1, 7),
