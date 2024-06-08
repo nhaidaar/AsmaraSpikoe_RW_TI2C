@@ -14,36 +14,19 @@ class DetailWargaSeeder extends Seeder
      */
     public function run(): void
     {
-        // $data = [
-        //     [
-        //         'warga_id' => 1,
-        //         'pendapatan' => 6000000,
-        //         'jumlah_kendaraan' => $faker->randomDigit(),
-        //         'bpjs' => $faker->randomElement(['Kelas 1', 'Kelas 2', 'Kelas 3', 'Tidak ada']),
-        //         'luas_rumah' => 5,
-        //         'jumlah_tanggungan' => 3,
-        //         'pbb' => $faker->randomFloat(2, 100000.00, 1000000.00),
-        //         'tagihan_listrik' => $faker->randomFloat(2, 100000.00, 1000000.00),
-        //         'tagihan_air' => $faker->randomFloat(2, 100000.00, 1000000.00),
-        //         'tanggungan_pendidikan' => $faker->randomFloat(2, 200000.00, 5000000.00),
-        //         'created_at' => now(),
-        //         'updated_at' => now(),
-        //     ],
-        // ];
-
         $faker = Faker::create('id_ID');
 
-        for ($i = 1; $i < 21; $i++) {
+        for ($i = 1; $i <= 210; $i++) {
             DB::table('detail_warga')->insert([
                 'warga_id' => $i,
-                'pendapatan' => $faker->randomFloat(2, 400000.00, 10000000.00),
-                'luas_rumah' => $faker->randomFloat(2),
-                'jumlah_tanggungan' => $faker->randomDigit(),
-                'tanggungan_pendidikan' => $faker->randomDigit(),
-                'pbb' => $faker->randomFloat(2, 100000.00, 1000000.00),
-                'tagihan_listrik' => $faker->randomFloat(2, 100000.00, 1000000.00),
-                'tagihan_air' => $faker->randomFloat(2, 100000.00, 1000000.00),
-                'jumlah_kendaraan' => $faker->randomDigit(),
+                'pendapatan' => $faker->randomElement([350000, 750000, 1300000, 1800000, 2250000, 3000000]),
+                'luas_rumah' => $faker->randomElement([15, 25, 35, 45, 75]),
+                'jumlah_tanggungan' => $faker->randomElement([1, 2, 3, 4, 5]),
+                'tanggungan_pendidikan' => $faker->randomElement([1, 2, 3, 4, 5]),
+                'pbb' => $faker->randomElement([75000, 150000, 250000]),
+                'tagihan_listrik' => $faker->randomElement([75000, 150000, 250000, 350000, 500000]),
+                'tagihan_air' => $faker->randomElement([50000, 75000, 100000, 150000, 180000, 210000]),
+                'jumlah_kendaraan' => $faker->randomElement([1, 2, 3, 4, 5]),
                 'bpjs' => $faker->randomElement(['Kelas 1', 'Kelas 2', 'Kelas 3', 'Tidak ada']),
                 'created_at' => now(),
                 'updated_at' => now(),

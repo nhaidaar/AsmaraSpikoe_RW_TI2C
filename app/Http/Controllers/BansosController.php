@@ -203,7 +203,10 @@ class BansosController extends Controller
 
         $maut = new MAUT($kriteria, $bobot);
 
-        $wargaList = WargaModel::all();
+        $wargaList = WargaModel::with('detailKK')
+            ->where('status_warga', 'Hidup')
+            ->get();
+
         // $wargaList = WargaModel::leftJoin('penerima_bansos', 'warga.warga_id', '=', 'penerima_bansos.warga_id')
         //     ->whereNull('penerima_bansos.warga_id')
         //     ->select('warga.*')
@@ -226,7 +229,9 @@ class BansosController extends Controller
 
         foreach ($wargaList as $warga) {
             $detail = DetailWargaModel::where('warga_id', $warga->warga_id)->first();
-            if ($detail) {
+
+            // Memastikan bahwa warga adalah kepala keluarga dan merupakan penduduk setempat
+            if ($warga->detailKK->hubungan_id == 1 && $warga->alamat_domisili == $warga->alamat_ktp) {
                 $values = [
                     'pendapatan' => $detail->pendapatan,
                     'jumlah_kendaraan' => $detail->jumlah_kendaraan,
@@ -238,7 +243,11 @@ class BansosController extends Controller
                     'tagihan_air' => $detail->tagihan_air,
                     'tanggungan_pendidikan' => $detail->tanggungan_pendidikan
                 ];
-                $maut->addAlternative($warga->warga_id, $values);
+
+                // Memastikan bahwa warga merupakan kepala keluarga yang memiliki detail tambahan yang diwajibkan
+                if ($detail->luas_rumah != null) {
+                    $maut->addAlternative($warga->warga_id, $values);
+                }
             }
         }
 

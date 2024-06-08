@@ -18,19 +18,24 @@ class WargaSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 210; $i++) {
+            $alamatDomisili = $faker->streetAddress();
+            $alamatKtp = $faker->streetAddress();
+
             DB::table('warga')->insert([
                 'nik'               => $faker->nik(),
                 'nama_warga'        => $faker->name(),
                 'tempat_lahir'      => $faker->city(),
                 'tanggal_lahir'     => $faker->date(),
                 'jenis_kelamin'     => $faker->randomElement(['Laki-laki', 'Perempuan']),
-                'alamat_ktp'        => $faker->streetAddress(),
-                'alamat_domisili'   => $faker->streetAddress(),
-                'agama'             => $faker->randomElement(['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu', 'Lainnya']),
-                'status_perkawinan' => $faker->randomElement(['Belum Kawin', 'Kawin', 'Cerai Hidup', 'Cerai Mati']),
+                'alamat_ktp'        => $faker->randomElement([$alamatDomisili, $alamatKtp]),
+                'alamat_domisili'   => $alamatKtp,
+                // 'agama'             => $faker->randomElement(['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu', 'Lainnya']),
+                // 'status_perkawinan' => $faker->randomElement(['Belum Kawin', 'Kawin', 'Cerai Hidup', 'Cerai Mati']),
+                'agama'             => $faker->randomElement(['Islam', 'Kristen', 'Katolik', 'Islam', 'Islam', 'Islam', 'Islam']),
+                'status_perkawinan' => $faker->randomElement(['Belum Kawin', 'Kawin']),
                 'status_warga'      => 'Hidup',
-                'pekerjaan'         => $faker->numberBetween(1, 3),
+                'pekerjaan'         => $faker->numberBetween(1, 99),
             ]);
         }
     }

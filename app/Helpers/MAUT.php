@@ -9,16 +9,16 @@ use Illuminate\Support\Facades\DB;
 
 class MAUT
 {
-    private $criteria = [];
-    private $weights = [];
-    private $alternatives = [];
+    private $kriteria = [];
+    private $bobot = [];
+    private $alternatif = [];
     private $utilities = [];
-    private $criteriaMinMax = [];
+    private $kriteriaMinMax = [];
 
-    public function __construct($criteria, $weights)
+    public function __construct($kriteria, $bobot)
     {
-        $this->criteria = $criteria;
-        $this->weights = $weights;
+        $this->kriteria = $kriteria;
+        $this->bobot = $bobot;
     }
 
     public function addAlternative($id, $values)
@@ -35,7 +35,7 @@ class MAUT
             'tanggungan_pendidikan' => $this->scoreTanggunganPendidikan($values['tanggungan_pendidikan']),
         ];
 
-        $this->alternatives[$id] = $scores;
+        $this->alternatif[$id] = $scores;
     }
 
 
@@ -49,63 +49,61 @@ class MAUT
 
     public function evaluate()
     {
-        // Find min and max for each criterion
-        foreach ($this->criteria as $criterion) {
-            $values = array_column($this->alternatives, $criterion);
-            $this->criteriaMinMax[$criterion] = [
+        // Mencari min max tiap kriteria
+        foreach ($this->kriteria as $c) {
+            $values = array_column($this->alternatif, $c);
+            $this->kriteriaMinMax[$c] = [
                 'min' => min($values),
                 'max' => max($values)
             ];
         }
 
-        // Calculate utilities
-        foreach ($this->alternatives as $id => $values) {
-            $overallUtility = 0;
-            foreach ($this->criteria as $c) {
-                $utilityValue = $this->calculateUtility(
-                    $values[$c],
-                    $this->criteriaMinMax[$c]['min'],
-                    $this->criteriaMinMax[$c]['max']
-                );
-                $overallUtility += $this->weights[$criterion] * $utilityValue;
-            }
-            $this->utilities[$id] = $overallUtility;
-        }
-        arsort($this->utilities); // Sort alternatives by their utilities in descending order
-    }
+        // Kalkulasi skor tiap alternatif
+        foreach ($this->alternatif as $id => $value) {
+            $skorAkhir = 0;
 
-    public function getRankedAlternatives()
-    {
-        return $this->utilities;
+            foreach ($this->kriteria as $c) {
+                $skorKriteria = $this->calculateUtility(
+                    $value[$c],
+                    $this->kriteriaMinMax[$c]['min'],
+                    $this->kriteriaMinMax[$c]['max']
+                );
+
+                $skorAkhir += $this->bobot[$c] * $skorKriteria;
+            }
+            $this->utilities[$id] = $skorAkhir;
+        }
+
+        arsort($this->utilities);
     }
 
     public function saveResults()
     {
         try {
             DB::beginTransaction();
-            foreach ($this->utilities as $wargaId => $utility) {
-                // Save the overall utility score to the maut table
+            foreach ($this->utilities as $id => $value) {
+                // Menambahkan perhitungan tiap warga ke dalam tabel maut
                 $maut = MautModel::create([
-                    'warga_id' => $wargaId,
-                    'skor_akhir' => $utility
+                    'warga_id' => $id,
+                    'skor_akhir' => $value
                 ]);
 
-                // Save the individual criterion scores to the detail_maut table
-                foreach ($this->criteria as $criterion) {
-                    $criterionValue = $this->alternatives[$wargaId][$criterion];
-                    $criterionUtility = $this->calculateUtility(
-                        $criterionValue,
-                        $this->criteriaMinMax[$criterion]['min'],
-                        $this->criteriaMinMax[$criterion]['max']
+                // Menambahkan perhitungan tiap kriteria tiap warga ke dalam tabel detail maut
+                foreach ($this->kriteria as $c) {
+                    $value = $this->alternatif[$id][$c];
+                    $skorKriteria = $this->calculateUtility(
+                        $value,
+                        $this->kriteriaMinMax[$c]['min'],
+                        $this->kriteriaMinMax[$c]['max']
                     );
 
-                    // Fetch the kriteria_id for the given criterion name
-                    $kriteria = KriteriaModel::where('kriteria_nama', $criterion)->first();
+                    // Mencari kriteria_id berdasarkan kriteria_nama
+                    $kriteria = KriteriaModel::where('kriteria_nama', $c)->first();
 
                     DetailMautModel::insert([
                         'maut_id' => $maut->getKey(),
                         'kriteria_id' => $kriteria->kriteria_id,
-                        'kriteria_skor' => $criterionUtility
+                        'kriteria_skor' => $skorKriteria
                     ]);
                 }
             }
@@ -147,7 +145,7 @@ class MAUT
 
     function scoreTagihanListrik($tagihan_listrik)
     {
-        return $tagihan_listrik <= 100000 ? 5 : ($tagihan_listrik <= 200000 ? 4 : ($tagihan_listrik <= 300000 ? 3 : ($tagihan_listrik <= 200000 ? 2 : 1)));
+        return $tagihan_listrik <= 100000 ? 5 : ($tagihan_listrik <= 200000 ? 4 : ($tagihan_listrik <= 300000 ? 3 : ($tagihan_listrik <= 400000 ? 2 : 1)));
     }
 
     function scoreTagihanAir($tagihan_air)

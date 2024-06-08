@@ -28,9 +28,9 @@ class DatabaseSeeder extends Seeder
             SuratSeeder::class,
             BansosSeeder::class,
             KriteriaSeeder::class,
-            MautSeeder::class,
-            DetailMautSeeder::class,
-            PenerimaBansosSeeder::class,
+            // MautSeeder::class,
+            // DetailMautSeeder::class,
+            // PenerimaBansosSeeder::class,
             KeuanganSeeder::class,
             UmkmSeeder::class
         ]);
