@@ -17,7 +17,7 @@ class SuratSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
 
-        for ($i = 1; $i < 21; $i++) {
+        for ($i = 1; $i <= 210; $i++) {
             DB::table('surat')->insert([
                 'surat_id' => Str::uuid(),
                 'surat_pengaju' => $i,
@@ -28,7 +28,7 @@ class SuratSeeder extends Seeder
                     'Permohonan Administratif RT',
                     'Permohonan Layanan Kesehatan'
                 ]),
-                'surat_tanggal' => $faker->dateTime(),
+                'surat_tanggal' => $faker->dateTimeBetween('-1 year', 'now'),
             ]);
         }
     }

@@ -16,11 +16,17 @@ class KartuKeluargaSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
 
-        for ($i = 0; $i < 21; $i++) {
+        $rt = 1;
+        for ($i = 0; $i < 42; $i++) {
             DB::table('kartu_keluarga')->insert([
                 'no_kk' => $faker->nik(),
-                'rt'    => $faker->numberBetween(1, 7),
+                'rt'    => $rt,
             ]);
+
+            $rt++;
+            if ($rt == 8) {
+                $rt = 1;
+            }
         }
     }
 }

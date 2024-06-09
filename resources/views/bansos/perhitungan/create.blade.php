@@ -36,7 +36,7 @@
                         </div>
 
                         <div class="flex flex-col items-end">
-                            <p class="title">{{ $maut->skor_akhir }}</p>
+                            <p class="title">{{ round($maut->skor_akhir, 3) }}</p>
                             <p class="text-base text-Neutral-40">Total Skor</p>
                         </div>
                     </div>
