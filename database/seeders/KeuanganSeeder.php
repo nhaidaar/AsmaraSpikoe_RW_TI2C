@@ -18,27 +18,25 @@ class KeuanganSeeder extends Seeder
         $startDate = '2024-01-01';
         $endDate = '2024-06-30';
 
-        $rt = 1;
-        for ($i = 1; $i <= 25; $i++) {
-            $jenisKeuangan = $faker->randomElement(['Pemasukkan', 'Pengeluaran']);
-
-            if ($jenisKeuangan === 'Pemasukkan') {
-                $keteranganKeuangan = $faker->randomElement(['Kas rutin', 'Iuran sampah', 'Iuran kematian']);
-            } else {
-                $keteranganKeuangan = $faker->randomElement(['Pembayaran sampah', 'Pembelian kain kafan']);
+        for ($rt = 1; $rt <= 7; $rt++) {
+            for ($j = 0; $j < 3; $j++) {
+                DB::table('keuangan')->insert([
+                    'rt_id' => $rt,
+                    'tanggal' => $faker->dateTimeBetween($startDate, $endDate),
+                    'jenis_keuangan' => 'Pemasukkan',
+                    'nominal' => $faker->randomElement([500000, 300000, 250000, 200000, 150000]),
+                    'keterangan_keuangan' => $faker->randomElement(['Kas rutin', 'Iuran sampah', 'Iuran kematian']),
+                ]);
             }
 
-            DB::table('keuangan')->insert([
-                'rt_id'                 => $rt,
-                'tanggal'               => $faker->dateTimeBetween($startDate, $endDate),
-                'jenis_keuangan'        => $jenisKeuangan,
-                'nominal'               => $faker->randomElement([500000, 300000, 250000, 200000, 150000]),
-                'keterangan_keuangan'   => $keteranganKeuangan
-            ]);
-
-            $rt++;
-            if ($rt == 8) {
-                $rt = 1;
+            for ($j = 3; $j < 5; $j++) {
+                DB::table('keuangan')->insert([
+                    'rt_id' => $rt,
+                    'tanggal' => $faker->dateTimeBetween($startDate, $endDate),
+                    'jenis_keuangan' => 'Pengeluaran',
+                    'nominal' => $faker->randomElement([500000, 300000, 250000, 200000, 150000]),
+                    'keterangan_keuangan' => $faker->randomElement(['Pembayaran sampah', 'Pembelian kain kafan']),
+                ]);
             }
         }
     }
