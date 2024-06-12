@@ -91,7 +91,7 @@
                                 <label for="nama">
                                     Nama<span class="text-Error-Base">*</span>
                                 </label>
-                                <input type="text" name="nama" id="nama" placeholder="Masukkan nama" value="{{ old('nama') }}">
+                                <input type="text" name="nama_warga" id="nama_warga" placeholder="Masukkan nama" value="{{ old('nama') }}">
                             </div>
 
                             <div class="flex flex-col gap-3">
@@ -102,10 +102,10 @@
                             </div>
 
                             <div class="flex flex-col gap-3">
-                                <label for="hubungan">
+                                <label for="hubungan_id">
                                     Status dalam Keluarga<span class="text-Error-Base">*</span>
                                 </label>
-                                <select name="hubungan" id="hubungan">
+                                <select name="hubungan_id" id="hubungan_id">
                                     <option value="" class="text-Neutral-40" disabled selected>Pilih status dalam keluarga</option>
                                     @foreach ($hubungan as $item)
                                         <option value="{{ $item->hubungan_id }}">{{ $item->keterangan }}</option>

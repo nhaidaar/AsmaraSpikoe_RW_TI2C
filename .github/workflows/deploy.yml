@@ -41,7 +41,7 @@ jobs:
             sudo php -f ${DOCROOT}/artisan route:clear
             sudo php -f ${DOCROOT}/artisan clear-compiled
             sudo php -f ${DOCROOT}/artisan optimize
-            sudo php -f ${DOCROOT}/artisan migrate --force
+
             sudo npm --prefix ${DOCROOT} run build
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
