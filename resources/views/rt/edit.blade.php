@@ -3,7 +3,7 @@
 @section('content')
     <main class="p-2 flex flex-col gap-2 bg-Neutral-10">
         <section class="p-4 md:p-20 flex flex-col gap-6 rounded-xl border border-Neutral-10 items-center bg-Neutral-0">
-            <form action="{{ route('storeKegiatan') }}" method="post" class="md:w-[480px] p-4 flex flex-col gap-12 rounded-xl border border-Neutral-10">
+            <form action="{{ route('storeRt', $rt->rt_id) }}" method="post" class="md:w-[480px] p-4 flex flex-col gap-12 rounded-xl border border-Neutral-10">
                 @csrf
 
                 <div class="flex flex-col gap-8">
@@ -27,23 +27,23 @@
                         </div>
                     @endif
 
-                    <div>
+                    <div class="flex flex-col gap-3">
                         <div class="flex flex-col gap-2">
                             <label for="jabatan">Jabatan <span class="text-Error-Base">*</span></label>
-                            <input type="text" name="jabatan" id="jabatan" placeholder="Ketua RT 1" value="{{ old('jabatan') }}">
+                            <input type="text" name="jabatan" id="jabatan" placeholder="Ketua RT 1" value="Ketua RT {{ str_pad($rt->rt_id, 2, '0', STR_PAD_LEFT) }}" disabled>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label for="nik">NIK <span class="text-Error-Base">*</span></label>
-                            <input type="text" name="nik" id="nik" placeholder="35072*********" value="{{ old('nik') }}">
+                            <label for="ketua_rt">NIK <span class="text-Error-Base">*</span></label>
+                            <input type="text" name="ketua_rt" id="ketua_rt" placeholder="35072*********" value="{{ $rt->ketuaRT->nik }}">
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label for="notel">Nomor Telepon <span class="text-Error-Base">*</span></label>
-                            <input type="text" name="notel" id="notel" placeholder="Masukkan nomor telepon" value="{{ old('notel') }}">
+                            <label for="no_telepon">Nomor Telepon <span class="text-Error-Base">*</span></label>
+                            <input type="text" name="no_telepon" id="no_telepon" placeholder="Masukkan nomor telepon" value="{{ $rt->no_telepon }}">
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row gap-2 md:justify-end">
-                    <a href="{{ route('informasi') }}" class="buttonLight w-full md:w-min">Batal</a>
+                    <a href="{{ route('rt') }}" class="buttonLight w-full md:w-min">Batal</a>
                     <button type="submit" class="buttonDark w-full md:w-min">Tambahkan</button>
                 </div>
             </form>
