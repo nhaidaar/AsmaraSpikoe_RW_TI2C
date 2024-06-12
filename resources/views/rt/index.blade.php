@@ -7,6 +7,35 @@
                 <p class="cardTitle">Rukun Tetangga</p>
                 <p class="subsubtitle text-Neutral-40 text-nowrap">Informasi kepengurusan di dusun Gondorejo.</p>
             </div>
+
+            @if ($errors->any())
+                <div class="p-3 md:p-4 flex gap-1.5 md:gap-2.5 bg-Error-10 border border-Error-20 rounded-lg items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <g clip-path="url(#a)">
+                            <path stroke="#C04949" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12a9 9 0 1 0 18.001 0A9 9 0 0 0 3 12Zm9-3h.01"/>
+                            <path stroke="#C04949" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 12h1v4h1"/>
+                        </g>
+                        <defs>
+                            <clipPath id="a"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath>
+                        </defs>
+                    </svg>
+                    <p class="font-medium text-sm md:text-base text-Error-Base">{{ $errors->first() }}</p>
+                </div>
+            @endif
+            @if ($success = Session::get('success'))
+                <div class="p-3 md:p-4 flex gap-1.5 md:gap-2.5 bg-Success-10 border border-Success-20 rounded-lg items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <g clip-path="url(#a)">
+                            <path stroke="#1f9d45" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12a9 9 0 1 0 18.001 0A9 9 0 0 0 3 12Zm9-3h.01"/>
+                            <path stroke="#1f9d45" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 12h1v4h1"/>
+                        </g>
+                        <defs>
+                            <clipPath id="a"><path fill="#fff" d="M0 0h24v24H0z"/></clipPath>
+                        </defs>
+                    </svg>
+                    <p class="font-medium text-sm md:text-base text-Success-Base">{{ $success }}</p>
+                </div>
+            @endif
             
             <div class="p-4 w-56 md:w-64 flex flex-col gap-4 rounded-xl border border-Neutral-20 fadeIn">
                 <div class="flex flex-col gap-1 text-center">
@@ -19,9 +48,9 @@
                     </svg>
                     <p>0858-7238-8203</p>
                 </a>
-                @if (Auth::check() && Auth::user()->level == 'rw')
+                {{-- @if (Auth::check() && Auth::user()->level == 'rw')
                     <a href="#" class="buttonLight">Edit</a>
-                @endif
+                @endif --}}
             </div>
 
             <div class="flex md:grid flex-col md:grid-cols-2 gap-12">
@@ -38,7 +67,7 @@
                             <p>{{ implode('-', str_split($item->no_telepon, 4)) }}</p>
                         </a>
                         @if (Auth::check() && Auth::user()->level == 'rw')
-                            <a href="" class="buttonLight">Edit</a>
+                            <a href="{{ route('editRt', $item->rt_id) }}" class="buttonLight">Edit</a>
                         @endif
                     </div>
                 @endforeach
