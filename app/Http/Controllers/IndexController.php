@@ -15,11 +15,11 @@ class IndexController extends Controller
 
     public function index()
     {
-        if (Auth::check()) {
-            return redirect()->route('penduduk');
-        }
-
         $active = $this->active;
+
+        if (Auth::check()) {
+            return view('admin', compact('active'));
+        }
 
         $keluarga = KKModel::whereHas('detailKK.anggotaKeluarga', function ($q) {
             $q->where('status_warga', 'Hidup');

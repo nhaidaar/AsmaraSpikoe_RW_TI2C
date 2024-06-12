@@ -9,8 +9,10 @@ class AdminController extends Controller
 {
     public function index()
     {
+        $active = 'index';
+
         if (Auth::check()) {
-            return redirect()->route('penduduk');
+            return view('admin', compact('active'));
         }
 
         return view('login');

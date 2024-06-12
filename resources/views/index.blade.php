@@ -13,7 +13,7 @@ Carbon::setLocale('id');
             <div class="flex justify-between bg-Neutral-10 rounded-xl">
 
                 {{-- Kiri --}}
-                <div class="flex flex-col justify-between gap-12 p-10">
+                <div class="flex flex-col justify-between gap-12 p-6 md:p-10">
                     <div class="flex flex-col gap-12">
                         <div class="items-left flex flex-col gap-5">
                             <p class="py-2 px-4 bg-Additional-Base rounded-full w-fit font-normal text-base md:text-lg text-Neutral-0 text-center">
